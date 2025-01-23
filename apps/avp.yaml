@@ -1,0 +1,13 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd-vault-plugin
+spec:
+  destination:
+    name: in-cluster
+    namespace: argocd
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/avp
+  project: default
