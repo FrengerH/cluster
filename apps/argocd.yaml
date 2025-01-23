@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: argocd
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    # automated:
+    #   prune: false # Specifies if resources should be pruned during auto-syncing ( false by default ).
+    #   selfHeal: true # Specifies if partial app sync should be executed when resources are changed only in target Kubernetes cluster and no git change detected ( false by default ).
+    #   allowEmpty: false # Allows deleting all application resources during automatic syncing ( false by default ).
+  destination:
+    name: in-cluster
+    namespace: argocd
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/argocd
+      targetRevision: HEAD
+      plugin: # we just use the plugin source, the plugin script will do the helm pull and template
+        env: #set the variables needed 
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://argoproj.github.io/argo-helm"
+          - name: HELM_CHART_NAME
+            value: "argo-cd" # took the most popular bitnami chart
+          - name: HELM_CHART_VERSION
+            value: "7.7.16"
+          - name: HELM_RELEASE_NAME
+            value: "argocd"
+# you can also add raw yaml values using HELM_VALUES env var, look at the configuration in https://argocd-vault-plugin.readthedocs.io/en/stable/usage/#with-an-inline-values-file
+  project: default

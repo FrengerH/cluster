@@ -1,0 +1,47 @@
+vaultwarden:
+  enableWebsockets: true
+
+  admin:
+    # Enable admin portal.
+    enabled: false
+    # Disabling the admin token will make the admin portal accessible to anyone, use carefully: https://github.com/dani-garcia/vaultwarden/wiki/Disable-admin-token
+    disableAdminToken: false
+    ## Token for admin login, will be generated if not defined. https://github.com/dani-garcia/vaultwarden/wiki/Enabling-admin-page
+  
+service:
+  type: ClusterIP
+  httpPort: 80
+  websocketPort: 3012
+  externalTrafficPolicy: Cluster
+
+# Kubernetes Ingress
+ingress:
+  enabled: true
+  className: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+  ## Configure the hosts for the ingress
+  host: <path:vaultwarden-config#domain>
+
+  tls:
+    - hosts:
+        - <path:vaultwarden-config#domain>
+      secretName: tls-vaultwarden-ingress
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: longhorn
+  accessMode: ReadWriteOnce
+
+image:
+  pullPolicy: IfNotPresent
+  repository: vaultwarden/server
+  tag: "1.32.7"
+
+replicaCount: 1
+

@@ -1,0 +1,21 @@
+fullnameOverride: "sealed-secrets-controller"
+ingress:
+  enabled: true
+  pathType: ImplementationSpecific
+  ingressClassName: "traefik"
+  hostname: <path:sealed-secrets-config#domain>
+  path: /
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    ingress.kubernetes.io/protocol: https
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  tls: true
+  selfSigned: false
+  extraHosts: []
+  extraPaths: []
+  extraTls:
+  - hosts:
+      - <path:sealed-secrets-config#domain>
+    secretName: tls-sealed-secrets-ingress
+

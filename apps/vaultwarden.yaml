@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vaultwarden
+spec:
+  destination:
+    name: in-cluster
+    namespace: vaultwarden
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/vaultwarden
+      targetRevision: HEAD
+      plugin: # we just use the plugin source, the plugin script will do the helm pull and template
+        env: #set the variables needed 
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://gissilabs.github.io/charts"
+          - name: HELM_CHART_NAME
+            value: "vaultwarden"
+          - name: HELM_CHART_VERSION
+            value: "1.2.4"
+          - name: HELM_RELEASE_NAME
+            value: "vaultwarden"
+  project: default
+

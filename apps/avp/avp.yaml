@@ -1,0 +1,116 @@
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: avp-plugin-credentials
+  namespace: argocd
+data:
+  AVP_TYPE: a3ViZXJuZXRlc3NlY3JldA==
+type: Opaque
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: avp-plugin
+  namespace: argocd
+data:
+  avp-check.sh: |
+    #!/bin/bash
+    set -Eeuo pipefail
+    BASE_DIR="."
+    APP_HELM_REPO_URL="${ARGOCD_ENV_HELM_REPO_URL:-}"
+    APP_HELM_CHART_URL="${ARGOCD_ENV_HELM_CHART_URL:-}"
+    if find $BASE_DIR -maxdepth 1 -name 'Chart.yaml' | grep -q .
+    then
+      echo "helm chart"
+    elif [ -n "$APP_HELM_REPO_URL" ]
+    then
+      echo "helm url"
+    elif find $BASE_DIR -maxdepth 1 -name kustomization.yaml -o -name kustomization.yml -o -name Kustomization | grep -q .
+    then
+      echo "kustomize"
+    elif grep -q --include  "*.yaml" "<path:\|avp\.kubernetes\.io" ./*
+    then
+      echo "yaml"
+    fi
+    exit 0
+  avp-generate.sh: |
+    #!/bin/bash
+    set -Eeuo pipefail
+    shopt -s inherit_errexit
+    exit_error() {
+      >&2 echo $@ && exit 1
+    }
+    BASE_DIR="$(pwd)"
+    APP_NAME="${ARGOCD_APP_NAME:-}"
+    APP_NAMESPACE="${ARGOCD_APP_NAMESPACE:-}"
+    APP_HELM_VALUES_FILES="${ARGOCD_ENV_HELM_VALUES_FILES:-}"
+    APP_HELM_VALUES="${ARGOCD_ENV_HELM_VALUES:-}"
+    APP_HELM_REPO_URL="${ARGOCD_ENV_HELM_REPO_URL:-}"
+    APP_HELM_CHART_NAME="${ARGOCD_ENV_HELM_CHART_NAME:-}"
+    APP_HELM_RELEASE_NAME="${ARGOCD_ENV_HELM_RELEASE_NAME:-$APP_NAME}"
+    APP_HELM_CHART_VERSION="${ARGOCD_ENV_HELM_CHART_VERSION:-}"
+    GENERATE_FUNCTION_NAME=generate_plain_yaml
+    if find $BASE_DIR -maxdepth 1 -name 'Chart.yaml' | grep -q .
+    then
+      GENERATE_FUNCTION_NAME=generate_helm
+    elif [ ! -z "$APP_HELM_REPO_URL" ]
+    then
+      GENERATE_FUNCTION_NAME=generate_helm
+    elif find $BASE_DIR -maxdepth 1 -name kustomization.yaml -o -name kustomization.yml -o -name Kustomization | grep -q .
+    then
+      GENERATE_FUNCTION_NAME=generate_kustomize
+    fi
+    generate_helm() {
+      CHART_NAME=""
+      APP_HELM_FILES=()
+      if [ -n "$APP_HELM_REPO_URL" ]; then
+        [ -f "$BASE_DIR/Chart.yaml" ] && exit_error "ERROR: 'Chart.yaml' file found in local repo and HELM_REPO_URL variable is defined"
+        [ -d "$BASE_DIR/templates" ] && exit_error "ERROR: 'templates' directory found in local repo and HELM_REPO_URL variable is defined"
+        TMP_DIR=$(mktemp -d -p "$BASE_DIR")
+        version_option=""
+        if [ -n "$APP_HELM_CHART_VERSION" ]; then
+          version_option="--version=$APP_HELM_CHART_VERSION"
+        fi;
+        helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR"
+        mv "$TMP_DIR/$APP_HELM_CHART_NAME" "$BASE_DIR" && rm -Rf "$TMP_DIR"
+      fi
+      if [ -n "$APP_HELM_VALUES_FILES" ]; then
+        IFS=';' read -ra FILES <<< "$APP_HELM_VALUES_FILES"
+        for i in "${FILES[@]}"; do
+          APP_HELM_FILES+=(" -f $i")
+        done
+      fi
+      helm dependency update "$BASE_DIR/$APP_HELM_CHART_NAME" 1>&2
+      INLINE_VALUES_FILE=$(mktemp -p "$BASE_DIR")
+      echo "$APP_HELM_VALUES" >  "$INLINE_VALUES_FILE"
+      # we need APP_HELM_FILES to be word splitted to separate the -f and the file names, disable check
+      # shellcheck disable=SC2068
+      helm template "$APP_HELM_RELEASE_NAME" "$BASE_DIR/$APP_HELM_CHART_NAME" -n "$APP_NAMESPACE" ${APP_HELM_FILES[@]} -f "$INLINE_VALUES_FILE"
+    }
+    generate_kustomize() {
+      kustomize build "$BASE_DIR"
+    }
+    generate_plain_yaml() {
+      for each in "$BASE_DIR"/*.yaml; do cat "$each"; echo "---"; done
+    }
+    MANIFESTS=$($GENERATE_FUNCTION_NAME)
+    echo "$MANIFESTS" | argocd-vault-plugin generate -s avp-plugin-credentials -
+  avp.yaml: |
+    apiVersion: argoproj.io/v1alpha1
+    kind: ConfigManagementPlugin
+    metadata:
+      name: argocd-vault-plugin
+    spec:
+      allowConcurrency: true
+      discover:
+        find:
+          command:
+            - bash
+            - /home/argocd/cmp-server/avp-check.sh
+      generate:
+        command:
+          - bash
+          - /home/argocd/cmp-server/avp-generate.sh
+      lockRepo: false
+---

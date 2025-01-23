@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: unbound
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: unbound
+spec:
+  destination:
+    name: in-cluster
+    namespace: unbound
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/unbound
+  project: default
+
