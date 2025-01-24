@@ -19,15 +19,15 @@ web:
     adminUsername: <path:wireguard-config#user>
     adminPassword: <path:wireguard-config#pass>
   service:
-    type: 'ClusterIP'
+    type: "ClusterIP"
 
 wireguard:
   config:
     privateKey: <path:wireguard-config#privateKey>
   service:
-    type: 'LoadBalancer'
+    type: "LoadBalancer"
     loadBalancerIP: <path:wireguard-config#loadBalancerIP>
-    port: <path:wireguard-config#port>
+    port: "<path:wireguard-config#port>"
 
 ingressRoute:
   enabled: true
