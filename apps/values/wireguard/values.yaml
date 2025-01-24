@@ -5,7 +5,7 @@ image:
 config:
   clientConfig:
     dnsServers:
-      - <path:wireguard-config#dns>
+      - "<path:wireguard-config#dns>"
 
 persistence:
   enabled: true
@@ -16,23 +16,23 @@ persistence:
 
 web:
   config:
-    adminUsername: <path:wireguard-config#user>
-    adminPassword: <path:wireguard-config#pass>
+    adminUsername: "<path:wireguard-config#user>"
+    adminPassword: "<path:wireguard-config#pass>"
   service:
     type: "ClusterIP"
 
 wireguard:
   config:
-    privateKey: <path:wireguard-config#privateKey>
+    privateKey: "<path:wireguard-config#privateKey>"
   service:
     type: "LoadBalancer"
-    loadBalancerIP: <path:wireguard-config#loadBalancerIP>
+    loadBalancerIP: "<path:wireguard-config#loadBalancerIP>"
     port: "<path:wireguard-config#port>"
 
 ingressRoute:
   enabled: true
   # Mandatory to enable IngressRoute
-  host: <path:wireguard-config#domain>
+  host: "<path:wireguard-config#domain>"
 
 cert:
   create: true
