@@ -1,0 +1,39 @@
+image:
+  repository: ghcr.io/freifunkmuc/wg-access-server
+  tag: "v0.9.0"
+
+config:
+  clientConfig:
+    dnsServers:
+      - <path:wireguard-config#dns>
+
+persistence:
+  enabled: true
+  storageClass: longhorn
+  size: "100Mi"
+  accessModes:
+    - ReadWriteOnce
+
+web:
+  config:
+    adminUsername: <path:wireguard-config#user>
+    adminPassword: <path:wireguard-config#pass>
+  service:
+    type: 'ClusterIP'
+
+wireguard:
+  config:
+    privateKey: <path:wireguard-config#privateKey>
+  service:
+    type: 'LoadBalancer'
+    loadBalancerIP: <path:wireguard-config#loadBalancerIP>
+    port: <path:wireguard-config#port>
+
+ingressRoute:
+  enabled: true
+  # Mandatory to enable IngressRoute
+  host: <path:wireguard-config#domain>
+
+cert:
+  create: true
+
