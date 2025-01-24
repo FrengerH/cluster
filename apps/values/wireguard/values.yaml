@@ -27,7 +27,7 @@ wireguard:
   service:
     type: "LoadBalancer"
     loadBalancerIP: "<path:wireguard-config#loadBalancerIP>"
-    port: <path:wireguard-config#port>
+    port: 8033
 
 ingressRoute:
   enabled: true
