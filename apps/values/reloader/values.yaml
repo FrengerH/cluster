@@ -1,0 +1,2 @@
+reloader:
+  resourceLabelSelector: "reloader=enabled" # Comma separated list of k8s label selectors for configmap/secret selection
