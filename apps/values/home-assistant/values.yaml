@@ -1,0 +1,36 @@
+service:
+  type: ClusterIP
+  port: 8080
+
+# Kubernetes Ingress
+ingress:
+  enabled: true
+  className: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+  ## Configure the hosts for the ingress
+  hosts: 
+    - host: <path:ha-config#domain>
+
+  tls:
+    - hosts:
+        - <path:ha-config#domain>
+      secretName: tls-home-assistant-ingress
+
+persistence:
+  enabled: true
+  size: 1Gi
+  storageClass: longhorn
+  accessMode: ReadWriteOnce
+
+image:
+  pullPolicy: IfNotPresent
+  repository: ghcr.io/home-assistant/home-assistant
+  tag: "2025.8.0"
+
+replicaCount: 1
+
