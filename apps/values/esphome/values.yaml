@@ -22,7 +22,7 @@ ingress:
   tls:
     - hosts:
         - <path:esphome-config#domain>
-      secretName: tls-home-assistant-ingress
+      secretName: tls-esphome-ingress
 
 persistence:
   enabled: true
