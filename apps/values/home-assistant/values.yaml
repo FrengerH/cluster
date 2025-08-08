@@ -36,6 +36,8 @@ image:
   tag: "2025.8.0"
 
 configuration:
+  enabled: true
+  forceInit: true
   trusted_proxies:
     - 10.42.0.0/16
 
