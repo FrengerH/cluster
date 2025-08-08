@@ -31,8 +31,8 @@ persistence:
   accessMode: ReadWriteOnce
 
 image:
-  repository: esphome/esphome
-  tag: "2025.7.5"
+  repository: ghcr.io/esphome/esphome
+  tag: "2025.6.3"
 
 replicaCount: 1
 
