@@ -1,6 +1,6 @@
 service:
   type: ClusterIP
-  port: 8080
+  port: 6052
 
 # Kubernetes Ingress
 ingress:
@@ -14,32 +14,25 @@ ingress:
 
   ## Configure the hosts for the ingress
   hosts: 
-    - host: <path:ha-config#domain>
+    - host: <path:esphome-config#domain>
       paths:
         - path: /
           pathType: ImplementationSpecific
 
   tls:
     - hosts:
-        - <path:ha-config#domain>
+        - <path:esphome-config#domain>
       secretName: tls-home-assistant-ingress
 
 persistence:
   enabled: true
-  size: 5Gi
+  size: 1Gi
   storageClass: longhorn
   accessMode: ReadWriteOnce
 
 image:
-  pullPolicy: IfNotPresent
-  repository: ghcr.io/home-assistant/home-assistant
-  tag: "2025.8.0"
-
-configuration:
-  enabled: true
-  forceInit: true
-  trusted_proxies:
-    - 10.42.0.0/16
+  repository: esphome/esphome
+  tag: "2025.7.5"
 
 replicaCount: 1
 
