@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "esphome"
           - name: HELM_CHART_VERSION
-            value: "10.0.2"
+            value: "10.0.1"
           - name: HELM_RELEASE_NAME
             value: "esphome"
   project: default
