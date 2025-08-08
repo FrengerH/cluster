@@ -15,6 +15,9 @@ ingress:
   ## Configure the hosts for the ingress
   hosts: 
     - host: <path:ha-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
   tls:
     - hosts:
