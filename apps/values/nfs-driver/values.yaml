@@ -1,0 +1,6 @@
+storageClass:
+  create: true
+  name: nfs-media
+  parameters:
+    server: nas.hmdev.nl
+    share: /media
