@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: nas
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nas
+spec:
+  destination:
+    name: in-cluster
+    namespace: nas
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/nas
+  project: default
+
