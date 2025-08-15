@@ -1,0 +1,14 @@
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: nas-cert
+  namespace: nas
+spec:
+  commonName: <path:nas-config#domain>
+  secretName: nas-cert
+  dnsNames:
+    - <path:nas-config#domain>
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
