@@ -1,6 +1,6 @@
 env:
   puid: 1000
-  pgid: 1000
+  pgid: 1003
   tz: Europe/Amsterdam
 
 ingress:
