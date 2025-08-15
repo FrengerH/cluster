@@ -1,0 +1,34 @@
+ingress:
+  enabled: true
+  className: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+  ## Configure the hosts for the ingress
+  hostname: <path:transmission-config#domain>
+
+  tls:
+    - hosts:
+        - <path:esphome-config#domain>
+      secretName: tls-transmission-ingress
+
+persistence:
+  enabled: true
+
+  # Example configuration for downloads PVC
+  downloads:
+    size: 150Gi
+    storageClass: "nfs"
+    downloadDir: /downloads
+    accessModes:
+      - ReadWriteOnce
+
+  # Example configuration for config PVC
+  config:
+    size: 5Gi
+    storageClass: "longhorn"
+    accessModes:
+      - ReadWriteOnce
