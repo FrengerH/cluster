@@ -3,7 +3,6 @@ secret:
   pass: <path:transmission-config#pass>
 env:
   TZ: "Europe/Amsterdam"
-  TRANSMISSION_WEB_HOME: "/transmission"
 
 ingress:
   enabled: true
