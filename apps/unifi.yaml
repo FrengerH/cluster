@@ -2,19 +2,19 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: nas
+  name: unifi
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: nas
+  name: unifi
 spec:
   destination:
     name: in-cluster
-    namespace: nas
+    namespace: unifi
   sources:
   - repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
-    path: apps/nas
+    path: apps/unifi
   project: default
 

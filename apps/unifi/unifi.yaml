@@ -2,13 +2,13 @@
 apiVersion: cert-manager.io/v1
 kind: Certificate
 metadata:
-  name: nas-cert
-  namespace: nas
+  name: unifi-cert
+  namespace: unifi
 spec:
-  commonName: <path:nas-config#domain>
-  secretName: nas-cert
+  commonName: <path:unifi-config#domain>
+  secretName: unifi-cert
   dnsNames:
-    - <path:nas-config#domain>
+    - <path:unifi-config#domain>
   issuerRef:
     name: letsencrypt-prod
     kind: ClusterIssuer
