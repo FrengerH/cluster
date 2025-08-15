@@ -28,7 +28,7 @@ persistent:
     # existsName: "" # if set then others params will be ignored
     accessMode: ReadWriteOnce
     size: 150Gi
-    storageClassName: "nfs"
+    storageClassName: "nfs-media"
   config:
     accessMode: ReadWriteOnce
     size: 5Mi
