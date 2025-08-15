@@ -14,21 +14,29 @@ spec:
     kind: ClusterIssuer
 
 ---
-kind: Service
 apiVersion: v1
+kind: Service
 metadata:
   name: nas-service
   namespace: nas
 spec:
-  type: ExternalName
   ports:
-    - name: nas-service
+    - name: http
       port: 80
       targetPort: 80
-  externalName: <path:nas-config#ip>
-  selector:
-    app.kubernetes.io/instance: traefik
-    app.kubernetes.io/name: traefik
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nas-service
+  namespace: nas
+subsets:
+  - addresses:
+      - ip: <path:nas-config#ip>
+    ports:
+      - port: 80
 
 ---
 apiVersion: traefik.containo.us/v1alpha1
