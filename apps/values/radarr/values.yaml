@@ -16,7 +16,7 @@ ingress:
   tls:
     - hosts:
         - <path:radarr-config#domain>
-      secretName: tls-esphome-ingress
+      secretName: tls-radarr-ingress
 
 env:
   PUID: "1000"

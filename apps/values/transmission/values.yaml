@@ -1,7 +1,8 @@
+secret:
+  user: <path:transmission-config#user>
+  pass: <path:transmission-config#pass>
 env:
-  puid: 1000
-  pgid: 1003
-  tz: Europe/Amsterdam
+  TZ: "Europe/Amsterdam"
 
 ingress:
   enabled: true
@@ -20,20 +21,29 @@ ingress:
 
   tls:
     - hosts:
-        - <path:esphome-config#domain>
+      - <path:transmission-config#domain>
       secretName: tls-transmission-ingress
 
-persistent:
-  media:
-    # existsName: "" # if set then others params will be ignored
+persistence:
+  downloads:
+    enabled: true
+    storageClassName: "nfs-media"
+    mountPath: /downloads
     accessMode: ReadWriteOnce
     size: 150Gi
-    storageClassName: "nfs-media"
+    skipuninstall: true
   config:
-    accessMode: ReadWriteOnce
-    size: 5Mi
+    enabled: true
     storageClassName: "longhorn"
+    mountPath: /config
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    skipuninstall: false
   watch:
-    accessMode: ReadWriteOnce
-    size: 5Mi
+    enabled: true
     storageClassName: "longhorn"
+    emptyDir: false
+    mountPath: /watch
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    skipuninstall: false
