@@ -21,6 +21,7 @@ subsets:
       - ip: <path:unifi-config#ip>
     ports:
       - port: 80
+        protocol: TCP
 
 ---
 apiVersion: networking.k8s.io/v1
