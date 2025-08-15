@@ -1,3 +1,8 @@
+env:
+  puid: 1000
+  pgid: 1000
+  tz: Europe/Amsterdam
+
 ingress:
   enabled: true
   className: traefik
@@ -7,28 +12,28 @@ ingress:
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
 
-  ## Configure the hosts for the ingress
-  hostname: <path:transmission-config#domain>
+  hosts:
+    - host: <path:transmission-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
   tls:
     - hosts:
         - <path:esphome-config#domain>
       secretName: tls-transmission-ingress
 
-persistence:
-  enabled: true
-
-  # Example configuration for downloads PVC
-  downloads:
+persistent:
+  media:
+    # existsName: "" # if set then others params will be ignored
+    accessMode: ReadWriteOnce
     size: 150Gi
-    storageClass: "nfs"
-    downloadDir: /downloads
-    accessModes:
-      - ReadWriteOnce
-
-  # Example configuration for config PVC
+    storageClassName: "nfs"
   config:
-    size: 5Gi
-    storageClass: "longhorn"
-    accessModes:
-      - ReadWriteOnce
+    accessMode: ReadWriteOnce
+    size: 5Mi
+    storageClassName: "longhorn"
+  watch:
+    accessMode: ReadWriteOnce
+    size: 5Mi
+    storageClassName: "longhorn"
