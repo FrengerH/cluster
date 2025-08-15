@@ -1,14 +1,48 @@
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
+apiVersion: v1
+kind: Service
 metadata:
-  name: unifi-cert
-  namespace: unifi
+  name: unifi-service
 spec:
-  commonName: <path:unifi-config#domain>
-  secretName: unifi-cert
-  dnsNames:
-    - <path:unifi-config#domain>
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+  ports:
+    - port: 80
+      targetPort: 80
+      protocol: TCP
+      name: http
+  clusterIP: None
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: unifi-service
+subsets:
+  - addresses:
+      - ip: <path:unifi-config#ip>
+    ports:
+      - port: 80
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: unifi-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+spec:
+  rules:
+    - host: <path:unifi-config#domain>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: unifi-service
+                port:
+                  number: 80
+  tls:
+    - hosts:
+        - <path:unifi-config#domain>
+      secretName: tls-unifi-ingress
