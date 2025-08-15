@@ -18,12 +18,12 @@ spec:
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://ryuunosukeds3.github.io/helm-charts"
+            value: "https://linuxoid69.github.io/helm-charts"
           - name: HELM_CHART_NAME
-            value: "transmission"
+            value: "transmission-web"
           - name: HELM_CHART_VERSION
-            value: "1.6.1"
+            value: "0.1.0"
           - name: HELM_RELEASE_NAME
-            value: "transmission"
+            value: "transmission-web"
   project: default
 
