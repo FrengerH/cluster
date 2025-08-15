@@ -1,0 +1,32 @@
+ingress:
+  enabled: true
+  className: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+  hosts: 
+    - host: <path:radarr-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+  tls:
+    - hosts:
+        - <path:radarr-config#domain>
+      secretName: tls-esphome-ingress
+
+env:
+  PUID: "1000"
+  PGID: "1000"
+  TZ: "Europe/Amsterdam"
+  UMASK: "002"
+
+persistence:
+  enabled: true
+  size: 800Mi
+  storageClass: longhorn
+  accessMode: ReadWriteOnce
+
