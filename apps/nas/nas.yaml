@@ -1,0 +1,50 @@
+---
+apiVersion: cert-manager.io/v1alpha2
+kind: Certificate
+metadata:
+  name: nas-cert
+  namespace: nas
+spec:
+  commonName: <path:nas-config#domain>
+  secretName: nas-cert
+  dnsNames:
+    - <path:nas-config#domain>
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
+
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nas-service
+  namespace: nas
+spec:
+  type: ExternalName
+  ports:
+    - name: nas-service
+      port: 80
+      targetPort: 80
+  externalName: <path:nas-config#ip>
+  selector:
+    app.kubernetes.io/instance: traefik
+    app.kubernetes.io/name: traefik
+
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: nas-ingress
+  namespace: nas
+spec:
+  entryPoints:
+    - websecure
+  routes:
+    - match: Host(`<path:nas-config#domain>`)
+      kind: Rule
+      services:
+        - name: nas-service
+          kind: Service
+          port: 80
+  tls:
+    secretName: nas-cert
