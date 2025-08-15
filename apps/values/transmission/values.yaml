@@ -27,21 +27,21 @@ ingress:
 persistence:
   downloads:
     enabled: true
-    storageClassName: "nfs-media"
+    storageClass: "nfs-media"
     mountPath: /downloads
     accessMode: ReadWriteOnce
     size: 150Gi
     skipuninstall: true
   config:
     enabled: true
-    storageClassName: "longhorn"
+    storageClass: "longhorn"
     mountPath: /config
     accessMode: ReadWriteOnce
     size: 1Gi
     skipuninstall: false
   watch:
     enabled: true
-    storageClassName: "longhorn"
+    storageClass: "longhorn"
     emptyDir: false
     mountPath: /watch
     accessMode: ReadWriteOnce
