@@ -3,6 +3,7 @@ secret:
   pass: <path:transmission-config#pass>
 env:
   TZ: "Europe/Amsterdam"
+  TRANSMISSION_WEB_HOME: "/transmission/"
 
 ingress:
   enabled: true
@@ -11,7 +12,8 @@ ingress:
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/service: transmission
+    traefik.ingress.kubernetes.io/service-port: "9091"   traefik.ingress.kubernetes.io/router.tls: "true"
 
   hosts:
     - host: <path:transmission-config#domain>
