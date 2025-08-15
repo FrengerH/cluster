@@ -4,3 +4,6 @@ storageClass:
   parameters:
     server: <path:nas-config#domain>
     share: /media
+  mountOptions:
+  - nolock
+  - vers=3
