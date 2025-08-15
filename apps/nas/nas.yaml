@@ -1,14 +1,63 @@
+# ---
+# apiVersion: cert-manager.io/v1
+# kind: Certificate
+# metadata:
+#   name: nas-cert
+#   namespace: nas
+# spec:
+#   commonName: <path:nas-config#domain>
+#   secretName: nas-cert
+#   dnsNames:
+#     - <path:nas-config#domain>
+#   issuerRef:
+#     name: letsencrypt-prod
+#     kind: ClusterIssuer
+
 ---
-apiVersion: cert-manager.io/v1
-kind: Certificate
+apiVersion: v1
+kind: Service
 metadata:
-  name: nas-cert
-  namespace: nas
+  name: nas-service
 spec:
-  commonName: <path:nas-config#domain>
-  secretName: nas-cert
-  dnsNames:
-    - <path:nas-config#domain>
-  issuerRef:
-    name: letsencrypt-prod
-    kind: ClusterIssuer
+  ports:
+    - port: 443
+      targetPort: 443
+      protocol: TCP
+      name: https
+  clusterIP: None
+
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: nas-service
+subsets:
+  - addresses:
+      - ip: <path:nas-config#ip>
+    ports:
+      - port: 443
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nas-ingress
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: letsencrypt
+spec:
+  rules:
+    - host: <path:nas-config#domain>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nas-service
+                port:
+                  number: 443
+  tls:
+    - hosts:
+        - <path:nas-config#domain>
+      secretName: nas-tls
