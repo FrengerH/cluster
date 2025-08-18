@@ -11,7 +11,7 @@ spec:
     namespace: flaresolverr
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/values/flareSolverr
+      path: apps/values/flaresolverr
       targetRevision: HEAD
       plugin: # we just use the plugin source, the plugin script will do the helm pull and template
         env: #set the variables needed 
