@@ -10,15 +10,15 @@ ingress:
       traefik.ingress.kubernetes.io/router.tls: "true"
 
     hosts: 
-      - host: <path:radarr-config#domain>
+      - host: <path:prowlarr-config#domain>
         paths:
           - path: /
             pathType: ImplementationSpecific
 
     tls:
       - hosts:
-          - <path:radarr-config#domain>
-        secretName: tls-radarr-ingress
+          - <path:prowlarr-config#domain>
+        secretName: tls-prowlarr-ingress
 
 env:
   # -- Set the timezone that will be used by the container
@@ -31,11 +31,7 @@ env:
 persistence:
   config:
     enabled: true
-    size: 10Gi
+    size: 5Gi
     storageClass: longhorn
     accessMode: ReadWriteOnce
-  media:
-    enabled: true
-    size: 150Gi
-    storageClass: nfs-media
-    accessMode: ReadWriteOnce
+
