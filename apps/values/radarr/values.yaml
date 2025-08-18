@@ -26,7 +26,7 @@ env:
   # -- Set the user ID that the container will run Prowlarr as
   PUID: '1000'
   # -- Set the group ID that the container will run Prowlarr as
-  PGID: '1000'
+  PGID: '1003'
 
 persistence:
   config:
