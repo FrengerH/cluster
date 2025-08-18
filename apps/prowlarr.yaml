@@ -1,29 +1,29 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: radarr
+  name: prowlarr
 spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: radarr
+    namespace: prowlarr
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/values/radarr
+      path: apps/values/prowlarr
       targetRevision: HEAD
       plugin: # we just use the plugin source, the plugin script will do the helm pull and template
         env: #set the variables needed 
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://brandan-schmitz.github.io/helm-charts"
+            value: "http://brandan-schmitz.github.io/helm-charts"
           - name: HELM_CHART_NAME
-            value: "radarr"
+            value: "prowlarr"
           - name: HELM_CHART_VERSION
-            value: "2.10.0"
+            value: "1.15.0"
           - name: HELM_RELEASE_NAME
-            value: "radarr"
+            value: "prowlarr"
   project: default
 
