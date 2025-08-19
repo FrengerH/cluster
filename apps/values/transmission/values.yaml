@@ -29,11 +29,7 @@ ingress:
 persistence:
   downloads:
     enabled: true
-    storageClass: "nfs-media"
-    mountPath: /downloads
-    accessMode: ReadWriteOnce
-    size: 150Gi
-    skipuninstall: true
+    existingClaim: media-pvc
   config:
     enabled: true
     storageClass: "longhorn"

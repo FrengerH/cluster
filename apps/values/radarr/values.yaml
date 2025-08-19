@@ -36,6 +36,4 @@ persistence:
     accessMode: ReadWriteOnce
   media:
     enabled: true
-    size: 150Gi
-    storageClass: nfs-media
-    accessMode: ReadWriteOnce
+    existingClaim: media-pvc
