@@ -9,7 +9,7 @@ spec:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: media-volume
+    namespace: arr-stack
   sources:
   - repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
