@@ -8,7 +8,7 @@ spec:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: transmission
+    namespace: arr-stack
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/transmission
