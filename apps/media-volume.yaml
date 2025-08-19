@@ -2,10 +2,26 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: media-volume
+  name: media-volume-transmission
 spec:
   destination:
     name: in-cluster
+    namespace: transmission
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/media-volume
+  project: default
+
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: media-volume-radarr
+spec:
+  destination:
+    name: in-cluster
+    namespace: radarr
   sources:
   - repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
