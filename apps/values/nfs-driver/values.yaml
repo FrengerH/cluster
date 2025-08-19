@@ -4,6 +4,8 @@ storageClass:
   parameters:
     server: <path:nas-config#domain>
     share: /media
+    reclaimPolicy: Retain
+    volumeBindingMode: Immediate
   mountOptions:
   - nolock
   - vers=3
