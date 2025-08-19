@@ -1,52 +1,15 @@
 ---
-apiVersion: v1
-kind: PersistentVolume
-metadata:
-  name: media
-spec:
-  capacity:
-    storage: 150Gi
-  accessModes:
-    - ReadWriteMany
-  persistentVolumeReclaimPolicy: Retain
-  storageClassName: nfs-media
-  csi:
-    driver: nfs.csi.k8s.io
-    volumeHandle: media
-    volumeAttributes:
-      server: <path:nas-config#domain>
-      share: /media
-
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: media-volume-transmission
+  name: media-volume
 spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: transmission
-  sources:
-  - repoURL: 'https://github.com/FrengerH/cluster'
-    targetRevision: HEAD
-    path: apps/media-volume
-  project: default
-
----
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: media-volume-radarr
-spec:
-  syncPolicy:
-    syncOptions:
-    - CreateNamespace=true
-  destination:
-    name: in-cluster
-    namespace: radarr
+    namespace: media-volume
   sources:
   - repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
