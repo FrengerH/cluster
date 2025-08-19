@@ -21,6 +21,7 @@ metadata:
   name: media-pvc
 spec:
   storageClassName: nfs-media
+  volumeName: media
   accessModes:
     - ReadWriteMany
   resources:
