@@ -13,6 +13,9 @@ spec:
   nfs:
     server: <path:nas-config#domain>
     path: /media
+  mountOptions:
+    - vers=3
+    - nolock
 
 ---    
 apiVersion: v1
