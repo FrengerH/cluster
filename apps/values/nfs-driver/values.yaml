@@ -1,6 +1,6 @@
 storageClass:
   create: true
-  name: nfs-media
+  name: nfs
   parameters:
     server: <path:nas-config#domain>
     share: /media
