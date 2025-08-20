@@ -2,7 +2,8 @@ env:
   TZ: "Europe/Amsterdam"
   PUID: '1000'
   PGID: '1003'
-  WEBUI_PORT: '8989'
+  WEBUI_PORT: '8080'
+  TORRENTING_PORT: '8989'
 
 # ingress:
 #   enabled: true
