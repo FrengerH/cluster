@@ -27,7 +27,7 @@ env:
 #       secretName: tls-qbittorrent-ingress
 
 persistence:
-  downloads:
+  media:
     enabled: true
     existingClaim: media-pvc
   config:
