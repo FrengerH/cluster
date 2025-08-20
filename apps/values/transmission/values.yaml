@@ -29,6 +29,7 @@ ingress:
 persistence:
   downloads:
     enabled: true
+    mountPath: /downloads/downloads
     existingClaim: media-pvc
   config:
     enabled: true
