@@ -1,0 +1,41 @@
+# secret:
+#   user: <path:transmission-config#user>
+#   pass: <path:transmission-config#pass>
+
+env:
+  TZ: "Europe/Amsterdam"
+  PUID: '1000'
+  PGID: '1003'
+  WEBUI_PORT: '8080'
+
+# ingress:
+#   enabled: true
+#   className: traefik
+
+#   annotations:
+#     cert-manager.io/cluster-issuer: letsencrypt-prod
+#     traefik.ingress.kubernetes.io/router.entrypoints: websecure
+#     traefik.ingress.kubernetes.io/service: transmission
+#     traefik.ingress.kubernetes.io/service-port: "9091"
+#     traefik.ingress.kubernetes.io/router.tls: "true"
+
+#   hosts:
+#     - host: <path:transmission-config#domain>
+#       paths:
+#         - path: /
+#           pathType: ImplementationSpecific
+
+#   tls:
+#     - hosts:
+#       - <path:transmission-config#domain>
+#       secretName: tls-transmission-ingress
+
+persistence:
+  downloads:
+    enabled: true
+    existingClaim: media-pvc
+  config:
+    enabled: true
+    storageClass: "longhorn"
+    accessMode: ReadWriteOnce
+    size: 10Gi
