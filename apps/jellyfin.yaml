@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: transmission
+  name: jellyfin
 spec:
   syncPolicy:
     syncOptions:
@@ -11,19 +11,19 @@ spec:
     namespace: arr-stack
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/values/transmission
+      path: apps/values/jellyfin
       targetRevision: HEAD
       plugin: # we just use the plugin source, the plugin script will do the helm pull and template
         env: #set the variables needed 
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://nicholaswilde.github.io/helm-charts/"
+            value: "https://utkuozdemir.org/helm-charts"
           - name: HELM_CHART_NAME
-            value: "transmission"
+            value: "jellyfin"
           - name: HELM_CHART_VERSION
-            value: "0.2.19"
+            value: "2.0.0"
           - name: HELM_RELEASE_NAME
-            value: "transmission"
+            value: "jellyfin"
   project: default
 
