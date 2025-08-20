@@ -3,26 +3,24 @@ image:
   tag: ""
 
 ingress:
-  main:
-    enabled: true
-    primary: true
-    ingressClassName: traefik
+  enabled: true
+  ingressClassName: traefik
 
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      traefik.ingress.kubernetes.io/router.tls: "true"
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
 
-    hosts: 
-      - host: <path:jellyfin-config#domain>
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
+  hosts: 
+    - host: <path:jellyfin-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
 
-    tls:
-      - hosts:
-          - <path:jellyfin-config#domain>
-        secretName: tls-jellyfin-ingress
+  tls:
+    - hosts:
+        - <path:jellyfin-config#domain>
+      secretName: tls-jellyfin-ingress
 
 persistence:
   config:
