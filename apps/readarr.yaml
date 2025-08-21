@@ -18,7 +18,7 @@ spec:
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://charts.truecharts.org/"
+            value: "oci://tccr.io/truecharts"
           - name: HELM_CHART_NAME
             value: "readarr"
           - name: HELM_CHART_VERSION
