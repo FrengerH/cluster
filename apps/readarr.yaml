@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: readarr
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: arr-stack
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/readarr
+      targetRevision: HEAD
+      plugin: # we just use the plugin source, the plugin script will do the helm pull and template
+        env: #set the variables needed 
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://charts.truecharts.org/"
+          - name: HELM_CHART_NAME
+            value: "readarr"
+          - name: HELM_CHART_VERSION
+            value: "26.1.2"
+          - name: HELM_RELEASE_NAME
+            value: "readarr"
+  project: default
+
