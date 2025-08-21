@@ -18,11 +18,11 @@ spec:
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "oci://tccr.io/truecharts"
+            value: "https://bjw-s.github.io/helm-charts"
           - name: HELM_CHART_NAME
             value: "readarr"
           - name: HELM_CHART_VERSION
-            value: "26.1.2"
+            value: "3.5.1"
           - name: HELM_RELEASE_NAME
             value: "readarr"
   project: default
