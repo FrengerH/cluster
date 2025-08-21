@@ -1,7 +1,7 @@
 image:
   repository: lscr.io/linuxserver/readarr
   pullPolicy: IfNotPresent
-  tag: "0.4.2-develop"
+  tag: "latest"
 
 ingress:
   main:
@@ -26,14 +26,14 @@ ingress:
 
 env:
   TZ: Europe/Amsterdam
-  # PUID: '1000'
-  # PGID: '1003'
+  PUID: '1000'
+  PGID: '1003'
 
-# securityContext:
-  # enabled: true
-  # runAsUser: 1000
-  # runAsGroup: 1003
-  # fsGroup: 1003
+securityContext:
+  enabled: true
+  runAsUser: 1000
+  runAsGroup: 1003
+  fsGroup: 1003
 
 persistence:
   config:

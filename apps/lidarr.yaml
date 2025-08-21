@@ -1,8 +1,4 @@
-image:
-  repository: ghcr.io/geek-cookbook/lidarr
-  tag: v2.2.5.4141
-  pullPolicy: IfNotPresent
-
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
