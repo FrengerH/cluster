@@ -1,6 +1,6 @@
 image:
   repository: lscr.io/linuxserver/readarr
-  tag: "0.4.18.2805"
+  tag: "0.4.18.2790-ls400"
 
 ingress:
   main:
