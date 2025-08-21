@@ -1,0 +1,40 @@
+image:
+  repository: ghcr.io/k8s-at-home/lidarr
+  tag: v1.0.0.2255
+
+ingress:
+  main:
+    enabled: true
+    primary: true
+    ingressClassName: traefik
+
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
+
+    hosts: 
+      - host: <path:lidarr-config#domain>
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+
+    tls:
+      - hosts:
+          - <path:lidarr-config#domain>
+        secretName: tls-lidarr-ingress
+
+env:
+  TZ: Europe/Amsterdam
+  PUID: '1000'
+  PGID: '1003'
+
+persistence:
+  config:
+    enabled: true
+    size: 10Gi
+    storageClass: longhorn
+    accessMode: ReadWriteOnce
+  media:
+    enabled: true
+    existingClaim: media-pvc
