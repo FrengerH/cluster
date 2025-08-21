@@ -18,11 +18,11 @@ spec:
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://charts.kubitodev.com/"
+            value: "https://geek-cookbook.github.io/charts/"
           - name: HELM_CHART_NAME
             value: "readarr"
           - name: HELM_CHART_VERSION
-            value: "1.2.0"
+            value: "6.4.2"
           - name: HELM_RELEASE_NAME
             value: "readarr"
   project: default
