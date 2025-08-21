@@ -26,8 +26,8 @@ ingress:
 
 env:
   TZ: Europe/Amsterdam
-  PUID: '1000'
-  PGID: '1003'
+  # PUID: '1000'
+  # PGID: '1003'
 
 persistence:
   config:
