@@ -3,24 +3,25 @@ image:
   tag: "0.4.18.2805"
 
 ingress:
-  enabled: true
-  ingressClassName: traefik
+  main:
+    enabled: true
+    ingressClassName: traefik
 
-  annotations:
-    cert-manager.io/cluster-issuer: letsencrypt-prod
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.tls: "true"
+    annotations:
+      cert-manager.io/cluster-issuer: letsencrypt-prod
+      traefik.ingress.kubernetes.io/router.entrypoints: websecure
+      traefik.ingress.kubernetes.io/router.tls: "true"
 
-  hosts: 
-    - host: <path:readarr-config#domain>
-      paths:
-        - path: /
-          pathType: ImplementationSpecific
+    hosts: 
+      - host: <path:readarr-config#domain>
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
 
-  tls:
-    - hosts:
-        - <path:readarr-config#domain>
-      secretName: tls-readarr-ingress
+    tls:
+      - hosts:
+          - <path:readarr-config#domain>
+        secretName: tls-readarr-ingress
 
 env:
   TZ: Europe/Amsterdam
@@ -42,5 +43,4 @@ persistence:
   media:
     enabled: true
     mountPath: /media
-    existingClaim: media-pvc
     existingClaim: media-pvc
