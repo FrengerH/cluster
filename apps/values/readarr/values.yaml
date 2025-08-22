@@ -1,7 +1,7 @@
 image:
   repository: lscr.io/linuxserver/readarr
   pullPolicy: IfNotPresent
-  tag: "0.4.18-develop"
+  tag: "nightly-0.4.19.2811-ls400"
 
 ingress:
   main:
