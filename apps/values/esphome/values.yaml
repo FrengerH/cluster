@@ -35,14 +35,14 @@ persistence:
   accessMode: ReadWriteOnce
 
 volumeMounts:
-  - name: config
+  - name: esphome-config
     mountPath: /config
-  - name: config
+  - name: esphome-config
     subPath: .cache
     mountPath: /.cache
 
 volumes:
-  - name: config
+  - name: esphome-config
     persistentVolumeClaim:
       claimName: esphome-config
 
