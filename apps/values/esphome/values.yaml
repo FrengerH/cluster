@@ -44,7 +44,7 @@ volumeMounts:
 volumes:
   - name: config
     persistentVolumeClaim:
-      claimName: esphome
+      claimName: esphome-config
 
 replicaCount: 1
 
