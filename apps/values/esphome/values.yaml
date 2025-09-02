@@ -30,7 +30,7 @@ ingress:
 
 persistence:
   enabled: true
-  size: 6Gi
+  size: 10Gi
   storageClass: longhorn
   accessMode: ReadWriteOnce
 
