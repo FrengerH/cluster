@@ -34,5 +34,17 @@ persistence:
   storageClass: longhorn
   accessMode: ReadWriteOnce
 
+volumeMounts:
+  - name: config
+    mountPath: /config
+  - name: config
+    subPath: .cache
+    mountPath: /.cache
+
+volumes:
+  - name: config
+    persistentVolumeClaim:
+      claimName: esphome
+
 replicaCount: 1
 
