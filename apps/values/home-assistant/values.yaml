@@ -43,3 +43,33 @@ configuration:
 
 replicaCount: 1
 
+extraPodSpec:
+  initContainers:
+    # 1. Download HACS into custom_components
+    - name: hacs-init
+      image: alpine:3.18
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          apk add --no-cache bash curl unzip
+          mkdir -p /config/custom_components
+          wget -O - https://get.hacs.xyz | bash
+      volumeMounts:
+        - name: config
+          mountPath: /config
+
+    # 2. Append HACS token to configuration.yaml if not already present
+    - name: hacs-config
+      image: alpine:3.18
+      command:
+        - sh
+        - -c
+        - |
+          set -e
+          grep -q '^hacs:' /config/configuration.yaml || \
+          echo -e "\nhacs:\n  token: \"<path:ha-config#token>\"" >> /config/configuration.yaml
+      volumeMounts:
+        - name: config
+          mountPath: /config
