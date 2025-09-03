@@ -40,36 +40,102 @@ configuration:
   forceInit: true
   trusted_proxies:
     - 10.42.0.0/16
+  initScript: |-
+    #!/bin/bash
+    set -e
+
+    # Check if the configuration file exists
+    if [ ! -f /config/configuration.yaml ]; then
+      echo "Configuration file not found, creating a new one"
+      cp /config-templates/configuration.yaml /config/configuration.yaml
+    fi
+
+    # Check if the force init is enabled
+    forceInit="{{ .Values.configuration.forceInit }}"
+    if [ "$forceInit" = "true" ]; then
+      echo "Force init is enabled, overwriting the configuration file"
+      current_time=$(date +%Y%m%d_%H%M%S)
+      echo "Backup the current configuration file to configuration.yaml.$current_time"
+      cp /config/configuration.yaml /config/configuration.yaml.$current_time
+      echo "Before cleanup - all backup files:"
+      ls -l /config/configuration.yaml.*
+      echo "Cleaning up - keeping only 10 most recent backups..."
+      ls -t /config/configuration.yaml.* 2>/dev/null | tail -n +11 | xargs -r rm
+      echo "After cleanup - remaining backup files:"
+      ls -l /config/configuration.yaml.*
+      echo "The current configuration file will be merged with the default configuration file with this content:"
+      cat /config-templates/configuration.yaml
+      if [[ ! -s /config/configuration.yaml ]]; then
+        # If /config/configuration.yaml is empty, use the content of /config-templates/configuration.yaml
+        cat /config-templates/configuration.yaml > /config/configuration.yaml
+      else
+        # Perform the merge operation if /config/configuration.yaml is not empty
+        yq eval-all --inplace 'select(fileIndex == 0) *d select(fileIndex == 1)' /config/configuration.yaml /config-templates/configuration.yaml
+      fi
+    fi
+
+    # Check if the automations file exists
+    if [ ! -f /config/automations.yaml ]; then
+      echo "Automations file not found, creating a new one"
+      touch /config/automations.yaml
+      echo "[]" >> /config/automations.yaml
+    fi
+
+    # Check if the scripts file exists
+    if [ ! -f /config/scripts.yaml ]; then
+      echo "Scripts file not found, creating a new one"
+      touch /config/scripts.yaml
+    fi
+
+    # Check if the scenes file exists
+    if [ ! -f /config/scenes.yaml ]; then
+      echo "Scenes file not found, creating a new one"
+      touch /config/scenes.yaml
+    fi
+
+    mkdir -p /config/custom_components
+
+    if [ ! -d /config/custom_components/hacs ]; then
+      echo "Installing HACS..."
+      apk add --no-cache bash curl unzip
+      wget -O - https://get.hacs.xyz | bash
+    fi
+
+    HACS_TOKEN="${HACS_TOKEN:-}"
+    if [ -n "$HACS_TOKEN" ]; then
+      grep -q '^hacs:' /config/configuration.yaml || \
+      echo -e "\nhacs:\n  token: \"<path:ha-config#token>\"" >> /config/configuration.yaml
+    fi
 
 replicaCount: 1
 
-extraPodSpec:
-  initContainers:
-    # 1. Download HACS into custom_components
-    - name: hacs-init
-      image: alpine:3.18
-      command:
-        - sh
-        - -c
-        - |
-          set -e
-          apk add --no-cache bash curl unzip
-          mkdir -p /config/custom_components
-          wget -O - https://get.hacs.xyz | bash
-      volumeMounts:
-        - name: config
-          mountPath: /config
+# extraPodSpec:
+#   initContainers:
+#     # 1. Download HACS into custom_components
+#     - name: hacs-init
+#       image: alpine:3.18
+#       command:
+#         - sh
+#         - -c
+#         - |
+#           set -e
+#           apk add --no-cache bash curl unzip
+#           mkdir -p /config/custom_components
+#           wget -O - https://get.hacs.xyz | bash
+#       volumeMounts:
+#         - name: config
+#           mountPath: /config
 
-    # 2. Append HACS token to configuration.yaml if not already present
-    - name: hacs-config
-      image: alpine:3.18
-      command:
-        - sh
-        - -c
-        - |
-          set -e
-          grep -q '^hacs:' /config/configuration.yaml || \
-          echo -e "\nhacs:\n  token: \"<path:ha-config#token>\"" >> /config/configuration.yaml
-      volumeMounts:
-        - name: config
-          mountPath: /config
+#     # 2. Append HACS token to configuration.yaml if not already present
+#     - name: hacs-config
+#       image: alpine:3.18
+#       command:
+#         - sh
+#         - -c
+#         - |
+#           set -e
+#           grep -q '^hacs:' /config/configuration.yaml || \
+#           echo -e "\nhacs:\n  token: \"<path:ha-config#token>\"" >> /config/configuration.yaml
+#       volumeMounts:
+#         - name: config
+#           mountPath: /config
