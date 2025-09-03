@@ -101,7 +101,4 @@ configuration:
       wget -O - https://get.hacs.xyz | bash
     fi
 
-    grep -q '^hacs:' /config/configuration.yaml || \
-    echo -e "\nhacs:\n  token: \"<path:ha-config#token>\"" >> /config/configuration.yaml
-
 replicaCount: 1
