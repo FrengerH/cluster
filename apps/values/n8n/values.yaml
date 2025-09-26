@@ -1,0 +1,52 @@
+ingress:
+  enabled: true
+  primary: true
+  ingressClassName: traefik
+
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+
+  hosts: 
+    - host: <path:n8n-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+
+  tls:
+    - hosts:
+        - <path:n8n-config#domain>
+      secretName: tls-n8n-ingress
+
+db:
+  type: postgresdb
+
+postgresql:
+  enabled: true
+ 
+  primary:
+    persistence:
+      accessMode: ReadWriteOnce
+      storageClass: longhorn
+      size: 10Gi
+
+worker:
+  mode: queue
+  count: 2
+  persistence:
+    enabled: true
+    accessMode: ReadWriteOnce
+    storageClass: longhorn
+    size: 5Gi
+
+redis:
+  enabled: true
+
+main:
+  count: 1
+  persistence:
+    enabled: true
+    size: 10Gi
+    storageClass: longhorn
+    accessMode: ReadWriteOnce
