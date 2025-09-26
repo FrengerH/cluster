@@ -1,7 +1,7 @@
 ingress:
   enabled: true
   primary: true
-  ingressClassName: traefik
+  className: traefik
 
   annotations:
     cert-manager.io/cluster-issuer: letsencrypt-prod
