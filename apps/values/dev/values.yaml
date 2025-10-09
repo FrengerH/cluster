@@ -26,8 +26,3 @@ ssh:
   password: ""
   authorizedKeys:
     - <path:dev-config#ssh-key>
-
-serviceAccount:
-  create: true
-  name: ""
-  annotations: {}
