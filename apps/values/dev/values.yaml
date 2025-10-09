@@ -14,6 +14,7 @@ ingress:
         - <path:dev-config#domain>
       secretName: tls-dev-ingress
 
+
 persistence:
   enabled: true
   size: 10Gi
