@@ -38,9 +38,6 @@ worker:
     accessMode: ReadWriteOnce
     storageClass: longhorn
     size: 5Gi
-  env:
-    - name: N8N_ENCRYPTION_KEY
-      value: <path:n8n-config#key>
 
 redis:
   enabled: true
@@ -52,6 +49,5 @@ main:
     size: 10Gi
     storageClass: longhorn
     accessMode: ReadWriteOnce
-  env:
-    - name: N8N_ENCRYPTION_KEY
-      value: <path:n8n-config#key>
+
+encryptionKey: <path:n8n-config#key>
