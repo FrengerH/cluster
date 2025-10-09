@@ -1,0 +1,29 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: dev
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: dev
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/dev
+      targetRevision: HEAD
+      plugin: # we just use the plugin source, the plugin script will do the helm pull and template
+        env: #set the variables needed 
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://github.com/FrengerH/helm-dev"
+          - name: HELM_CHART_NAME
+            value: "ubuntu-dev"
+          - name: HELM_CHART_VERSION
+            value: "0.1.0"
+          - name: HELM_RELEASE_NAME
+            value: "ubuntu-dev"
+  project: default
+
