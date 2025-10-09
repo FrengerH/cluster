@@ -28,5 +28,5 @@ ssh:
     - <path:dev-config#ssh-key>
 
 service:
-  type: ClusterIP
+  type: LoadBalancer
   port: 22
