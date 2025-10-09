@@ -25,7 +25,8 @@ ssh:
   port: 2222
   password: ""
   authorizedKeys:
-    - <path:dev-config#ssh-key>
+    - <path:dev-config#ssh-key1>
+    - <path:dev-config#ssh-key2>
 
 service:
   type: LoadBalancer
