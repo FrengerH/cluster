@@ -18,7 +18,7 @@ spec:
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://github.com/FrengerH/helm-dev"
+            value: "https://frengerh.github.io/helm-dev"
           - name: HELM_CHART_NAME
             value: "ubuntu-dev"
           - name: HELM_CHART_VERSION
