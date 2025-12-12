@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: baikal
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: baikal
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/baikal
+      targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://rubxkube.github.io/charts/"
+          - name: HELM_CHART_NAME
+            value: "baikal"
+          - name: HELM_CHART_VERSION
+            value: "1.2.8"
+          - name: HELM_RELEASE_NAME
+            value: "baikal"
+  project: default
