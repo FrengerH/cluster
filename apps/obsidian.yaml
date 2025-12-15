@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: obsidian
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: obsidian
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/obsidian
+      targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://thinking-and-coding.github.io/obsidian-helm-chart"
+          - name: HELM_CHART_NAME
+            value: "obsidian"
+          - name: HELM_CHART_VERSION
+            value: "0.1.2"
+          - name: HELM_RELEASE_NAME
+            value: "obsidian"
+  project: default
