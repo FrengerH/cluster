@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "n8n"
           - name: HELM_CHART_VERSION
-            value: "1.15.10"
+            value: "1.16.11"
           - name: HELM_RELEASE_NAME
             value: "n8n"
   project: default
