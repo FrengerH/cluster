@@ -1,0 +1,47 @@
+# Gitea Helm Chart Values
+# Chart: https://gitea.com/gitea/helm-chart
+
+# Ingress configuration
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: <path:gitea-config#domain>
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - hosts:
+        - <path:gitea-config#domain>
+      secretName: tls-gitea-ingress
+
+# Gitea configuration
+gitea:
+  config:
+    server:
+      DOMAIN: <path:gitea-config#domain>
+      ROOT_URL: https://<path:gitea-config#domain>
+      SSH_DOMAIN: <path:gitea-config#domain>
+      SSH_PORT: 22
+    database:
+      DB_TYPE: sqlite3
+
+# Persistence configuration
+persistence:
+  enabled: true
+  size: 10Gi
+  storageClass: longhorn
+  accessModes:
+    - ReadWriteOnce
+
+# Redis cache (optional but recommended)
+redis-cluster:
+  enabled: false
+
+# PostgreSQL (using SQLite by default for simplicity)
+postgresql:
+  enabled: false

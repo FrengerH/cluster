@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: gitea
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: gitea
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/gitea
+      targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://dl.gitea.io/charts/"
+          - name: HELM_CHART_NAME
+            value: "gitea"
+          - name: HELM_CHART_VERSION
+            value: "12.4.0"
+          - name: HELM_RELEASE_NAME
+            value: "gitea"
+  project: default
