@@ -29,6 +29,12 @@ gitea:
       SSH_PORT: 22
     database:
       DB_TYPE: sqlite3
+    cache:
+      ADAPTER: memory
+    session:
+      PROVIDER: memory
+    queue:
+      TYPE: level
 
 # Persistence configuration
 persistence:
@@ -38,8 +44,11 @@ persistence:
   accessModes:
     - ReadWriteOnce
 
-# Redis cache (optional but recommended)
+# Redis/Valkey cache (disabled, using in-memory cache)
 redis-cluster:
+  enabled: false
+
+valkey-cluster:
   enabled: false
 
 # PostgreSQL HA (disabled, using SQLite instead)
