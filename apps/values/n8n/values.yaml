@@ -23,7 +23,11 @@ db:
 
 postgresql:
   enabled: true
- 
+  auth:
+    database: n8n
+    username: postgres
+    password: <path:n8n-config#password>
+
   primary:
     persistence:
       accessMode: ReadWriteOnce
