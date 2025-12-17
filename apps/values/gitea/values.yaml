@@ -42,6 +42,9 @@ persistence:
 redis-cluster:
   enabled: false
 
-# PostgreSQL (using SQLite by default for simplicity)
+# PostgreSQL HA (disabled, using SQLite instead)
+postgresql-ha:
+  enabled: false
+
 postgresql:
   enabled: false
