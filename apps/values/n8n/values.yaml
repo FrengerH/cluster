@@ -44,6 +44,9 @@ worker:
     accessMode: ReadWriteOnce
     storageClass: longhorn
     size: 5Gi
+  pdb:
+    enabled: true
+    minAvailable: 1
 
 redis:
   enabled: true
