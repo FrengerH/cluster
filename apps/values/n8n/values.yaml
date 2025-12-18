@@ -27,6 +27,8 @@ postgresql:
     database: n8n
     username: postgres
     existingSecret: n8n-postgresql
+    secretKeys:
+      adminPasswordKey: password
 
   primary:
     persistence:
