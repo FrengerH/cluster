@@ -26,7 +26,7 @@ postgresql:
   auth:
     database: n8n
     username: postgres
-    password: <path:n8n-config#password>
+    existingSecret: n8n-postgresql
 
   primary:
     persistence:

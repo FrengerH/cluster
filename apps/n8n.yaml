@@ -11,10 +11,14 @@ spec:
     namespace: n8n
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/n8n
+      targetRevision: HEAD
+      plugin: {}
+    - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/n8n
       targetRevision: HEAD
       plugin: # we just use the plugin source, the plugin script will do the helm pull and template
-        env: #set the variables needed 
+        env: #set the variables needed
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
