@@ -25,16 +25,20 @@ data:
 
     # Install required packages
     apt-get update
-    apt-get install -y openssh-server curl sudo
+    apt-get install -y openssh-server curl sudo git
 
-    # Create user if it doesn't exist
+    # Create user if it doesn't exist (without creating home directory)
     if ! id -u claude >/dev/null 2>&1; then
-      useradd -m -s /bin/bash -G sudo claude
+      useradd -M -s /bin/bash -G sudo claude
       echo "claude:${CLAUDE_PASSWORD}" | chpasswd
     fi
 
+    # Fix ownership of the mounted home directory
+    chown -R claude:claude /home/claude
+    usermod -d /home/claude claude
+
     # Install Claude Code for the claude user
-    su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash'
+    su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash' || true
 
     # Configure SSH
     mkdir -p /run/sshd
