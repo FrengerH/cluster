@@ -40,6 +40,9 @@ data:
     # Install Claude Code for the claude user
     su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash' || true
 
+    # Add Claude Code to PATH
+    su - claude -c 'echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc'
+
     # Configure SSH
     mkdir -p /run/sshd
     sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
