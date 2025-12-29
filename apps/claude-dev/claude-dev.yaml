@@ -1,0 +1,114 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: claude-dev-home
+  namespace: claude-dev
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 10Gi
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: claude-dev-init
+  namespace: claude-dev
+data:
+  init.sh: |
+    #!/bin/bash
+    set -e
+
+    # Install required packages
+    apt-get update
+    apt-get install -y openssh-server curl sudo
+
+    # Create user if it doesn't exist
+    if ! id -u claude >/dev/null 2>&1; then
+      useradd -m -s /bin/bash -G sudo claude
+      echo "claude:${CLAUDE_PASSWORD}" | chpasswd
+    fi
+
+    # Install Claude Code for the claude user
+    su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash'
+
+    # Configure SSH
+    mkdir -p /run/sshd
+    sed -i 's/#PermitRootLogin prohibit-password/PermitRootLogin no/' /etc/ssh/sshd_config
+    sed -i 's/#PasswordAuthentication yes/PasswordAuthentication yes/' /etc/ssh/sshd_config
+
+    # Start SSH server
+    exec /usr/sbin/sshd -D
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: claude-dev
+  namespace: claude-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: claude-dev
+  template:
+    metadata:
+      labels:
+        app: claude-dev
+    spec:
+      containers:
+      - name: ssh
+        image: ubuntu:22.04
+        command: ["/bin/bash", "/scripts/init.sh"]
+        ports:
+        - containerPort: 22
+          name: ssh
+        env:
+        - name: CLAUDE_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: claude-dev-secret
+              key: password
+        volumeMounts:
+        - name: home
+          mountPath: /home/claude
+        - name: init-script
+          mountPath: /scripts
+      volumes:
+      - name: home
+        persistentVolumeClaim:
+          claimName: claude-dev-home
+      - name: init-script
+        configMap:
+          name: claude-dev-init
+          defaultMode: 0755
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: claude-dev-ssh
+  namespace: claude-dev
+spec:
+  type: LoadBalancer
+  selector:
+    app: claude-dev
+  ports:
+  - port: 22
+    targetPort: 22
+    protocol: TCP
+    name: ssh
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: claude-dev-secret
+  namespace: claude-dev
+type: Opaque
+stringData:
+  password: <path:claude-dev-config#password>
