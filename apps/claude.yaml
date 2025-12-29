@@ -1,17 +1,17 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: claude-dev
+  name: claude
 spec:
   syncPolicy:
     syncOptions:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: claude-dev
+    namespace: claude
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/claude-dev
+      path: apps/claude
       targetRevision: HEAD
       plugin: {}
   project: default

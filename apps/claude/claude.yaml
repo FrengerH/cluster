@@ -2,8 +2,8 @@
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: claude-dev-home
-  namespace: claude-dev
+  name: claude-home
+  namespace: claude
 spec:
   accessModes:
     - ReadWriteOnce
@@ -16,8 +16,8 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: claude-dev-init
-  namespace: claude-dev
+  name: claude-init
+  namespace: claude
 data:
   init.sh: |
     #!/bin/bash
@@ -48,17 +48,17 @@ data:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: claude-dev
-  namespace: claude-dev
+  name: claude
+  namespace: claude
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: claude-dev
+      app: claude
   template:
     metadata:
       labels:
-        app: claude-dev
+        app: claude
     spec:
       containers:
       - name: ssh
@@ -71,7 +71,7 @@ spec:
         - name: CLAUDE_PASSWORD
           valueFrom:
             secretKeyRef:
-              name: claude-dev-secret
+              name: claude-secret
               key: password
         volumeMounts:
         - name: home
@@ -81,22 +81,22 @@ spec:
       volumes:
       - name: home
         persistentVolumeClaim:
-          claimName: claude-dev-home
+          claimName: claude-home
       - name: init-script
         configMap:
-          name: claude-dev-init
+          name: claude-init
           defaultMode: 0755
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: claude-dev-ssh
-  namespace: claude-dev
+  name: claude-ssh
+  namespace: claude
 spec:
   type: LoadBalancer
   selector:
-    app: claude-dev
+    app: claude
   ports:
   - port: 22
     targetPort: 22
@@ -107,8 +107,8 @@ spec:
 apiVersion: v1
 kind: Secret
 metadata:
-  name: claude-dev-secret
-  namespace: claude-dev
+  name: claude-secret
+  namespace: claude
 type: Opaque
 stringData:
-  password: <path:claude-dev-config#password>
+  password: <path:claude-config#password>
