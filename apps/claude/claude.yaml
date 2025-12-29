@@ -40,8 +40,11 @@ data:
     # Install Claude Code for the claude user
     su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash' || true
 
-    # Add Claude Code to PATH
+    # Add Claude Code to PATH in .bashrc
     su - claude -c 'echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc'
+
+    # Create .bash_profile to source .bashrc for login shells (SSH)
+    su - claude -c 'echo -e "if [ -f ~/.bashrc ]; then\n    . ~/.bashrc\nfi" > ~/.bash_profile'
 
     # Configure SSH
     mkdir -p /run/sshd
@@ -85,6 +88,13 @@ spec:
           mountPath: /home/claude
         - name: init-script
           mountPath: /scripts
+        readinessProbe:
+          tcpSocket:
+            port: 22
+          initialDelaySeconds: 10
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 3
       volumes:
       - name: home
         persistentVolumeClaim:
