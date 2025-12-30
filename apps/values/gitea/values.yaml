@@ -22,7 +22,7 @@ ingress:
 # Service configuration
 service:
   ssh:
-    type: ClusterIP
+    type: LoadBalancer
     port: 22
     targetPort: 22
 
