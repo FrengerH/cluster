@@ -1,4 +1,18 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: unbound-config
+  namespace: unbound
+data:
+  split-horizon.conf: |
+    server:
+      # Split-horizon DNS for internal cluster services
+      # Resolve git.hmdev.nl to internal Gitea pod IP
+      local-zone: "git.hmdev.nl." static
+      local-data: "git.hmdev.nl. IN A 10.42.3.46"
+
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -33,6 +47,13 @@ spec:
           requests:
             memory: "50Mi"
             cpu: "100m"
+        volumeMounts:
+        - name: config
+          mountPath: /opt/unbound/etc/unbound/unbound.conf.d
+      volumes:
+      - name: config
+        configMap:
+          name: unbound-config
 
 ---
 kind: Service 
