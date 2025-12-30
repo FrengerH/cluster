@@ -23,6 +23,7 @@ ingress:
 service:
   ssh:
     type: LoadBalancer
+    clusterIP: ""  # Remove None to allow LoadBalancer
     port: 22
     targetPort: 22
 
