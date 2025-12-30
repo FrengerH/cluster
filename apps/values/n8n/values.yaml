@@ -50,6 +50,8 @@ worker:
   pdb:
     enabled: true
     minAvailable: 1
+  extraEnvVars:
+    N8N_PUSH_BACKEND: sse
 
 redis:
   enabled: true
@@ -61,9 +63,7 @@ main:
     size: 10Gi
     storageClass: longhorn
     accessMode: ReadWriteOnce
+  extraEnvVars:
+    N8N_PUSH_BACKEND: sse
 
 encryptionKey: <path:n8n-config#key>
-
-config:
-  push:
-    backend: sse
