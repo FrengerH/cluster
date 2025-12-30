@@ -19,6 +19,13 @@ ingress:
         - <path:gitea-config#domain>
       secretName: tls-gitea-ingress
 
+# Service configuration
+service:
+  ssh:
+    type: ClusterIP
+    port: 22
+    targetPort: 22
+
 # Gitea configuration
 gitea:
   config:
@@ -27,6 +34,7 @@ gitea:
       ROOT_URL: https://<path:gitea-config#domain>
       SSH_DOMAIN: <path:gitea-config#domain>
       SSH_PORT: 22
+      SSH_LISTEN_PORT: 22
     database:
       DB_TYPE: sqlite3
     cache:
