@@ -11,6 +11,9 @@ spec:
     namespace: gitea
   sources:
     - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/gitea
+      targetRevision: HEAD
+    - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/gitea
       targetRevision: HEAD
       plugin:
