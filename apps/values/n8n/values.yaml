@@ -6,6 +6,9 @@ ingress:
     cert-manager.io/cluster-issuer: letsencrypt-prod
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie: "true"
+    traefik.ingress.kubernetes.io/service.sticky.cookie.name: "n8n-session"
+    traefik.ingress.kubernetes.io/service.passhostheader: "true"
 
   hosts: 
     - host: <path:n8n-config#domain>
@@ -60,3 +63,7 @@ main:
     accessMode: ReadWriteOnce
 
 encryptionKey: <path:n8n-config#key>
+
+config:
+  push:
+    backend: sse
