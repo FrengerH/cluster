@@ -1,0 +1,29 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: obsidian
+  namespace: obsidian
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  labels:
+    app: obsidian
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: <path:obsidian-config#domain>
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: obsidian
+            port:
+              number: 3001
+  tls:
+  - hosts:
+    - <path:obsidian-config#domain>
+    secretName: tls-obsidian-ingress
