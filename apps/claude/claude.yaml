@@ -25,7 +25,7 @@ data:
 
     # Install required packages
     apt-get update
-    apt-get install -y openssh-server curl sudo git
+    apt-get install -y openssh-server curl sudo git jq
 
     # Create user if it doesn't exist (without creating home directory)
     if ! id -u claude >/dev/null 2>&1; then
