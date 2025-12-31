@@ -12,11 +12,13 @@ spec:
     type: Recreate
   selector:
     matchLabels:
-      app: obsidian
+      app.kubernetes.io/instance: obsidian
+      app.kubernetes.io/name: obsidian
   template:
     metadata:
       labels:
-        app: obsidian
+        app.kubernetes.io/instance: obsidian
+        app.kubernetes.io/name: obsidian
     spec:
       securityContext:
         fsGroup: 1000
