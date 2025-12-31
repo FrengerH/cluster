@@ -42,11 +42,26 @@ data:
     # Install Claude Code for the claude user
     su - claude -c 'curl -fsSL https://claude.ai/install.sh | bash' || true
 
-    # Add Claude Code to PATH in .bashrc
-    su - claude -c 'echo "export PATH=\"\$HOME/.local/bin:\$PATH\"" >> ~/.bashrc'
+    # Create persistent env file if it doesn't exist
+    if [ ! -f /home/claude/.env ]; then
+      su - claude -c 'cat > ~/.env << "ENVEOF"
+# Persistent environment variables
+export PATH="$HOME/.local/bin:$PATH"
+
+# Add your custom environment variables here
+# Example: export MY_VAR="value"
+ENVEOF'
+    fi
+
+    # Add sourcing of .env to .bashrc if not already present
+    if ! grep -q "source ~/.env" /home/claude/.bashrc 2>/dev/null; then
+      su - claude -c 'echo -e "\n# Source persistent environment variables\nif [ -f ~/.env ]; then\n    source ~/.env\nfi" >> ~/.bashrc'
+    fi
 
     # Create .bash_profile to source .bashrc for login shells (SSH)
-    su - claude -c 'echo -e "if [ -f ~/.bashrc ]; then\n    . ~/.bashrc\nfi" > ~/.bash_profile'
+    if [ ! -f /home/claude/.bash_profile ]; then
+      su - claude -c 'echo -e "if [ -f ~/.bashrc ]; then\n    . ~/.bashrc\nfi" > ~/.bash_profile'
+    fi
 
     # Configure SSH
     mkdir -p /run/sshd
