@@ -1,3 +1,11 @@
 env:
   # -- Set the timezone that will be used by the container
   TZ: Europe/Amsterdam
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 100m
+    memory: 256Mi
