@@ -18,4 +18,5 @@ spec:
     targetPort: 3001
     protocol: TCP
   selector:
-    app: obsidian
+    app.kubernetes.io/instance: obsidian
+    app.kubernetes.io/name: obsidian
