@@ -18,8 +18,6 @@ kind: ConfigMap
 metadata:
   name: claude-init
   namespace: claude
-  annotations:
-    reloader.stakater.com/match: "true"
 data:
   init.sh: |
     #!/bin/bash
@@ -73,6 +71,8 @@ metadata:
   namespace: claude
 spec:
   replicas: 1
+  strategy:
+    type: Recreate
   selector:
     matchLabels:
       app: claude
@@ -80,8 +80,6 @@ spec:
     metadata:
       labels:
         app: claude
-      annotations:
-        reloader.stakater.com/search: "true"
     spec:
       containers:
       - name: ssh
