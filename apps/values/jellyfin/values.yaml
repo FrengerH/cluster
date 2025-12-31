@@ -22,6 +22,14 @@ ingress:
         - <path:jellyfin-config#domain>
       secretName: tls-jellyfin-ingress
 
+resources:
+  limits:
+    cpu: 2000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 512Mi
+
 persistence:
   config:
     enabled: true
