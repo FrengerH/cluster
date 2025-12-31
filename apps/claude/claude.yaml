@@ -44,13 +44,13 @@ data:
 
     # Create persistent env file if it doesn't exist
     if [ ! -f /home/claude/.env ]; then
-      su - claude -c 'cat > ~/.env << "ENVEOF"
+      su - claude -c 'cat > ~/.env <<'\''EOF'\''
 # Persistent environment variables
 export PATH="$HOME/.local/bin:$PATH"
 
 # Add your custom environment variables here
 # Example: export MY_VAR="value"
-ENVEOF'
+EOF'
     fi
 
     # Add sourcing of .env to .bashrc if not already present
