@@ -43,6 +43,8 @@ gitea:
       PROVIDER: memory
     queue:
       TYPE: level
+    webhook:
+      ALLOWED_HOST_LIST: "private,external"
 
 # Persistence configuration
 persistence:
