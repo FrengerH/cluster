@@ -1,6 +1,10 @@
 # Gitea Helm Chart Values
 # Chart: https://gitea.com/gitea/helm-chart
 
+# Deployment strategy - use Recreate to avoid PVC lock conflicts
+strategy:
+  type: Recreate
+
 # Ingress configuration
 ingress:
   enabled: true
