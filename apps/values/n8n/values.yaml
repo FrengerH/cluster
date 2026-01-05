@@ -54,13 +54,6 @@ worker:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
     N8N_PROXY_HOPS: "1"
-  initContainers:
-    - name: create-git-dir
-      image: busybox:latest
-      command: ['sh', '-c', 'mkdir -p /home/node/.n8n-files/git']
-      volumeMounts:
-        - name: node-modules
-          mountPath: /home/node/.n8n
 
 redis:
   enabled: true
@@ -76,12 +69,5 @@ main:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
     N8N_PROXY_HOPS: "1"
-  initContainers:
-    - name: create-git-dir
-      image: busybox:latest
-      command: ['sh', '-c', 'mkdir -p /home/node/.n8n-files/git']
-      volumeMounts:
-        - name: node-modules
-          mountPath: /home/node/.n8n
 
 encryptionKey: <path:n8n-config#key>
