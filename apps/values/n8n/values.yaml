@@ -59,7 +59,7 @@ worker:
       image: busybox:latest
       command: ['sh', '-c', 'mkdir -p /home/node/.n8n-files/git']
       volumeMounts:
-        - name: data
+        - name: node-modules
           mountPath: /home/node/.n8n
 
 redis:
@@ -81,7 +81,7 @@ main:
       image: busybox:latest
       command: ['sh', '-c', 'mkdir -p /home/node/.n8n-files/git']
       volumeMounts:
-        - name: data
+        - name: node-modules
           mountPath: /home/node/.n8n
 
 encryptionKey: <path:n8n-config#key>
