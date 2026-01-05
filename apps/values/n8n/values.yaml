@@ -56,6 +56,13 @@ worker:
     N8N_PROXY_HOPS: "1"
     N8N_RESTRICT_FILE_ACCESS_TO: "/home/node/.n8n:/home/node/.n8n-files"
     N8N_ALLOWED_REPOSITORY_PATHS: "/home/node/.n8n-files/git"
+  lifecycleHooks:
+    postStart:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - mkdir -p /home/node/.n8n-files/git
 
 redis:
   enabled: true
@@ -73,5 +80,12 @@ main:
     N8N_PROXY_HOPS: "1"
     N8N_RESTRICT_FILE_ACCESS_TO: "/home/node/.n8n:/home/node/.n8n-files"
     N8N_ALLOWED_REPOSITORY_PATHS: "/home/node/.n8n-files/git"
+  lifecycleHooks:
+    postStart:
+      exec:
+        command:
+          - /bin/sh
+          - -c
+          - mkdir -p /home/node/.n8n-files/git
 
 encryptionKey: <path:n8n-config#key>
