@@ -54,7 +54,7 @@ worker:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
     N8N_PROXY_HOPS: "1"
-    N8N_ALLOWED_GIT_REPOSITORY_PATHS: /tmp
+    N8N_ALLOWED_GIT_REPOSITORY_PATHS: "/tmp;/tmp/*"
 
 redis:
   enabled: true
@@ -70,6 +70,6 @@ main:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
     N8N_PROXY_HOPS: "1"
-    N8N_ALLOWED_GIT_REPOSITORY_PATHS: /tmp
+    N8N_ALLOWED_GIT_REPOSITORY_PATHS: "/tmp;/tmp/*"
 
 encryptionKey: <path:n8n-config#key>
