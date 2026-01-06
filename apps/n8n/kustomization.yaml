@@ -6,10 +6,3 @@ resources:
 
 patches:
 - path: init-container-patch.yaml
-  target:
-    kind: Deployment
-    name: n8n
-- path: init-container-patch.yaml
-  target:
-    kind: StatefulSet
-    name: n8n-worker
