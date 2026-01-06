@@ -47,6 +47,7 @@ worker:
     accessMode: ReadWriteOnce
     storageClass: longhorn
     size: 5Gi
+    mountPath: "/home/node"
   pdb:
     enabled: true
     minAvailable: 1
@@ -64,8 +65,8 @@ worker:
         - -c
         - mkdir -p /home/node/.n8n-files/git && chown -R 1000:1000 /home/node/.n8n-files
       volumeMounts:
-        - name: data
-          mountPath: /home/node/.n8n-files
+        - name: node-modules
+          mountPath: /home/node
 
 redis:
   enabled: true
@@ -77,6 +78,7 @@ main:
     size: 10Gi
     storageClass: longhorn
     accessMode: ReadWriteOnce
+    mountPath: "/home/node"
   extraEnvVars:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
@@ -91,7 +93,7 @@ main:
         - -c
         - mkdir -p /home/node/.n8n-files/git && chown -R 1000:1000 /home/node/.n8n-files
       volumeMounts:
-        - name: data
-          mountPath: /home/node/.n8n-files
+        - name: node-modules
+          mountPath: /home/node
 
 encryptionKey: <path:n8n-config#key>

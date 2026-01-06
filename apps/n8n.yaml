@@ -14,39 +14,6 @@ spec:
     name: n8n-redis-master
     jsonPointers:
     - /spec/template/metadata/annotations
-  patches:
-  - target:
-      kind: Deployment
-      name: n8n
-    patch: |
-      - op: add
-        path: /spec/template/spec/initContainers
-        value:
-        - name: create-git-directory
-          image: busybox:latest
-          command:
-          - /bin/sh
-          - -c
-          - mkdir -p /home/node/.n8n-files/git && chown -R 1000:1000 /home/node/.n8n-files
-          volumeMounts:
-          - name: node-modules
-            mountPath: /home/node
-  - target:
-      kind: StatefulSet
-      name: n8n-worker
-    patch: |
-      - op: add
-        path: /spec/template/spec/initContainers
-        value:
-        - name: create-git-directory
-          image: busybox:latest
-          command:
-          - /bin/sh
-          - -c
-          - mkdir -p /home/node/.n8n-files/git && chown -R 1000:1000 /home/node/.n8n-files
-          volumeMounts:
-          - name: data
-            mountPath: /home/node
   syncPolicy:
     automated:
       prune: true
