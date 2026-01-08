@@ -30,6 +30,8 @@ kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD p
 # Grant privileges
 echo "Granting privileges..."
 kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD psql -U postgres -d agent_memory -c 'GRANT ALL PRIVILEGES ON DATABASE agent_memory TO agent_user;'"
+kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD psql -U postgres -d agent_memory -c 'GRANT USAGE ON SCHEMA public TO agent_user;'"
+kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD psql -U postgres -d agent_memory -c 'GRANT CREATE ON SCHEMA public TO agent_user;'"
 kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD psql -U postgres -d agent_memory -c 'GRANT ALL ON ALL TABLES IN SCHEMA public TO agent_user;'"
 kubectl exec -n n8n n8n-postgresql-0 -- bash -c "PGPASSWORD=$POSTGRES_PASSWORD psql -U postgres -d agent_memory -c 'GRANT ALL ON ALL SEQUENCES IN SCHEMA public TO agent_user;'"
 
