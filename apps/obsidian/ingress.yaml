@@ -23,13 +23,16 @@ spec:
             name: obsidian
             port:
               number: 3001
+  - host: <path:obsidian-config#domain>
+    http:
+      paths:
       - path: /api
         pathType: Prefix
         backend:
           service:
             name: obsidian
             port:
-              number: 27124
+              number: 27123
   tls:
   - hosts:
     - <path:obsidian-config#domain>

@@ -1,0 +1,20 @@
+---
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRouteTCP
+metadata:
+  name: obsidian-api
+  namespace: obsidian
+  labels:
+    app: obsidian
+spec:
+  entryPoints:
+    - websecure
+  routes:
+  - match: HostSNI(`obsidian-app.hmdev.nl`) && PathPrefix(`/api`)
+    services:
+    - name: obsidian
+      port: 27124
+  tls:
+    domains:
+    - main: obsidian-app.hmdev.nl
+    secretName: tls-obsidian-ingress
