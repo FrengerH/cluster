@@ -34,7 +34,7 @@ spec:
           containerPort: 3001
           protocol: TCP
         - name: api
-          containerPort: 27124
+          containerPort: 27123
           protocol: TCP
         env:
         - name: PUID
