@@ -23,10 +23,7 @@ spec:
             name: obsidian
             port:
               number: 3001
-  - host: obsidian-api.hmdev.nl
-    http:
-      paths:
-      - path: /
+      - path: /api
         pathType: Prefix
         backend:
           service:
@@ -36,5 +33,4 @@ spec:
   tls:
   - hosts:
     - <path:obsidian-config#domain>
-    - obsidian-api.hmdev.nl
     secretName: tls-obsidian-ingress
