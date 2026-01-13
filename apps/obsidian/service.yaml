@@ -17,6 +17,10 @@ spec:
     port: 3001
     targetPort: 3001
     protocol: TCP
+  - name: api
+    port: 27124
+    targetPort: 27124
+    protocol: TCP
   selector:
     app.kubernetes.io/instance: obsidian
     app.kubernetes.io/name: obsidian
