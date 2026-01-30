@@ -24,9 +24,9 @@ persistence:
     enabled: true
     mountPath: /nix
     size: 100Gi
-    storageClass: ""
+    storageClass: "longhorn"
   homeDir:
     enabled: true
     mountPath: /home/nix
     size: 100Gi
-    storageClass: ""
+    storageClass: "longhorn"
