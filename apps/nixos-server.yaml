@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "nixos-server"
           - name: HELM_CHART_VERSION
-            value: "0.1.0"
+            value: "0.7.0"
           - name: HELM_RELEASE_NAME
             value: "nixos-server"
   project: default
