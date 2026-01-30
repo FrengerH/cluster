@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: nixos-server
+  namespace: argocd
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: nixos-server
+  sources:
+    - repoURL: 'https://frengerh.github.io/nixos-dev'
+      chart: nixos-server
+      targetRevision: '0.1.0'
+      helm:
+        valueFiles:
+          - $values/apps/values/nixos-server/values.yaml
+    - repoURL: 'https://github.com/FrengerH/cluster'
+      path: apps/values/nixos-server
+      targetRevision: HEAD
+  project: default
