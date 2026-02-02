@@ -10,13 +10,19 @@ spec:
     name: in-cluster
     namespace: kubevirt
   sources:
-    - repoURL: 'https://kubevirt.github.io/helm-charts'
-      chart: kubevirt
-      targetRevision: 1.4.1
-      helm:
-        valueFiles:
-        - values.yaml
-    - repoURL: 'https://github.com/FrengerH/cluster'
+    - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/kubevirt
       targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://kubevirt.github.io/helm-charts"
+          - name: HELM_CHART_NAME
+            value: "kubevirt"
+          - name: HELM_CHART_VERSION
+            value: "1.4.1"
+          - name: HELM_RELEASE_NAME
+            value: "kubevirt"
   project: default
