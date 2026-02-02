@@ -1,0 +1,19 @@
+namespace: kubevirt
+
+image:
+  pullPolicy: IfNotPresent
+
+operator:
+  replicas: 1
+
+containerizedDataImporter:
+  enabled: false
+
+network:
+  permitSlirpInterface: true
+
+priorityClass:
+  enabled: true
+
+workload:
+  enableWorkloadScaling: false

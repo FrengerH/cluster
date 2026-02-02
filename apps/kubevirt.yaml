@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kubevirt
+  name: kubevirt-operator
 spec:
   syncPolicy:
     syncOptions:
@@ -11,6 +11,17 @@ spec:
     namespace: kubevirt
   sources:
     - repoURL: 'https://github.com/kubevirt/kubevirt'
-      path: deploy
       targetRevision: v1.4.1
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://kubevirt.io/helm-charts"
+          - name: HELM_CHART_NAME
+            value: "kubevirt-operator"
+          - name: HELM_CHART_VERSION
+            value: "0.1.0"
+          - name: HELM_RELEASE_NAME
+            value: "kubevirt-operator"
   project: default
