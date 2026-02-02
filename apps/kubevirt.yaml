@@ -10,8 +10,9 @@ spec:
     name: in-cluster
     namespace: kubevirt
   sources:
-    - repoURL: 'https://github.com/kubevirt/kubevirt'
-      targetRevision: v1.4.1
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/kubevirt
+      targetRevision: HEAD
       plugin:
         env:
           - name: HELM_VALUES_FILES
