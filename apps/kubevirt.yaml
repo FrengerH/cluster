@@ -10,19 +10,13 @@ spec:
     name: in-cluster
     namespace: kubevirt
   sources:
+    - repoURL: 'oci://registry.suse.com/edge'
+      chart: kubevirt
+      targetRevision: 4.11.3
+      helm:
+        valueFiles:
+        - values.yaml
     - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/kubevirt
       targetRevision: HEAD
-      plugin:
-        env:
-          - name: HELM_VALUES_FILES
-            value: "values.yaml"
-          - name: HELM_REPO_URL
-            value: "https://kubevirt.io/helm-charts"
-          - name: HELM_CHART_NAME
-            value: "kubevirt-operator"
-          - name: HELM_CHART_VERSION
-            value: "0.1.0"
-          - name: HELM_RELEASE_NAME
-            value: "kubevirt-operator"
   project: default
