@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kubevirt
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: kubevirt
+  sources:
+    - repoURL: 'https://kubevirt.github.io/helm-charts'
+      chart: kubevirt
+      targetRevision: 1.4.1
+      helm:
+        valueFiles:
+        - values.yaml
+    - repoURL: 'https://github.com/FrengerH/cluster'
+      path: apps/values/kubevirt
+      targetRevision: HEAD
+  project: default
