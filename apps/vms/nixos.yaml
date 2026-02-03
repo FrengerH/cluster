@@ -41,7 +41,7 @@ spec:
               bus: virtio
           - name: cdromdisk
             cdrom:
-              bus: sata
+              bus: scsi
             bootOrder: 1
       volumes:
       - name: rootdisk
