@@ -1,0 +1,52 @@
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nixos-disk
+  namespace: kubevirt
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 200Gi
+  storageClassName: longhorn
+
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachine
+metadata:
+  name: nixos
+  namespace: kubevirt
+  labels:
+    app: nixos
+spec:
+  running: false
+  template:
+    metadata:
+      labels:
+        app: nixos
+    spec:
+      domain:
+        cpu:
+          cores: 2
+          sockets: 1
+          threads: 1
+        memory:
+          guest: 4Gi
+        devices:
+          disks:
+          - name: rootdisk
+            disk:
+              bus: virtio
+          - name: cdromdisk
+            cdrom:
+              bus: sata
+            bootOrder: 1
+      volumes:
+      - name: rootdisk
+        persistentVolumeClaim:
+          claimName: nixos-disk
+      - name: cdromdisk
+        containerDisk:
+          image: quay.io/containerdisks/nixos:latest
