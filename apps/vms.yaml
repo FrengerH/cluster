@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: vms
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=false
+  destination:
+    name: in-cluster
+    namespace: kubevirt
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/vms
+      targetRevision: HEAD
+  project: default
