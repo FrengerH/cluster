@@ -21,7 +21,7 @@ metadata:
   labels:
     app: nixos
 spec:
-  running: false
+  running: true
   template:
     metadata:
       labels:
