@@ -2,6 +2,8 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: kubevirt
+  annotations:
+    argocd.argoproj.io/sync-wave: "0"
 spec:
   syncPolicy:
     syncOptions:
@@ -10,7 +12,7 @@ spec:
     name: in-cluster
     namespace: kubevirt
   sources:
-    - repoURL: 'https://github.com/kubevirt/kubevirt'
-      path: manifests
-      targetRevision: v1.4.1
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/kubevirt-manifests
+      targetRevision: HEAD
   project: default
