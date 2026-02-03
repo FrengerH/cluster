@@ -13,6 +13,24 @@ spec:
   storageClassName: longhorn
 
 ---
+apiVersion: cdi.kubevirt.io/v1beta1
+kind: DataVolume
+metadata:
+  name: nixos-iso
+  namespace: kubevirt
+spec:
+  source:
+    http:
+      url: "https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso"
+  pvc:
+    accessModes:
+    - ReadWriteOnce
+    resources:
+      requests:
+        storage: 2Gi
+    storageClassName: longhorn
+
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
@@ -48,5 +66,5 @@ spec:
         persistentVolumeClaim:
           claimName: nixos-disk
       - name: cdromdisk
-        containerDisk:
-          image: quay.io/containerdisks/nixos:latest
+        dataVolume:
+          name: nixos-iso
