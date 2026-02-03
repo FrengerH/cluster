@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: kubevirt-operator
+  name: kubevirt
 spec:
   syncPolicy:
     syncOptions:
@@ -10,13 +10,7 @@ spec:
     name: in-cluster
     namespace: kubevirt
   sources:
-    - repoURL: 'oci://registry.suse.com/edge'
-      chart: kubevirt
-      targetRevision: 4.11.3
-      helm:
-        valueFiles:
-        - values.yaml
-    - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/values/kubevirt
-      targetRevision: HEAD
+    - repoURL: 'https://github.com/kubevirt/kubevirt'
+      path: manifests
+      targetRevision: v1.4.1
   project: default
