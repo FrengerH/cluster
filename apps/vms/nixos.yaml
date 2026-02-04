@@ -19,10 +19,9 @@ kind: ConfigMap
 metadata:
   name: nixos-ssh-config
   namespace: kubevirt
-data:
-  ssh_public_key: |
-    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7eeqvAb4TGa0E033ml1m5YtwalDMqxwAfBbdG0HW7G ferry@nixos-vm
-
+  data:
+    ssh_public_key: |
+      ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7eeqvAb4TGa0E033ml1m5YtwalDMqxwAfBbdG0HW7G ferry@nixos-vm
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
@@ -41,6 +40,8 @@ spec:
         kubevirt.io/allow-pod-bridge-network-live-migration: ""
     spec:
       domain:
+        cpu:
+          model: host-passthrough
         devices:
           disks:
           - name: rootdisk
