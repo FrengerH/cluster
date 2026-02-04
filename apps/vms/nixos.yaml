@@ -1,37 +1,5 @@
 ---
 apiVersion: v1
-kind: PersistentVolumeClaim
-metadata:
-  name: nixos-disk
-  namespace: kubevirt
-spec:
-  accessModes:
-  - ReadWriteOnce
-  resources:
-    requests:
-      storage: 200Gi
-  storageClassName: longhorn
-
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: nixos-iso
-  namespace: kubevirt
-spec:
-  source:
-    http:
-      url: "https://channels.nixos.org/nixos-24.11/latest-nixos-minimal-aarch64-linux.iso"
-  pvc:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 2Gi
-    storageClassName: longhorn
-
----
-apiVersion: v1
 kind: Service
 metadata:
   name: nixos-ssh
@@ -73,14 +41,8 @@ spec:
           - name: rootdisk
             disk:
               bus: virtio
-          - name: cdromdisk
-            cdrom:
-              bus: scsi
             bootOrder: 1
       volumes:
       - name: rootdisk
-        persistentVolumeClaim:
-          claimName: nixos-disk
-      - name: cdromdisk
         dataVolume:
-          name: nixos-iso
+          name: nixos-cloud
