@@ -37,9 +37,15 @@ spec:
           - name: rootdisk
             disk:
               bus: virtio
+          interfaces:
+          - name: default
+            masquerade: {}
         resources:
           requests:
             memory: 4Gi
+      networks:
+      - name: default
+        pod: {}
       volumes:
       - name: rootdisk
         dataVolume:
