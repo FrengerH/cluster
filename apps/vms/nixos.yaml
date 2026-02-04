@@ -30,6 +30,11 @@ spec:
         app: nixos
     spec:
       domain:
+        cpu:
+          cores: 2
+          model: host-passthrough
+        machine:
+          type: virt
         memory:
           guest: 4Gi
         resources:
