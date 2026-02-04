@@ -31,6 +31,22 @@ spec:
     storageClassName: longhorn
 
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nixos-ssh
+  namespace: kubevirt
+spec:
+  type: LoadBalancer
+  selector:
+    app: nixos
+  ports:
+  - name: ssh
+    port: 22
+    targetPort: 22
+    protocol: TCP
+
+---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachine
 metadata:
