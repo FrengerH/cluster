@@ -37,6 +37,9 @@ spec:
           - name: rootdisk
             disk:
               bus: virtio
+          - name: cloudinitdisk
+            disk:
+              bus: virtio
           interfaces:
           - name: default
             masquerade: {}
@@ -50,3 +53,17 @@ spec:
       - name: rootdisk
         dataVolume:
           name: nixos-cloud
+      - name: cloudinitdisk
+        cloudInitNoCloud:
+          networkData: |
+            version: 2
+            ethernets:
+              eth0:
+                dhcp4: true
+          userData: |
+            #cloud-config
+            ssh_pwauth: true
+            users:
+              - name: root
+                lock_passwd: false
+                sudo: ALL=(ALL) NOPASSWD:ALL
