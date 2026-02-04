@@ -13,6 +13,15 @@ spec:
     port: 22
     targetPort: 22
     protocol: TCP
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: nixos-ssh-config
+  namespace: kubevirt
+data:
+  ssh_public_key: |
+    ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7eeqvAb4TGa0E033ml1m5YtwalDMqxwAfBbdG0HW7G ferry@nixos-vm
 
 ---
 apiVersion: kubevirt.io/v1
@@ -37,9 +46,6 @@ spec:
           - name: rootdisk
             disk:
               bus: virtio
-          - name: cloudinitdisk
-            disk:
-              bus: virtio
           interfaces:
           - name: default
             masquerade: {}
@@ -51,19 +57,5 @@ spec:
         pod: {}
       volumes:
       - name: rootdisk
-        dataVolume:
-          name: nixos-cloud
-      - name: cloudinitdisk
-        cloudInitNoCloud:
-          networkData: |
-            version: 2
-            ethernets:
-              eth0:
-                dhcp4: true
-          userData: |
-            #cloud-config
-            ssh_pwauth: true
-            users:
-              - name: root
-                lock_passwd: false
-                sudo: ALL=(ALL) NOPASSWD:ALL
+        persistentVolumeClaim:
+          claimName: nixos-cloud-v2
