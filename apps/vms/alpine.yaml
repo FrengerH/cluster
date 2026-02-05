@@ -68,7 +68,7 @@ spec:
           bus: virtio
       - name: cloudinit
         cdrom:
-          bus: sata
+          bus: scsi
       interfaces:
       - name: default
         masquerade: {}
