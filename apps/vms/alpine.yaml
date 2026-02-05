@@ -38,7 +38,7 @@ spec:
     - ReadWriteOnce
     resources:
       requests:
-        storage: 8Gi
+        storage: 10Gi
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachineInstance
