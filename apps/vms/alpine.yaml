@@ -57,6 +57,13 @@ spec:
       model: host-passthrough
     memory:
       guest: 512Mi
+    features:
+      acpi: {}
+      apic: {}
+    firmware:
+      bootloader:
+        efi:
+          secureBoot: false
     devices:
       disks:
       - name: rootdisk
