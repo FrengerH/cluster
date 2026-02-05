@@ -42,8 +42,6 @@ spec:
     resources:
       requests:
         storage: 2Gi
-    storageClassName: longhorn
-    volumeMode: Block
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachineInstance
