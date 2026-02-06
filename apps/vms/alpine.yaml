@@ -1,66 +1,47 @@
 apiVersion: v1
 kind: Secret
 metadata:
-  name: ubuntu-vm-cloud-init
+  name: alpine-vm-cloud-init
   namespace: kubevirt
 type: Opaque
 stringData:
   userdata: |
     #cloud-config
-    hostname: ubuntu-vm
+    hostname: alpine-vm
     manage_etc_hosts: true
     users:
-      - name: ferry
-        shell: /bin/bash
+      - name: alpine
+        shell: /bin/sh
         sudo: ALL=(ALL) NOPASSWD:ALL
         ssh_authorized_keys:
-          - ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIC7eeqvAb4TGa0E033ml1m5YtwalDMqxwAfBbdG0HW7G ferry@ubuntu-vm
+          - <path:config.yaml#ssh-key1>
     package_update: true
     package_upgrade: true
     runcmd:
-      - systemctl enable ssh
-      - systemctl start ssh
+      - apk update
+      - apk add openssh
+      - rc-update add sshd default
+      - /etc/init.d/sshd start
       - echo "PermitRootLogin no" >> /etc/ssh/sshd_config
       - echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
-      - systemctl restart ssh
----
-apiVersion: cdi.kubevirt.io/v1beta1
-kind: DataVolume
-metadata:
-  name: ubuntu-dv
-  namespace: kubevirt
-spec:
-  source:
-    http:
-      url: "https://cloud-images.ubuntu.com/releases/24.04/release/ubuntu-24.04-server-cloudimg-arm64.img"
-  pvc:
-    accessModes:
-    - ReadWriteOnce
-    resources:
-      requests:
-        storage: 10Gi
+      - /etc/init.d/sshd restart
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachineInstance
 metadata:
-  name: ubuntu-vm
+  name: alpine-vm
   namespace: kubevirt
   labels:
-    app: ubuntu-vm
+    app: alpine-vm
 spec:
   domain:
     cpu:
-      cores: 1
-      model: host-passthrough
+      cores: 2
     memory:
-      guest: 512Mi
+      guest: 4Gi
     features:
       acpi: {}
       apic: {}
-    firmware:
-      bootloader:
-        efi:
-          secureBoot: false
     devices:
       disks:
       - name: rootdisk
@@ -77,22 +58,22 @@ spec:
     pod: {}
   volumes:
   - name: rootdisk
-    dataVolume:
-      name: ubuntu-dv
+    containerDisk:
+      image: quay.io/kubevirtvrack/alpine-container-disk-demo:multiarchv29-arm64
   - name: cloudinit
     cloudInitNoCloud:
       secretRef:
-        name: ubuntu-vm-cloud-init
+        name: alpine-vm-cloud-init
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: ubuntu-ssh
+  name: alpine-ssh
   namespace: kubevirt
 spec:
   type: LoadBalancer
   selector:
-    app: ubuntu-vm
+    app: alpine-vm
   ports:
   - name: ssh
     port: 22
