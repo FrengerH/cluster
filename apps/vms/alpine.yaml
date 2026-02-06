@@ -63,7 +63,7 @@ spec:
   volumes:
   - name: rootdisk
     containerDisk:
-      image: quay.io/containerdisks/debian:13
+      image: docker.io/containercraft/debian:13
   - name: cloudinit
     cloudInitNoCloud:
       secretRef:
