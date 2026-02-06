@@ -21,10 +21,8 @@ stringData:
       - dnf update -y
       - dnf install -y openssh-server
       - systemctl enable --now sshd
-      - sed -i 's/#PermitRootLogin.*/PermitRootLogin no/g' /etc/ssh/sshd_config.d/50-redhat.conf /etc/ssh/sshd_config
-      - sed -i 's/#PasswordAuthentication.*/PasswordAuthentication no/g' /etc/ssh/sshd_config.d/50-redhat.conf /etc/ssh/sshd_config
-      - firewall-cmd --permanent --add-service=ssh
-      - firewall-cmd --reload
+      - echo "PermitRootLogin no" >> /etc/ssh/sshd_config.d/01-permit.conf
+      - echo "PasswordAuthentication no" >> /etc/ssh/sshd_config.d/01-permit.conf
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachineInstance
@@ -42,10 +40,6 @@ spec:
     features:
       acpi: {}
       apic: {}
-    firmware:
-      bootloader:
-        efi:
-          secureBoot: false
     devices:
       disks:
       - name: rootdisk
