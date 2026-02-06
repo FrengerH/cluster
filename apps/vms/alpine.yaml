@@ -11,20 +11,20 @@ stringData:
     manage_etc_hosts: true
     users:
       - name: alpine
-        shell: /bin/sh
+        shell: /bin/bash
         sudo: ALL=(ALL) NOPASSWD:ALL
         ssh_authorized_keys:
           - <path:dev-config#ssh-key1>
     package_update: true
     package_upgrade: true
     runcmd:
-      - apk update
-      - apk add openssh
-      - rc-update add sshd default
-      - /etc/init.d/sshd start
+      - apt-get update
+      - apt-get install -y openssh-server
+      - systemctl enable ssh
+      - systemctl start ssh
       - echo "PermitRootLogin no" >> /etc/ssh/sshd_config
       - echo "PasswordAuthentication no" >> /etc/ssh/sshd_config
-      - /etc/init.d/sshd restart
+      - systemctl restart ssh
 ---
 apiVersion: kubevirt.io/v1
 kind: VirtualMachineInstance
@@ -59,7 +59,7 @@ spec:
   volumes:
   - name: rootdisk
     containerDisk:
-      image: quay.io/kubevirtvrack/alpine-container-disk-demo:multiarchv29-arm64
+      image: quay.io/containerdisks/debian:13
   - name: cloudinit
     cloudInitNoCloud:
       secretRef:
