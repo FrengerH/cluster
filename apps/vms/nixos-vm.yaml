@@ -1,0 +1,93 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: nixos-vm-cloud-init
+  namespace: kubevirt
+  labels:
+    app: nixos-vm
+type: Opaque
+stringData:
+  userdata: |
+    #cloud-config
+    hostname: nixos-vm
+    manage_etc_hosts: true
+    users:
+      - name: root
+        lock_passwd: false
+      - name: nixos
+        sudo: ALL=(ALL) NOPASSWD:ALL
+        lock_passwd: false
+    chpasswd:
+      list: |
+        root:passwd
+        nixos:passwd
+      expire: False
+    runcmd:
+      - systemctl enable --now sshd
+      - echo "PasswordAuthentication yes" >> /etc/ssh/sshd_config.d/01-password.conf
+      - systemctl restart sshd
+---
+apiVersion: kubevirt.io/v1
+kind: VirtualMachineInstance
+metadata:
+  name: nixos-vm
+  namespace: kubevirt
+  labels:
+    app: nixos-vm
+    vm.kubevirt.io/flavor: small
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  domain:
+    cpu:
+      cores: 2
+      model: ""
+    resources:
+      requests:
+        memory: 4Gi
+    devices:
+      disks:
+      - name: rootdisk
+        disk:
+          bus: virtio
+      - name: cloudinit
+        cdrom:
+          bus: scsi
+      interfaces:
+      - name: default
+        masquerade: {}
+    features: {}
+    machine:
+      type: ""
+    networks:
+      - name: default
+        pod: {}
+    terminationGracePeriodSeconds: 180
+    volumes:
+      - name: rootdisk
+        persistentVolumeClaim:
+          claimName: nixos-disk-pvc
+      - name: cloudinit
+        cloudInitNoCloud:
+          secretRef:
+            name: nixos-vm-cloud-init
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nixos-ssh
+  namespace: kubevirt
+  labels:
+    app: nixos-vm
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  type: NodePort
+  selector:
+    app: nixos-vm
+  ports:
+    - name: ssh
+      port: 22
+      targetPort: 22
+      nodePort: 30022
+      protocol: TCP
