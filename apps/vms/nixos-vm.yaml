@@ -59,18 +59,18 @@ spec:
     features: {}
     machine:
       type: ""
-    networks:
-      - name: default
-        pod: {}
-    terminationGracePeriodSeconds: 180
-    volumes:
-      - name: rootdisk
-        persistentVolumeClaim:
-          claimName: nixos-disk-pvc
-      - name: cloudinit
-        cloudInitNoCloud:
-          secretRef:
-            name: nixos-vm-cloud-init
+  terminationGracePeriodSeconds: 180
+  networks:
+    - name: default
+      pod: {}
+  volumes:
+    - name: rootdisk
+      persistentVolumeClaim:
+        claimName: nixos-disk-pvc
+    - name: cloudinit
+      cloudInitNoCloud:
+        secretRef:
+          name: nixos-vm-cloud-init
 ---
 apiVersion: v1
 kind: Service
