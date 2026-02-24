@@ -25,5 +25,6 @@ common:
         pvcClaim: ""
         containerMount: "/var/www/baikal/config"
 
-  env:
-    APPLY_HOME_ASSISTANT_FIX: "true"
+  variables:
+    nonSecret:
+      APPLY_HOME_ASSISTANT_FIX: "true"
