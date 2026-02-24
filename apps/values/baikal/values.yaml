@@ -24,3 +24,6 @@ common:
         size: "1Gi"
         pvcClaim: ""
         containerMount: "/var/www/baikal/config"
+
+  env:
+    APPLY_HOME_ASSISTANT_FIX: "true"
