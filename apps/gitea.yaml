@@ -1,3 +1,4 @@
+---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
@@ -8,7 +9,7 @@ spec:
       prune: true
       selfHeal: true
     syncOptions:
-    - CreateNamespace=true
+      - CreateNamespace=true
   destination:
     name: in-cluster
     namespace: gitea
@@ -16,6 +17,7 @@ spec:
     - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/gitea
       targetRevision: HEAD
+      plugin: {}
     - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/gitea
       targetRevision: HEAD
