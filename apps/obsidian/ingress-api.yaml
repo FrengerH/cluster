@@ -14,7 +14,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: obsidian-app.hmdev.nl
+  - host: <path:obsidian-config#domain>
     http:
       paths:
       - backend:
@@ -26,5 +26,5 @@ spec:
         pathType: Prefix
   tls:
   - hosts:
-    - obsidian-app.hmdev.nl
+    - <path:obsidian-config#domain>
     secretName: tls-obsidian-ingress
