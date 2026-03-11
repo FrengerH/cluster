@@ -1,0 +1,35 @@
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: <path:seerr-config#domain>
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls:
+    - hosts:
+        - <path:seerr-config#domain>
+      secretName: tls-seerr-ingress
+
+config:
+  persistence:
+    accessModes:
+      - ReadWriteOnce
+    size: 5Gi
+    storageClass: longhorn
+
+podSecurityContext:
+  fsGroup: 1003
+
+securityContext:
+  runAsUser: 1000
+  runAsGroup: 1003
+  runAsNonRoot: true
+
+extraEnv:
+  - name: TZ
+    value: Europe/Amsterdam
