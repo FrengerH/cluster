@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: seerr
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: arr-stack
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/seerr
+      targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "oci://ghcr.io/seerr-team/seerr"
+          - name: HELM_CHART_NAME
+            value: "seerr-chart"
+          - name: HELM_CHART_VERSION
+            value: "3.3.0"
+          - name: HELM_RELEASE_NAME
+            value: "seerr"
+  project: default
