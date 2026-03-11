@@ -72,11 +72,16 @@ data:
         if [ -n "$APP_HELM_CHART_VERSION" ]; then
           version_option="--version=$APP_HELM_CHART_VERSION"
         fi;
-        # Check if it's an OCI URL
-        if [[ "$APP_HELM_REPO_URL" == oci://* ]]; then
-          helm pull "$APP_HELM_REPO_URL" $version_option --untar -d "$TMP_DIR"
+        # Check if it's an OCI URL (trim whitespace first)
+        REPO_URL_TRIMMED=$(echo "$APP_HELM_REPO_URL" | xargs)
+        >&2 echo "DEBUG: HELM_REPO_URL='$APP_HELM_REPO_URL'"
+        >&2 echo "DEBUG: REPO_URL_TRIMMED='$REPO_URL_TRIMMED'"
+        if [[ "$REPO_URL_TRIMMED" == oci://* ]]; then
+          >&2 echo "DEBUG: Using OCI pull for '$REPO_URL_TRIMMED'"
+          helm pull "$REPO_URL_TRIMMED" $version_option --untar -d "$TMP_DIR"
           CHART_DIR=$(ls -1 "$TMP_DIR" | head -1)
         else
+          >&2 echo "DEBUG: Using --repo pull"
           helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR"
           CHART_DIR="$APP_HELM_CHART_NAME"
         fi
