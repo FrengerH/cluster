@@ -72,15 +72,15 @@ data:
         if [ -n "$APP_HELM_CHART_VERSION" ]; then
           version_option="--version=$APP_HELM_CHART_VERSION"
         fi;
-      # Check if it's an OCI URL
-      if [[ "$APP_HELM_REPO_URL" == oci://* ]]; then
-        helm pull "$APP_HELM_REPO_URL" $version_option --untar -d "$TMP_DIR"
-        CHART_DIR=$(ls -1 "$TMP_DIR" | head -1)
-      else
-        helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR"
-        CHART_DIR="$APP_HELM_CHART_NAME"
-      fi
-      mv "$TMP_DIR/$CHART_DIR" "$BASE_DIR/$APP_HELM_CHART_NAME" && rm -Rf "$TMP_DIR"
+        # Check if it's an OCI URL
+        if [[ "$APP_HELM_REPO_URL" == oci://* ]]; then
+          helm pull "$APP_HELM_REPO_URL" $version_option --untar -d "$TMP_DIR"
+          CHART_DIR=$(ls -1 "$TMP_DIR" | head -1)
+        else
+          helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR"
+          CHART_DIR="$APP_HELM_CHART_NAME"
+        fi
+        mv "$TMP_DIR/$CHART_DIR" "$BASE_DIR/$APP_HELM_CHART_NAME" && rm -Rf "$TMP_DIR"
       fi
       if [ -n "$APP_HELM_VALUES_FILES" ]; then
         IFS=';' read -ra FILES <<< "$APP_HELM_VALUES_FILES"
