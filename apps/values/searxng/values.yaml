@@ -1,76 +1,38 @@
 image:
   repository: searxng/searxng
-  tag: latest
+  tag: ""
   pullPolicy: Always
 
-env:
-  INSTANCE_NAME: "SearXNG"
-  BASE_URL: "https://<path:searxng-config#domain>/"
-  AUTOCOMPLETE: "true"
-
-controller:
-  strategy: "RollingUpdate"
+replicaCount: 1
 
 service:
-  main:
-    ports:
-      http:
-        port: 8080
-
-persistence:
-  config:
-    enabled: true
-    size: 1Gi
-    storageClass: longhorn
-    accessMode: ReadWriteOnce
+  type: ClusterIP
+  port: 80
 
 ingress:
-  main:
-    enabled: true
-    primary: true
-    ingressClassName: traefik
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: <path:searxng-config#domain>
+      paths:
+        - path: /
+          pathType: Prefix
+  tls:
+    - secretName: tls-searxng-ingress
+      hosts:
+        - <path:searxng-config#domain>
 
-    annotations:
-      cert-manager.io/cluster-issuer: letsencrypt-prod
-      traefik.ingress.kubernetes.io/router.entrypoints: websecure
-      traefik.ingress.kubernetes.io/router.tls: "true"
-
-    hosts:
-      - host: <path:searxng-config#domain>
-        paths:
-          - path: /
-            pathType: ImplementationSpecific
-
-    tls:
-      - hosts:
-          - <path:searxng-config#domain>
-        secretName: tls-searxng-ingress
+env:
+  BASE_URL: "https://<path:searxng-config#domain>/"
+  INSTANCE_NAME: SearXNG
+  AUTOCOMPLETE: "true"
 
 searxng:
-  config:
+  existingSecret: searxng-config
+  existingSecretKey: secret_key
+  settings:
     use_default_settings: true
-    server:
-      secret_key: <path:searxng-config#secret_key>
-
-probes:
-  readiness:
-    custom: true
-    spec:
-      httpGet:
-        path: /healthz
-        port: 8080
-  liveness:
-    custom: true
-    spec:
-      httpGet:
-        path: /healthz
-        port: 8080
-  startup:
-    custom: true
-    spec:
-      httpGet:
-        path: /healthz
-        port: 8080
-
-redis:
-  enabled: false
