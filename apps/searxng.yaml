@@ -8,15 +8,23 @@ spec:
     - CreateNamespace=true
   destination:
     name: in-cluster
-    namespace: default
+    namespace: searxng
   sources:
-    - repoURL: 'https://github.com/bkero/searxng-helm-chart'
-      path: charts/searxng
-      targetRevision: HEAD
-      helm:
-        valueFiles:
-          - $values/values.yaml
     - repoURL: 'https://github.com/frengerh/cluster'
-      ref: values
+      path: apps/values/searxng
       targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://github.com/bkero/searxng-helm-chart"
+          - name: HELM_CHART_NAME
+            value: "searxng"
+          - name: HELM_CHART_VERSION
+            value: "0.2.0"
+          - name: HELM_RELEASE_NAME
+            value: "searxng"
+          - name: HELM_CHART_PATH
+            value: "charts"
   project: default
