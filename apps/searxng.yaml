@@ -1,0 +1,22 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: searxng
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: default
+  sources:
+    - repoURL: 'https://searxng.github.io/searxng-helm-chart'
+      chart: searxng
+      targetRevision: "1.0.1"
+      helm:
+        valueFiles:
+          - values.yaml
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/searxng
+      targetRevision: HEAD
+  project: default
