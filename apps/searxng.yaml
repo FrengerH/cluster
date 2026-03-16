@@ -10,13 +10,13 @@ spec:
     name: in-cluster
     namespace: default
   sources:
-    - repoURL: 'https://searxng.github.io/searxng-helm-chart'
-      chart: searxng
-      targetRevision: "1.0.1"
+    - repoURL: 'https://github.com/bkero/searxng-helm-chart'
+      path: charts/searxng
+      targetRevision: HEAD
       helm:
         valueFiles:
-          - values.yaml
+          - $values/values.yaml
     - repoURL: 'https://github.com/frengerh/cluster'
-      path: apps/values/searxng
+      ref: values
       targetRevision: HEAD
   project: default
