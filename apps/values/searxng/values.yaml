@@ -20,19 +20,17 @@ ingress:
     - host: <path:searxng-config#domain>
       paths:
         - path: /
-          pathType: Prefix
+          pathType: ImplementationSpecific
   tls:
     - secretName: tls-searxng-ingress
       hosts:
         - <path:searxng-config#domain>
 
 env:
-  BASE_URL: "https://<path:searxng-config#domain>/"
-  INSTANCE_NAME: SearXNG
-  AUTOCOMPLETE: "true"
-
-searxng:
-  existingSecret: searxng-config
-  existingSecretKey: secret_key
-  settings:
-    use_default_settings: true
+  vars:
+    BASE_URL: "https://<path:searxng-config#domain>/"
+  fromSecret:
+    SEARXNG_SECRET:
+      from: searxng-config
+      key: secret_key
+      optional: false
