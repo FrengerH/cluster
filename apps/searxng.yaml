@@ -13,18 +13,16 @@ spec:
     - repoURL: 'https://github.com/frengerh/cluster'
       path: apps/values/searxng
       targetRevision: HEAD
-      plugin:
-        env:
+      plugin: # we just use the plugin source, the plugin script will do the helm pull and template
+        env: #set the variables needed 
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
-            value: "https://github.com/bkero/searxng-helm-chart"
+            value: "https://self-hosters-by-night.github.io/helm-charts"
           - name: HELM_CHART_NAME
             value: "searxng"
           - name: HELM_CHART_VERSION
-            value: "0.2.0"
+            value: "1.1.0"
           - name: HELM_RELEASE_NAME
             value: "searxng"
-          - name: HELM_CHART_PATH
-            value: "charts"
   project: default
