@@ -1,0 +1,65 @@
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  tls:
+    - hosts:
+        - <path:supabase-config#domain>
+      secretName: tls-supabase-ingress
+  hosts:
+    - host: <path:supabase-config#domain>
+      paths:
+        - path: /
+          pathType: Prefix
+
+persistence:
+  db:
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+  storage:
+    enabled: true
+    storageClassName: longhorn
+    size: 10Gi
+    accessModes:
+      - ReadWriteOnce
+
+autoscaling:
+  analytics:
+    enabled: false
+  auth:
+    enabled: false
+  db:
+    enabled: false
+  functions:
+    enabled: false
+  imgproxy:
+    enabled: false
+  kong:
+    enabled: false
+  meta:
+    enabled: false
+  minio:
+    enabled: false
+  realtime:
+    enabled: false
+  rest:
+    enabled: false
+  storage:
+    enabled: false
+  studio:
+    enabled: false
+  vector:
+    enabled: false
+
+environment:
+  auth:
+    API_EXTERNAL_URL: https://<path:supabase-config#domain>
+    GOTRUE_SITE_URL: https://<path:supabase-config#domain>
+  studio:
+    SUPABASE_PUBLIC_URL: https://<path:supabase-config#domain>
