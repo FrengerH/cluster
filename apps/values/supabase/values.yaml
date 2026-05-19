@@ -29,33 +29,63 @@ persistence:
     accessModes:
       - ReadWriteOnce
 
-autoscaling:
+deployment:
   analytics:
-    enabled: false
-  auth:
-    enabled: false
-  db:
-    enabled: false
-  functions:
-    enabled: false
-  imgproxy:
-    enabled: false
-  kong:
-    enabled: false
-  meta:
-    enabled: false
-  minio:
-    enabled: false
-  realtime:
-    enabled: false
-  rest:
-    enabled: false
-  storage:
-    enabled: false
-  studio:
     enabled: false
   vector:
     enabled: false
+  imgproxy:
+    enabled: false
+  functions:
+    enabled: false
+  db:
+    resources:
+      requests:
+        ephemeral-storage: 1Gi
+      limits:
+        ephemeral-storage: 2Gi
+  auth:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  kong:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  meta:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  realtime:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  rest:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  storage:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
+  studio:
+    resources:
+      requests:
+        ephemeral-storage: 256Mi
+      limits:
+        ephemeral-storage: 512Mi
 
 environment:
   auth:
