@@ -23,3 +23,9 @@ spec:
           - name: HELM_RELEASE_NAME
             value: "supabase"
   project: default
+  syncPolicy:
+    managedNamespaceMetadata:
+      labels:
+        argocd.argoproj.io/managed-by: argocd
+    syncOptions:
+      - CreateNamespace=true
