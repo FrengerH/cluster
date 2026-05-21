@@ -1,0 +1,24 @@
+---
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: traefik
+  namespace: kube-system
+spec:
+  failurePolicy: reinstall
+  valuesContent: |
+    globalArguments:
+    - "--serversTransport.tls.insecureSkipVerify=true"
+    ports:
+      web:
+        redirections:
+          entryPoint:
+            to: websecure
+            permanent: true
+            priority: 10
+      ssh:
+        port: 22
+        expose:
+          default: true
+        exposedPort: 22
+        protocol: TCP
