@@ -121,6 +121,10 @@ deployment:
         memory: 512Mi
         ephemeral-storage: 512Mi
 
+secret:
+  dashboard:
+    password: <path:supabase-config#password>
+
 environment:
   auth:
     API_EXTERNAL_URL: https://<path:supabase-config#domain>
