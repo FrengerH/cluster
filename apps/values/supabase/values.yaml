@@ -28,6 +28,8 @@ persistence:
     size: 10Gi
     accessModes:
       - ReadWriteOnce
+  functions:
+    enabled: false
 
 deployment:
   analytics:
@@ -41,50 +43,82 @@ deployment:
   db:
     resources:
       requests:
+        cpu: 250m
+        memory: 512Mi
         ephemeral-storage: 1Gi
       limits:
+        cpu: "1"
+        memory: 1Gi
         ephemeral-storage: 2Gi
   auth:
     resources:
       requests:
+        cpu: 100m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 500m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   kong:
     resources:
       requests:
+        cpu: 100m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 500m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   meta:
     resources:
       requests:
+        cpu: 50m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 250m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   realtime:
     resources:
       requests:
+        cpu: 100m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 500m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   rest:
     resources:
       requests:
+        cpu: 50m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 250m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   storage:
     resources:
       requests:
+        cpu: 100m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 500m
+        memory: 256Mi
         ephemeral-storage: 512Mi
   studio:
     resources:
       requests:
+        cpu: 50m
+        memory: 128Mi
         ephemeral-storage: 256Mi
       limits:
+        cpu: 250m
+        memory: 256Mi
         ephemeral-storage: 512Mi
 
 environment:
