@@ -27,7 +27,7 @@ server:
       - secretName: tls-argocd-ingress
         hosts:
           - <path:argocd-config#domain>
-    https: true
+    https: false
 
 
 repoServer:
