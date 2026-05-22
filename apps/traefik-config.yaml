@@ -8,7 +8,9 @@ spec:
   failurePolicy: reinstall
   valuesContent: |
     globalArguments:
-    - "--serversTransport.tls.insecureSkipVerify=true"
+    - "--serversTransport.insecureSkipVerify=true"
+    additionalArguments:
+    - "--serversTransport.insecureSkipVerify=true"
     ports:
       web:
         redirections:
