@@ -2,19 +2,18 @@
 apiVersion: v1
 kind: Namespace
 metadata:
-  name: unbound
+  name: pihole
 ---
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: unbound
+  name: pihole
 spec:
   destination:
     name: in-cluster
-    namespace: unbound
+    namespace: pihole
   sources:
   - repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
-    path: apps/unbound
+    path: apps/pihole
   project: default
-
