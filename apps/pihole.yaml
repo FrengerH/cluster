@@ -1,14 +1,11 @@
----
-apiVersion: v1
-kind: Namespace
-metadata:
-  name: pihole
----
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: pihole
 spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
   destination:
     name: in-cluster
     namespace: pihole
