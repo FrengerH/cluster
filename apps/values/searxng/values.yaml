@@ -26,13 +26,16 @@ ingress:
       hosts:
         - <path:searxng-config#domain>
 
-searxng:
-  config:
-    use_default_settings: true
-    search:
-      formats:
-        - html
-        - json
+extraVolumes:
+  - name: searxng-settings
+    configMap:
+      name: searxng-settings
+
+extraVolumeMounts:
+  - name: searxng-settings
+    mountPath: /etc/searxng/settings.yml
+    subPath: settings.yml
+    readOnly: true
 
 env:
   vars:
