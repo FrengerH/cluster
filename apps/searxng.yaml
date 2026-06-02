@@ -14,7 +14,7 @@ spec:
       path: apps/values/searxng
       targetRevision: HEAD
       plugin: # we just use the plugin source, the plugin script will do the helm pull and template
-        env: #set the variables needed 
+        env: #set the variables needed
           - name: HELM_VALUES_FILES
             value: "values.yaml"
           - name: HELM_REPO_URL
@@ -25,4 +25,7 @@ spec:
             value: "1.1.0"
           - name: HELM_RELEASE_NAME
             value: "searxng"
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/searxng/manifests
+      targetRevision: HEAD
   project: default
