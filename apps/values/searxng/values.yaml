@@ -26,6 +26,14 @@ ingress:
       hosts:
         - <path:searxng-config#domain>
 
+searxng:
+  config:
+    use_default_settings: true
+    search:
+      formats:
+        - html
+        - json
+
 env:
   vars:
     BASE_URL: "https://<path:searxng-config#domain>/"
