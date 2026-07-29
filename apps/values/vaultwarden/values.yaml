@@ -41,7 +41,7 @@ persistence:
 image:
   pullPolicy: IfNotPresent
   repository: vaultwarden/server
-  tag: "1.32.7"
+  tag: "1.35.4"
 
 replicaCount: 1
 
