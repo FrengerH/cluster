@@ -19,7 +19,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "vaultwarden"
           - name: HELM_CHART_VERSION
-            value: "1.2.4"
+            value: "1.4.0"
           - name: HELM_RELEASE_NAME
             value: "vaultwarden"
   project: default
