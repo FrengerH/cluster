@@ -1,6 +1,6 @@
 image:
   repository: docker.io/linuxserver/jellyfin
-  tag: ""
+  tag: "10.11.11"
 
 ingress:
   enabled: true
