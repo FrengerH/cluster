@@ -23,6 +23,30 @@ subsets:
   - port: 8787
     protocol: TCP
 ---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hermes-desktop
+  namespace: hermes
+spec:
+  ports:
+  - port: 9119
+    targetPort: 9119
+    protocol: TCP
+  clusterIP: None
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: hermes-desktop
+  namespace: hermes
+subsets:
+- addresses:
+  - ip: REDACTED-IP
+  ports:
+  - port: 9119
+    protocol: TCP
+---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
@@ -35,7 +59,7 @@ metadata:
 spec:
   ingressClassName: traefik
   rules:
-  - host: <path:hermes-config#domain>
+  - host: hermes.hmdev.nl
     http:
       paths:
       - path: /
@@ -47,5 +71,32 @@ spec:
               number: 8787
   tls:
   - hosts:
-    - <path:hermes-config#domain>
+    - hermes.hmdev.nl
     secretName: tls-hermes-ingress
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: hermes-desktop
+  namespace: hermes
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  rules:
+  - host: hermes-desktop.hmdev.nl
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hermes-desktop
+            port:
+              number: 9119
+  tls:
+  - hosts:
+    - hermes-desktop.hmdev.nl
+    secretName: tls-hermes-desktop-ingress
