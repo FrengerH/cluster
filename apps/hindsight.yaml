@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hindsight
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: hindsight
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/hindsight
+      targetRevision: HEAD
+      plugin: # avp helm-pull plugin: pulls the chart, renders values (incl.
+              # <path:...> secret substitution), emits manifests
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "oci://ghcr.io/vectorize-io/charts/hindsight"
+          - name: HELM_CHART_NAME
+            value: "hindsight"
+          - name: HELM_CHART_VERSION
+            value: "0.9.2"
+          - name: HELM_RELEASE_NAME
+            value: "hindsight"
+  project: default
