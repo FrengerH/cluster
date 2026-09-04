@@ -45,6 +45,14 @@ api:
     HINDSIGHT_API_LLM_API_KEY: <path:hindsight-config#llm_api_key>
 
 controlPlane:
+  env:
+    NODE_ENV: "production"
+    HINDSIGHT_CP_HOSTNAME: "0.0.0.0"
+    HINDSIGHT_CP_PORT: "3000"
+  # Login key for the web UI (native control-plane auth — no browser, no
+  # memory). Value resolved by avp from the same sealed secret.
+  secrets:
+    HINDSIGHT_CP_ACCESS_KEY: <path:hindsight-config#cp_access_key>
   resources:
     requests:
       cpu: 100m
