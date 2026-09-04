@@ -6,8 +6,7 @@
 # (namespace argocd — unsealed there from the SealedSecret in
 # apps/config/config.yaml). Same pattern as searxng-config.
 #
-# Layout: api + control-plane + bundled pgvector PostgreSQL, all scheduled
-# freely (default storageClass longhorn). Node cl-node4 has the most RAM.
+# Layout: api + control-plane + bundled pgvector PostgreSQL.
 
 nameOverride: hindsight
 
@@ -24,8 +23,13 @@ api:
     modelCache:
       enabled: true
       size: 5Gi
-  # Modest requests so the scheduler can place pods on any node; caps keep
-  # a single pod from squeezing the 8 Gi nodes.
+  # Pinned to cl-node1: the API image is multi-GB and cl-node4 runs a 29GB
+  # eMMC root — its first-boot image pull filled that disk (100%, node down,
+  # 2026-09-04). Keep the image on cl-node1's larger disk instead.
+  nodeSelector:
+    kubernetes.io/hostname: cl-node1
+  # Modest requests so scheduling stays flexible; caps keep a single pod
+  # from squeezing the 8 Gi nodes.
   resources:
     requests:
       cpu: 250m
