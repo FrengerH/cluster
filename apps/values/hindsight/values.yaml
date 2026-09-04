@@ -23,14 +23,13 @@ api:
     modelCache:
       enabled: true
       size: 5Gi
-  # Pinned to cl-node4: it is the ONLY armv8.2 node (nodes 1-3 are Pi 4 /
-  # BCM2835, armv8.0) — the API image's ML libs use fp16/dotprod instructions
-  # and SIGILL on the older boards (exit 132, 2026-09-04). Guards on node4:
-  # journald capped 200M, logrotate maxsize, longhorn replicas kept off it.
-  nodeSelector:
-    kubernetes.io/hostname: cl-node4
-  # Modest requests so scheduling stays flexible; caps keep a single pod
-  # from squeezing the 8 Gi nodes.
+  # Pinned via TOP-LEVEL nodeSelector below: cl-node4 is the ONLY armv8.2
+  # node (nodes 1-3 are Pi 4 / BCM2835, armv8.0) — the API image's ML libs
+  # use fp16/dotprod instructions and SIGILL on the older boards (exit 132,
+  # 2026-09-04). Guards on node4: journald capped 200M, logrotate maxsize,
+  # longhorn replicas kept off it. NOTE: the chart reads only the top-level
+  # nodeSelector (per-component values are ignored), so all components land
+  # on cl-node4.
   resources:
     requests:
       cpu: 250m
@@ -94,3 +93,10 @@ ingress:
     - secretName: tls-hindsight-ui-ingress
       hosts:
         - hindsight-ui.hmdev.nl
+
+# TOP-LEVEL pin (the only nodeSelector the chart actually reads): cl-node4
+# is the ONLY armv8.2 node — nodes 1-3 are Pi 4 / BCM2835 (armv8.0) and the
+# hindsight-api ML stack SIGILLs there (exit 132, 2026-09-04). All
+# components therefore land on cl-node4 (32GB RAM, disk guarded).
+nodeSelector:
+  kubernetes.io/hostname: cl-node4
