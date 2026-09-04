@@ -14,8 +14,12 @@ api:
   env:
     HINDSIGHT_API_LLM_PROVIDER: "openai"
     # z.ai coding endpoint (OpenAI-compatible). Key comes from the sealed
-    # secret below; model kept small/cheap — extraction is structured output.
-    HINDSIGHT_API_LLM_MODEL: "glm-4.7-flash"
+    # secret below. glm-4.6 over glm-4.7-flash: the coding endpoint throws
+    # transient 429 "overloaded" at flash far more often (2/3 failures in
+    # testing vs 0/3 for 4.6), and a 429 during Hindsight's startup LLM
+    # verification aborts boot. Extraction volume is tiny, so the higher
+    # per-token price of 4.6 is negligible.
+    HINDSIGHT_API_LLM_MODEL: "glm-4.6"
     HINDSIGHT_API_LLM_BASE_URL: "https://api.z.ai/api/coding/paas/v4"
   # Reranker + embedding models download on first boot (~1-2 GB). Keep them
   # on a PVC so pod restarts don't re-download (longhorn, default class).
