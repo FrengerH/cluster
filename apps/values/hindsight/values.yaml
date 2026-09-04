@@ -23,11 +23,12 @@ api:
     modelCache:
       enabled: true
       size: 5Gi
-  # Pinned to cl-node1: the API image is multi-GB and cl-node4 runs a 29GB
-  # eMMC root — its first-boot image pull filled that disk (100%, node down,
-  # 2026-09-04). Keep the image on cl-node1's larger disk instead.
+  # Pinned to cl-node4: it is the ONLY armv8.2 node (nodes 1-3 are Pi 4 /
+  # BCM2835, armv8.0) — the API image's ML libs use fp16/dotprod instructions
+  # and SIGILL on the older boards (exit 132, 2026-09-04). Guards on node4:
+  # journald capped 200M, logrotate maxsize, longhorn replicas kept off it.
   nodeSelector:
-    kubernetes.io/hostname: cl-node1
+    kubernetes.io/hostname: cl-node4
   # Modest requests so scheduling stays flexible; caps keep a single pod
   # from squeezing the 8 Gi nodes.
   resources:
