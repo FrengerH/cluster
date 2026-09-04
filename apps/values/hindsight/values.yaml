@@ -1,0 +1,91 @@
+# Hindsight (vectorize.io) — persistent memory backend for Hermes agents.
+# Deployed from the official OCI chart via the avp helm-pull plugin.
+#
+# Secrets: the <path:hindsight-config#KEY> placeholders are resolved by
+# argocd-vault-plugin at render time from the `hindsight-config` secret
+# (namespace argocd — unsealed there from the SealedSecret in
+# apps/config/config.yaml). Same pattern as searxng-config.
+#
+# Layout: api + control-plane + bundled pgvector PostgreSQL, all scheduled
+# freely (default storageClass longhorn). Node cl-node4 has the most RAM.
+
+nameOverride: hindsight
+
+api:
+  env:
+    HINDSIGHT_API_LLM_PROVIDER: "openai"
+    # z.ai coding endpoint (OpenAI-compatible). Key comes from the sealed
+    # secret below; model kept small/cheap — extraction is structured output.
+    HINDSIGHT_API_LLM_MODEL: "glm-4.7-flash"
+    HINDSIGHT_API_LLM_BASE_URL: "https://api.z.ai/api/coding/paas/v4"
+  # Reranker + embedding models download on first boot (~1-2 GB). Keep them
+  # on a PVC so pod restarts don't re-download (longhorn, default class).
+  persistence:
+    modelCache:
+      enabled: true
+      size: 5Gi
+  # Modest requests so the scheduler can place pods on any node; caps keep
+  # a single pod from squeezing the 8 Gi nodes.
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "2"
+      memory: 3Gi
+  secrets:
+    HINDSIGHT_API_LLM_API_KEY: <path:hindsight-config#llm_api_key>
+
+controlPlane:
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+postgresql:
+  auth:
+    username: hindsight
+    password: <path:hindsight-config#pg_password>
+    database: hindsight
+  persistence:
+    enabled: true
+    size: 8Gi
+    storageClass: longhorn
+  resources:
+    requests:
+      cpu: 100m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 1Gi
+
+# Two public endpoints via the cluster Traefik (REDACTED-IP), TLS via
+# cert-manager letsencrypt-prod. DNS: hindsight(.ui).hmdev.nl -> .49 (Pi-hole).
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  hosts:
+    - host: hindsight.hmdev.nl
+      paths:
+        - path: /
+          pathType: Prefix
+          service: api
+    - host: hindsight-ui.hmdev.nl
+      paths:
+        - path: /
+          pathType: Prefix
+          service: controlPlane
+  tls:
+    - secretName: tls-hindsight-ingress
+      hosts:
+        - hindsight.hmdev.nl
+    - secretName: tls-hindsight-ui-ingress
+      hosts:
+        - hindsight-ui.hmdev.nl
