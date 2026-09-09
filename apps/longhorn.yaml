@@ -1,0 +1,40 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+    - ServerSideApply=true
+    - SkipDryRunOnMissingResource=true
+    - RespectIgnoreDifferences=true
+  ignoreDifferences:
+  # Longhorn mutates many status/subfields continuously; Argo must not fight it
+  - group: longhorn.io
+    jsonPointers:
+    - /status
+  - group: apps
+    kind: DaemonSet
+    jsonPointers:
+    - /spec/template/spec/containers/0/resources
+  destination:
+    name: in-cluster
+    namespace: longhorn-system
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/longhorn
+      targetRevision: HEAD
+      plugin: # avp helm-pull plugin: pulls the chart, renders values
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://charts.longhorn.io"
+          - name: HELM_CHART_NAME
+            value: longhorn
+          - name: HELM_CHART_VERSION
+            value: "1.7.2"
+          - name: HELM_RELEASE_NAME
+            value: longhorn
+  project: default
