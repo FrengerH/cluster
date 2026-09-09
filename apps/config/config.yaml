@@ -334,3 +334,14 @@ spec:
     metadata:
       name: hindsight-config
       namespace: argocd
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  name: longhorn-config
+  namespace: argocd
+  labels:
+    reloader: enabled
+spec:
+  encryptedData:
+    backup_target: AgBnfF9rCDE2509vUqbvMdc1CT3fEoGwplGylSli8ly6CNXS8docQDJCkgyQIZyMuGcPJMi8kpNM+CLYyeR6I6DBojkJyAUDPvPbFwjf9fnyPhCXhIKUMVkD0iFcYsQphaOjHfOQVw1NSgGHl9IEtssrA0MRenubVMluRAI4KG1xHLfe45Iqnjzw9TSuLCSPWq3immbYbbYZoHi8x6X3VM5QwYxKywsP3LX8dhX3kQAenQe6xcvUur1EjwK+d4GbLGJ/TEA0qtmyDApU4/xSI2LVSefXnbaUUcnBauiMk3O+PqF5CT9I8mQqkKszmNnCE1ADwXx4q/1BzGwhLdotfZfM4viZBEdqceighPjA4fYAkUvVjK/ATIIKmTNVfCNiGtmQankP8t3ecQbeRuKeb2jqu4+edaKu6Z56kYFgXF/RpjqvdoPVaCFO7T3d90/i5Uvk3OHCusd6Ciz3vF56OyXnA1Qy1oVX3xU0O2Db2KQcreL350Wfgtutxo8BO5EtPNkBoblxJc/lU8w9oufSENLWWPCeULOhAjHrQWErs/ZRKB+lwdUN72/1Twx04VBa9nmWUzlZlzXVLL7TuWfp1anbJo6FeieDAQkEzoVyN5iavMW49eR/bF6dxHsDJK8ACNlZNvSBoH/HCU95wGGHTIJ/FSh/vgGvg+vtzZEMXUtgMNQnvO+nvQpAKIv0Npu3PxsaVMzxN2agokx+m4wAB6FXSEUBGlhKI2vO8ROJfq3Fw56TPtC5Ag==
