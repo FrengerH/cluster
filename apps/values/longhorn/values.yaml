@@ -1,0 +1,37 @@
+# Longhorn — adopted into GitOps on 2026-09-09 at the RUNNING version v1.7.2
+# (3y-old kubectl install, adopted as-is per Frenger's decision; minor-version
+# upgrades follow separately, one minor at a time, 1.7→1.8→…→1.12).
+#
+# Settings encoded here (were live-set via kubectl before adoption):
+#   backup-target: nfs://REDACTED-IP:/backup/longhorn
+#   persistence.defaultClass: true (existing "longhorn" default SC)
+# Everything else left default to match the running install.
+
+defaultSettings:
+  backupTarget: nfs://REDACTED-IP:/backup/longhorn
+  # No credentials needed for NFS.
+
+persistence:
+  defaultClass: true
+  defaultClassReplicaCount: 3
+  # existing StorageClass "longhorn" is default; helm would create it — name it
+  # identically so adoption is a no-op:
+  storageClassName: longhorn
+  recurringJobSelector:
+    enableSystem: true
+
+# Keep footprint modest on the 4×arm64 Pi cluster (nodes 1-3 are Pi 4 8GB,
+# cl-node4 is 32GB eMMC). Matches the old install's de-facto behavior:
+longhornManager:
+  tolerations: []
+csi:
+  # provisioner/attacher etc. replicas=1 historically (3y old install had 3/3,
+  # but arm64 Pi scheduling favors conservative defaults on upgrade)
+  attacherReplicaCount: 1
+  provisionerReplicaCount: 1
+  resizerReplicaCount: 1
+  snapshotterReplicaCount: 1
+
+# UI (unused; UI service exists but not exposed via ingress)
+longhornUI:
+  replicas: 1
