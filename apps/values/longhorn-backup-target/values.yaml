@@ -1,0 +1,7 @@
+# Empty on purpose: the only manifest is backup-target-cm.yaml (plain YAML,
+# avp processes placeholders in it). A values.yaml is still required by the
+# CMP pipeline convention (HELM_VALUES_FILES), but no chart is pulled because
+# HELM_REPO_URL is only used when a chart pull is needed... it IS set in the
+# app spec; to avoid a chart pull we use generate_plain_yaml path — which the
+# CMP picks when no HELM_REPO_URL is present. See apps/longhorn-backup-target.yaml
+# — keep HELM_* env absent there and let plain yaml mode drive.
