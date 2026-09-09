@@ -16,9 +16,25 @@ spec:
     jsonPointers:
     - /status
   - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /status
+    - /spec/template/spec/containers/0/resources
+  - group: apps
     kind: DaemonSet
     jsonPointers:
+    - /status
     - /spec/template/spec/containers/0/resources
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+    - /status
+  # k3s 1.35+ adds status.terminatingReplicas which old chart manifests lack
+  # in their schema; ignore it wherever it appears.
+  - group: ""
+    kind: Service
+    jsonPointers:
+    - /status
   destination:
     name: in-cluster
     namespace: longhorn-system
