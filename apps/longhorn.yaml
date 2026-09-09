@@ -12,11 +12,13 @@ spec:
   ignoreDifferences:
   # The backup-target overlay app owns this CM entirely (avp resolves the
   # sealed value; per-line substitution inside helm values is unsupported).
+  # /metadata too: overlay writes its own managed-by/instance labels.
   - group: ""
     kind: ConfigMap
     name: longhorn-default-setting
     jsonPointers:
     - /data
+    - /metadata
   # Longhorn mutates many status/subfields continuously; Argo must not fight it
   - group: longhorn.io
     kind: "*"
