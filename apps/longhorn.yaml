@@ -12,6 +12,7 @@ spec:
   ignoreDifferences:
   # Longhorn mutates many status/subfields continuously; Argo must not fight it
   - group: longhorn.io
+    kind: "*"
     jsonPointers:
     - /status
   - group: apps
