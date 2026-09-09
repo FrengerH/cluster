@@ -10,6 +10,9 @@
 defaultSettings:
   backupTarget: nfs://REDACTED-IP:/backup/longhorn
   # No credentials needed for NFS.
+  # Pre-existing live settings (set manually years ago, preserved on adoption):
+  priorityClass: longhorn-critical
+  disableRevisionCounter: true
 
 persistence:
   defaultClass: true
