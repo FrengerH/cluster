@@ -1,0 +1,13 @@
+# The default-setting ConfigMap data value comes entirely from the sealed
+# longhorn-config secret (avp resolves whole-value placeholders; per-line
+# substitution inside multi-line strings is not supported).
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: longhorn-default-setting
+  namespace: longhorn-system
+  labels:
+    app.kubernetes.io/name: longhorn
+    app.kubernetes.io/managed-by: backupbot-overlay
+data:
+  default-setting.yaml: <path:longhorn-config#default_setting_yaml>

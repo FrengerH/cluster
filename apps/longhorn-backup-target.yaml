@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: longhorn-backup-target
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+    - ServerSideApply=true
+    - RespectIgnoreDifferences=true
+  destination:
+    name: in-cluster
+    namespace: longhorn-system
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/longhorn-backup-target
+      targetRevision: HEAD
+      plugin: # avp plain-yaml mode: no HELM_* env -> CMP uses generate_plain_yaml,
+              # then argocd-vault-plugin resolves <path:...> placeholders
+  project: default
