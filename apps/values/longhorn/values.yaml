@@ -5,7 +5,8 @@
 # avp placeholders; see apps/config/config.yaml.
 
 defaultSettings:
-  backupTarget: <path:longhorn-config#backup_target>
+  # backup-target is managed by the longhorn-backup-target overlay app
+  # (whole-value avp placeholder from the sealed longhorn-config secret).
   priorityClass: longhorn-critical
   disableRevisionCounter: true
 

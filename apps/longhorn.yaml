@@ -10,6 +10,13 @@ spec:
     - SkipDryRunOnMissingResource=true
     - RespectIgnoreDifferences=true
   ignoreDifferences:
+  # The backup-target overlay app owns this CM entirely (avp resolves the
+  # sealed value; per-line substitution inside helm values is unsupported).
+  - group: ""
+    kind: ConfigMap
+    name: longhorn-default-setting
+    jsonPointers:
+    - /data
   # Longhorn mutates many status/subfields continuously; Argo must not fight it
   - group: longhorn.io
     kind: "*"
