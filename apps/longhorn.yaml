@@ -60,7 +60,7 @@ spec:
           - name: HELM_CHART_NAME
             value: longhorn
           - name: HELM_CHART_VERSION
-            value: "1.11.3"
+            value: "1.12.1"
           - name: HELM_RELEASE_NAME
             value: longhorn
   project: default
