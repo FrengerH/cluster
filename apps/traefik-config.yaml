@@ -11,13 +11,14 @@ spec:
     - "--serversTransport.insecureSkipVerify=true"
     additionalArguments:
     - "--serversTransport.insecureSkipVerify=true"
+    # web->websecure redirect: the chart (k3s >= 2026-09) no longer renders
+    # ports.web.redirections into CLI args, so we set them explicitly here.
+    # ".to" must be the literal external port :443, NOT "websecure" (that
+    # resolves to the container-internal :8443).
+    - "--entryPoints.web.http.redirections.entryPoint.to=:443"
+    - "--entryPoints.web.http.redirections.entryPoint.permanent=true"
+    - "--entryPoints.web.http.redirections.entryPoint.priority=10"
     ports:
-      web:
-        redirections:
-          entryPoint:
-            to: websecure
-            permanent: true
-            priority: 10
       ssh:
         port: 22
         expose:
