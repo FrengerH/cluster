@@ -8,7 +8,10 @@ defaultSettings:
   # backup-target is managed by the longhorn-backup-target overlay app
   # (whole-value avp placeholder from the sealed longhorn-config secret).
   priorityClass: longhorn-critical
-  disableRevisionCounter: true
+  # Revision counter stays ENABLED: it lets Longhorn identify the freshest
+  # replica so auto-salvage after a node crash cannot promote a stale/corrupt
+  # replica. Disabling it caused silent data loss when a node restarted mid-op.
+  disableRevisionCounter: false
 
 persistence:
   defaultClass: true
