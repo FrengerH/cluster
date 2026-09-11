@@ -18,7 +18,7 @@ metadata:
   namespace: pihole
 subsets:
 - addresses:
-  - ip: REDACTED-IP
+  - ip: <path:pihole-config#ip>
   ports:
   - port: 80
     protocol: TCP

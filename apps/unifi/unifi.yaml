@@ -18,7 +18,7 @@ metadata:
   namespace: unifi
 subsets:
 - addresses:
-  - ip: REDACTED-IP
+  - ip: <path:unifi-config#ip>
   ports:
   - port: 443
     protocol: TCP
