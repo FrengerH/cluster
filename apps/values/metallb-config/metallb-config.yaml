@@ -1,5 +1,6 @@
-# MetalLB L2 pool + advertisement. .49 (traefik) and .50 (claude-ssh) are
-# assigned from this pool.
+# MetalLB L2 pool + advertisement. The address range is a secret: it lives in
+# the sealed metallb-config secret (apps/config/config.yaml) and is resolved
+# by avp at render time. Sealed; see apps/config/config.yaml.
 apiVersion: metallb.io/v1beta1
 kind: IPAddressPool
 metadata:
@@ -7,7 +8,7 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - REDACTED-SEE-SEALED-SECRET
+    - <path:metallb-config#pool>
   autoAssign: true
   avoidBuggyIPs: false
 ---
