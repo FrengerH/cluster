@@ -21,8 +21,7 @@ spec:
       kind: DaemonSet
       jsonPointers:
         - /status
-    - group: ""
-      kind: Service
+    - kind: Service
       jsonPointers:
         - /status
     # Controller rewrites each webhook entry's caBundle on cert rotation;
@@ -33,14 +32,12 @@ spec:
         - /webhooks
     # The controller self-generates the webhook serving cert into this secret
     # at startup (native TLS since v0.16); the chart ships it empty.
-    - group: ""
-      kind: Secret
+    - kind: Secret
       name: metallb-webhook-cert
       jsonPointers:
         - /data
     # Controller maintains the memberlist shared key itself.
-    - group: ""
-      kind: Secret
+    - kind: Secret
       name: metallb-memberlist
       jsonPointers:
         - /data
