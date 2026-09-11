@@ -25,6 +25,12 @@ spec:
       kind: Service
       jsonPointers:
         - /status
+    # Controller rewrites each webhook entry's caBundle on cert rotation;
+    # the chart ships none, so the list would diff forever.
+    - group: admissionregistration.k8s.io
+      kind: ValidatingWebhookConfiguration
+      jsonPointers:
+        - /webhooks
     # The controller self-generates the webhook serving cert into this secret
     # at startup (native TLS since v0.16); the chart ships it empty.
     - group: ""
