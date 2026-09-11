@@ -1,0 +1,46 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+  ignoreDifferences:
+    # The controller self-generates the webhook serving cert into this secret
+    # at startup (native TLS since v0.16); the chart ships it empty.
+    - group: ""
+      kind: Secret
+      name: metallb-webhook-cert
+      jsonPointers:
+        - /data
+    # Controller maintains the memberlist shared key itself.
+    - group: ""
+      kind: Secret
+      name: metallb-memberlist
+      jsonPointers:
+        - /data
+  destination:
+    name: in-cluster
+    namespace: metallb-system
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/metallb
+      targetRevision: HEAD
+      plugin: # avp helm-pull plugin: pulls the chart, renders values
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://metallb.github.io/metallb"
+          - name: HELM_CHART_NAME
+            value: "metallb"
+          - name: HELM_CHART_VERSION
+            value: "0.16.1"
+          - name: HELM_RELEASE_NAME
+            value: "metallb"
+  project: default

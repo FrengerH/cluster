@@ -1,0 +1,21 @@
+# MetalLB L2 pool + advertisement. .49 (traefik) and .50 (claude-ssh) are
+# assigned from this pool.
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: first-pool
+  namespace: metallb-system
+spec:
+  addresses:
+    - REDACTED-SEE-SEALED-SECRET
+  autoAssign: true
+  avoidBuggyIPs: false
+---
+apiVersion: metallb.io/v1beta1
+kind: L2Advertisement
+metadata:
+  name: l2advertisement
+  namespace: metallb-system
+spec:
+  ipAddressPools:
+    - first-pool

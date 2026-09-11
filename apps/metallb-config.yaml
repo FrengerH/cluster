@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb-config
+spec:
+  syncPolicy:
+    automated:
+      selfHeal: true
+    syncOptions:
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true
+  destination:
+    name: in-cluster
+    namespace: metallb-system
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/metallb-config
+      targetRevision: HEAD
+      plugin: # avp plain-yaml mode: no HELM_* env -> CMP uses generate_plain_yaml
+  project: default
