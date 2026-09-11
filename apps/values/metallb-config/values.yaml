@@ -1,0 +1,3 @@
+# Empty on purpose: this app ships plain YAML only (IPAddressPool +
+# L2Advertisement). values.yaml exists because the CMP pipeline expects it;
+# no chart is pulled because HELM_REPO_URL is absent in apps/metallb-config.yaml.

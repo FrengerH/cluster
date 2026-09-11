@@ -1,0 +1,5 @@
+# MetalLB, L2 mode. Chart version is pinned in apps/metallb.yaml.
+# frr-k8s subchart disabled: this cluster is pure L2/ARP advertising (no BGP
+# peers), so the BGP backend is dead weight.
+frrk8s:
+  enabled: false
