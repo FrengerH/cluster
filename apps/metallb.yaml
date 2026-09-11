@@ -11,6 +11,20 @@ spec:
       - ServerSideApply=true
       - RespectIgnoreDifferences=true
   ignoreDifferences:
+    # k3s 1.35+ adds status.terminatingReplicas which chart manifests lack in
+    # their schema; breaks Argo's structured merge diff (see apps/longhorn.yaml).
+    - group: apps
+      kind: Deployment
+      jsonPointers:
+        - /status
+    - group: apps
+      kind: DaemonSet
+      jsonPointers:
+        - /status
+    - group: ""
+      kind: Service
+      jsonPointers:
+        - /status
     # The controller self-generates the webhook serving cert into this secret
     # at startup (native TLS since v0.16); the chart ships it empty.
     - group: ""
