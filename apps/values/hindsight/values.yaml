@@ -78,8 +78,8 @@ postgresql:
       cpu: 500m
       memory: 1Gi
 
-# Two public endpoints via the cluster Traefik (REDACTED-IP), TLS via
-# cert-manager letsencrypt-prod. DNS: hindsight(.ui).hmdev.nl -> .49 (Pi-hole).
+# Two public endpoints via the cluster Traefik, TLS via
+# cert-manager letsencrypt-prod. DNS: hindsight(.ui).hmdev.nl -> Traefik VIP (Pi-hole).
 ingress:
   enabled: true
   className: traefik
