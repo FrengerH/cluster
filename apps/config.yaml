@@ -3,6 +3,13 @@ kind: Application
 metadata:
   name: config
 spec:
+  ignoreDifferences:
+  # sealed-secrets controller writes .status on every unseal/generation bump;
+  # without this the app shows OutOfSync forever after any key rotation.
+  - group: bitnami.com
+    kind: SealedSecret
+    jsonPointers:
+    - /status
   destination:
     name: in-cluster
     namespace: argocd
@@ -11,4 +18,3 @@ spec:
     targetRevision: HEAD
     path: apps/config
   project: default
-
