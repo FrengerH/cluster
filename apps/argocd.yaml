@@ -25,7 +25,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "argo-cd" # took the most popular bitnami chart
           - name: HELM_CHART_VERSION
-            value: "7.7.16"
+            value: "10.9.0"
           - name: HELM_RELEASE_NAME
             value: "argocd"
 # you can also add raw yaml values using HELM_VALUES env var, look at the configuration in https://argocd-vault-plugin.readthedocs.io/en/stable/usage/#with-an-inline-values-file

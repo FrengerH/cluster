@@ -2,7 +2,7 @@ global:
   domain: <path:argocd-config#domain>
   image:
     repository: quay.io/argoproj/argocd
-    tag: "v2.13.3"
+    tag: "v3.5.2"
     imagePullPolicy: IfNotPresent
 server:
   ingress:
@@ -14,20 +14,16 @@ server:
     labels: {}
     ingressClassName: "traefik"
 
-    ## Argo Ingress.
-    ## Hostnames must be provided if Ingress is enabled.
-    ## Secrets must be manually created in the namespace
-    ##
-    hosts:
-      - <path:argocd-config#domain>
-    paths:
-      - /
+    # Chart >= 9 ingress schema: single hostname (falls back to global.domain),
+    # tls as bool with a hardcoded secret name. extraTls keeps our existing
+    # cert-manager-managed secret so the cert is not re-issued.
+    hostname: <path:argocd-config#domain>
     pathType: Prefix
-    tls:
-      - secretName: tls-argocd-ingress
-        hosts:
+    tls: false
+    extraTls:
+      - hosts:
           - <path:argocd-config#domain>
-    https: false
+        secretName: tls-argocd-ingress
 
 
 repoServer:
@@ -72,7 +68,7 @@ repoServer:
   # creates a single argocd vault plugin for kustomize, raw yaml and helm
     - name: arocd-vault-plugin
       command: [ /var/run/argocd/argocd-cmp-server ]
-      image: quay.io/argoproj/argocd:v2.13.3
+      image: quay.io/argoproj/argocd:v3.5.2
       securityContext:
         runAsNonRoot: true
         runAsUser: 999
