@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "radarr"
           - name: HELM_CHART_VERSION
-            value: "2.10.0"
+            value: "3.1.0"
           - name: HELM_RELEASE_NAME
             value: "radarr"
   project: default

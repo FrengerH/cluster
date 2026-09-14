@@ -25,7 +25,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "flaresolverr"
           - name: HELM_CHART_VERSION
-            value: "1.2.8"
+            value: "1.4.0"
           - name: HELM_RELEASE_NAME
             value: "flaresolverr"
   project: default

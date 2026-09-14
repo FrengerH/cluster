@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "qbittorrent"
           - name: HELM_CHART_VERSION
-            value: "2.1.2"
+            value: "2.2.0"
           - name: HELM_RELEASE_NAME
             value: "qbittorrent"
   project: default

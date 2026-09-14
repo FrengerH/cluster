@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "sonarr"
           - name: HELM_CHART_VERSION
-            value: "2.0.9"
+            value: "2.0.10"
           - name: HELM_RELEASE_NAME
             value: "sonarr"
   project: default

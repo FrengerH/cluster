@@ -37,3 +37,8 @@ persistence:
   media:
     enabled: true
     existingClaim: media-pvc
+
+image:
+  repository: linuxserver/radarr
+  # chart appVersion lags latest release; unpin when chart catches up
+  tag: "version-6.3.0.10477"
