@@ -20,6 +20,12 @@ spec:
     name: n8n
     jsonPointers:
     - /spec/template/metadata/annotations
+    # chart hardcodes readOnly:false on /npmdata; apiserver prunes the default
+    - group: apps
+      kind: Deployment
+      name: n8n
+      jqPathExpressions:
+      - '.spec.template.spec.containers[0].volumeMounts[] | select(.mountPath == "/npmdata") | .readOnly'
   syncPolicy:
     automated:
       prune: true
