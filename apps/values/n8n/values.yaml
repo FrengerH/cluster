@@ -76,6 +76,18 @@ redis:
 
 main:
   count: 1
+  livenessProbe:
+    enabled: true
+    initialDelaySeconds: 300
+    periodSeconds: 20
+    timeoutSeconds: 5
+    failureThreshold: 6
+  readinessProbe:
+    enabled: true
+    initialDelaySeconds: 60
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
   persistence:
     enabled: true
     size: 10Gi
