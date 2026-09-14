@@ -78,11 +78,13 @@ data:
         >&2 echo "DEBUG: REPO_URL_TRIMMED='$REPO_URL_TRIMMED'"
         if [[ "$REPO_URL_TRIMMED" == oci://* ]]; then
           >&2 echo "DEBUG: Using OCI pull for '$REPO_URL_TRIMMED'"
-          helm pull "$REPO_URL_TRIMMED" $version_option --untar -d "$TMP_DIR"
+          # 1>&2: helm >= 3.19 prints a JSON Pulled-confirmation on stdout;
+          # it must not leak into the manifest stream captured below.
+          helm pull "$REPO_URL_TRIMMED" $version_option --untar -d "$TMP_DIR" 1>&2
           CHART_DIR=$(ls -1 "$TMP_DIR" | head -1)
         else
           >&2 echo "DEBUG: Using --repo pull"
-          helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR"
+          helm pull --repo "$APP_HELM_REPO_URL" "$APP_HELM_CHART_NAME" $version_option --untar -d "$TMP_DIR" 1>&2
           CHART_DIR="$APP_HELM_CHART_NAME"
         fi
         mv "$TMP_DIR/$CHART_DIR" "$BASE_DIR/$APP_HELM_CHART_NAME" && rm -Rf "$TMP_DIR"
