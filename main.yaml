@@ -3,6 +3,14 @@ kind: Application
 metadata:
   name: main-app
 spec:
+  # Child Application CRs carry a /status written by the controller; without
+  # this ignore the app-of-apps shows OutOfSync whenever a child keeps an
+  # operation-state record (e.g. a Failed sync attempt).
+  ignoreDifferences:
+  - group: argoproj.io
+    kind: Application
+    jsonPointers:
+    - /status
   syncPolicy:
     automated: {}
   destination:
@@ -13,4 +21,3 @@ spec:
     repoURL: 'https://github.com/FrengerH/cluster'
     targetRevision: HEAD
   project: default
-
