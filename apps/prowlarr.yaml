@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "prowlarr"
           - name: HELM_CHART_VERSION
-            value: "1.15.0"
+            value: "2.1.0"
           - name: HELM_RELEASE_NAME
             value: "prowlarr"
   project: default
