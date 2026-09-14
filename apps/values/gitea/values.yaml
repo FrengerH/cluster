@@ -2,6 +2,12 @@
 # Gitea Helm Chart Values
 # Chart: https://gitea.com/gitea/helm-chart
 
+# Pin patch level: chart 12.7.0 appVersion is 1.27.0, but 1.27.1-1.27.3 carry
+# security fixes (Actions, API, package registry). Clear this tag when a newer
+# chart ships appVersion >= the pinned value.
+image:
+  tag: "1.27.3"
+
 # Deployment strategy - use Recreate to avoid PVC lock conflicts
 strategy:
   type: Recreate
