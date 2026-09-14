@@ -62,6 +62,9 @@ controlPlane:
       memory: 1Gi
 
 postgresql:
+  image:
+    # chart default is :latest; volume was initialized on PG 15 (PG_VERSION=15)
+    tag: "0.8.6-pg15-trixie"
   auth:
     username: hindsight
     password: <path:hindsight-config#pg_password>
