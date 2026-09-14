@@ -63,7 +63,10 @@ controlPlane:
 
 postgresql:
   image:
-    # chart default is :latest; volume was initialized on PG 15 (PG_VERSION=15)
+    # chart default is ankane/pgvector:latest — the author's FROZEN repo
+    # (no 0.8.x tags). pgvector/pgvector is the current official repo.
+    repository: pgvector/pgvector
+    # volume was initialized on PG 15 (PG_VERSION=15)
     tag: "0.8.6-pg15-trixie"
   auth:
     username: hindsight
