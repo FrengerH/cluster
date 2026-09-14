@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "home-assistant"
           - name: HELM_CHART_VERSION
-            value: "0.3.14"
+            value: "0.3.81"
           - name: HELM_RELEASE_NAME
             value: "home-assistant"
   project: default
