@@ -41,4 +41,4 @@ persistence:
 image:
   repository: linuxserver/radarr
   # chart appVersion lags latest release; unpin when chart catches up
-  tag: "version-6.3.0.10477"
+  tag: "version-6.3.0.10514"
