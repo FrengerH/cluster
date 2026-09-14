@@ -1,6 +1,6 @@
 image:
   repository: searxng/searxng
-  tag: "latest"
+  tag: "2026.9.13-d4ce87c23"
   pullPolicy: Always
 
 replicaCount: 1
