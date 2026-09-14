@@ -1,0 +1,11 @@
+---
+# Values carried over verbatim from the legacy in-cluster Helm release
+# (sh.helm.release.v1.cert-manager.v2, chart v1.16.2).
+crds:
+  # Chart-managed CRDs: 1.21 adds new API fields (e.g. Certificate renewal
+  # policy). Without this the CRDs stay at the old schema and the new API is
+  # rejected by the apiserver.
+  enabled: true
+  keep: true
+dns01RecursiveNameservers: "10.43.0.20:53"
+dns01RecursiveNameserversOnly: true
