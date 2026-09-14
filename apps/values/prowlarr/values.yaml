@@ -38,4 +38,4 @@ persistence:
 image:
   repository: linuxserver/prowlarr
   # chart appVersion lags latest release; unpin when chart catches up
-  tag: "version-2.5.2.5433"
+  tag: "version-2.5.2.5491"

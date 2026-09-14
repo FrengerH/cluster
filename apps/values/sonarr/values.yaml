@@ -1,7 +1,7 @@
 image:
   repository: linuxserver/sonarr
   # chart appVersion lags latest release; unpin when chart catches up
-  tag: "version-4.0.19.2952"
+  tag: "version-4.0.19.2979"
 
 ingress:
   main:
