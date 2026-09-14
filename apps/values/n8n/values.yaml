@@ -51,6 +51,9 @@ worker:
   pdb:
     enabled: true
     minAvailable: 1
+    # chart >= 1.24 defaults maxUnavailable: 1; PDB rejects minAvailable AND
+    # maxUnavailable together, so null it to keep the minAvailable intent
+    maxUnavailable: null
   extraEnvVars:
     N8N_PUSH_BACKEND: websocket
     N8N_TRUST_PROXY_HEADER: "true"
