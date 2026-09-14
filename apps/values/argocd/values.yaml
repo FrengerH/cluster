@@ -50,7 +50,9 @@ repoServer:
       emptyDir: { }
   initContainers:
     - name: download-tools
-      image: registry.access.redhat.com/ubi8
+      # busybox (not ubi8): ubi8:latest is pull-always and registry.access.redhat.com
+      # is unreachable from the node's IPv6 path (TLS-intercepted wrong cert).
+      image: public.ecr.aws/docker/library/busybox:1.36
       env:
         - name: AVP_VERSION
           value: 1.18.1
@@ -58,7 +60,7 @@ repoServer:
       # download avp
       args:
         - >-
-          curl -L https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_arm64 -o argocd-vault-plugin &&
+          wget -O argocd-vault-plugin https://github.com/argoproj-labs/argocd-vault-plugin/releases/download/v$(AVP_VERSION)/argocd-vault-plugin_$(AVP_VERSION)_linux_arm64 &&
           chmod +x argocd-vault-plugin &&
           mv argocd-vault-plugin /custom-tools/
       volumeMounts:
