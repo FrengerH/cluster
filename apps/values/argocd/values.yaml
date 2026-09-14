@@ -26,6 +26,13 @@ server:
         secretName: tls-argocd-ingress
 
 
+# CMP manifest generation on a cold repo-server can exceed 60s (n8n's
+# `helm dependency update` re-fetches the slow Bitnami index); the controller's
+# default 60s repo timeout kills the plugin stream mid-generation.
+configs:
+  params:
+    controller.repo.server.timeout.seconds: "180"
+
 repoServer:
   replicas: 1
   resources:
