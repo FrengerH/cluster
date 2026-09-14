@@ -76,14 +76,14 @@ redis:
 
 main:
   count: 1
+  # NOTE: no "enabled:" key — this chart merges these dicts straight into the
+  # probe spec; unknown keys get pruned by the apiserver and drift forever.
   livenessProbe:
-    enabled: true
     initialDelaySeconds: 300
     periodSeconds: 20
     timeoutSeconds: 5
     failureThreshold: 6
   readinessProbe:
-    enabled: true
     initialDelaySeconds: 60
     periodSeconds: 10
     timeoutSeconds: 5
