@@ -1,3 +1,7 @@
+image:
+  repository: flaresolverr/flaresolverr
+  tag: "v3.5.2"
+
 env:
   # -- Set the timezone that will be used by the container
   TZ: Europe/Amsterdam
