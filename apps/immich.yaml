@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: immich
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/immich
+      targetRevision: HEAD
+      plugin: # avp helm-pull plugin: pulls the chart, renders values (incl.
+              # <path:...> secret substitution), emits manifests
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "oci://ghcr.io/immich-app/immich-charts/immich"
+          - name: HELM_CHART_NAME
+            value: "immich"
+          - name: HELM_CHART_VERSION
+            value: "0.13.2"
+          - name: HELM_RELEASE_NAME
+            value: "immich"
+  project: default

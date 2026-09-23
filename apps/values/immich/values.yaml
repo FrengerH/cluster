@@ -1,0 +1,87 @@
+# Immich - Self-hosted photo management
+# Chart: oci://ghcr.io/immich-app/immich-charts/immich 0.13.2
+# Deployed via avp helm-pull plugin.
+#
+# DB: separate StatefulSet (apps/immich-db/) using Immich's official
+# postgres image with vectorchord extension.
+# Library: NFS PVC from apps/immich-volume/ (photos share on NAS).
+
+# Shared across all Immich components (bjw-s common library merges
+# top-level controller keys into every component).
+controllers:
+  main:
+    pod:
+      nodeSelector:
+        kubernetes.io/hostname: cl-node4
+    containers:
+      main:
+        image:
+          tag: v3.2.0
+        env:
+          REDIS_HOSTNAME: '{{ printf "%s-valkey" .Release.Name }}'
+          DB_HOSTNAME: immich-postgres
+          DB_USERNAME: immich
+          DB_DATABASE_NAME: immich
+          DB_PASSWORD: <path:immich-config#db_password>
+
+immich:
+  persistence:
+    library:
+      existingClaim: photos-pvc
+
+# Valkey (Redis fork) for job queues
+valkey:
+  enabled: true
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: docker.io/valkey/valkey
+            tag: 9.1-alpine
+            pullPolicy: IfNotPresent
+  persistence:
+    data:
+      enabled: true
+      type: emptyDir
+
+# Immich Server
+server:
+  enabled: true
+  controllers:
+    main:
+      containers:
+        main:
+          image:
+            repository: ghcr.io/immich-app/immich-server
+            pullPolicy: IfNotPresent
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+  ingress:
+    main:
+      enabled: true
+      className: traefik
+      annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        traefik.ingress.kubernetes.io/router.entrypoints: websecure
+        traefik.ingress.kubernetes.io/router.tls: "true"
+      hosts:
+        - host: <path:immich-config#domain>
+          paths:
+            - path: /
+              service:
+                identifier: main
+      tls:
+        - secretName: tls-immich-ingress
+          hosts:
+            - <path:immich-config#domain>
+
+# Machine Learning disabled — can be enabled later for face recognition,
+# smart search, and auto-tagging.
+machine-learning:
+  enabled: false
