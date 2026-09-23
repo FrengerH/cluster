@@ -7,5 +7,5 @@ crds:
   # rejected by the apiserver.
   enabled: true
   keep: true
-dns01RecursiveNameservers: "10.43.0.20:53"
+dns01RecursiveNameservers: "10.43.0.10:53"
 dns01RecursiveNameserversOnly: true
