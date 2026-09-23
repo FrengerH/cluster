@@ -1,0 +1,17 @@
+---
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: immich-volume
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: immich
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/immich-volume
+  project: default
