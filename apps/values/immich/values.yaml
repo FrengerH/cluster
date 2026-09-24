@@ -23,6 +23,9 @@ controllers:
           DB_USERNAME: immich
           DB_DATABASE_NAME: immich
           DB_PASSWORD: <path:immich-config#db_password>
+          # Server leaks memory rapidly when it keeps calling a missing ML
+          # service (immich-app/immich#27617); must match machine-learning.enabled.
+          IMMICH_MACHINE_LEARNING_ENABLED: "false"
 
 immich:
   persistence:
