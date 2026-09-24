@@ -18,6 +18,10 @@ spec:
     - "--entryPoints.web.http.redirections.entryPoint.to=:443"
     - "--entryPoints.web.http.redirections.entryPoint.permanent=true"
     - "--entryPoints.web.http.redirections.entryPoint.priority=10"
+    # Traefik v3 defaults readTimeout to 60s, which kills large uploads
+    # (movies, backups) mid-transfer. 600s per Immich docs recommendation.
+    - "--entryPoints.web.transport.respondingTimeouts.readTimeout=600s"
+    - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=600s"
     ports:
       ssh:
         port: 22
