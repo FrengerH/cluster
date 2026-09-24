@@ -64,7 +64,38 @@ server:
               memory: 512Mi
             limits:
               cpu: "2"
-              memory: 2Gi
+              memory: 4Gi
+          # Default probes (1s timeout, period 10s, fail 3) are too aggressive
+          # for video processing on ARM/NFS; a busy transcode or fsync can
+          # block the event loop long enough to flap liveness.
+          probes:
+            liveness:
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/server/ping
+                  port: http
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 6
+            readiness:
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/server/ping
+                  port: http
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 6
+            startup:
+              custom: true
+              spec:
+                httpGet:
+                  path: /api/server/ping
+                  port: http
+                periodSeconds: 10
+                timeoutSeconds: 5
+                failureThreshold: 30
   ingress:
     main:
       enabled: true
