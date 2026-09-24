@@ -22,6 +22,10 @@ spec:
     # (movies, backups) mid-transfer. 600s per Immich docs recommendation.
     - "--entryPoints.web.transport.respondingTimeouts.readTimeout=600s"
     - "--entryPoints.websecure.transport.respondingTimeouts.readTimeout=600s"
+    # Temporary debug: access log + debug level to catch 502 cause
+    - "--accesslog=true"
+    - "--accesslog.fields.headers.defaultmode=keep"
+    - "--log.level=DEBUG"
     ports:
       ssh:
         port: 22
