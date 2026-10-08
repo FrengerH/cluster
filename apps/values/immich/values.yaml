@@ -58,6 +58,18 @@ server:
           image:
             repository: ghcr.io/immich-app/immich-server
             pullPolicy: IfNotPresent
+          # Upstream bug: getForWorkflowRun() fetches workflow steps without
+          # ORDER BY, so filter steps can run AFTER action steps. The patched
+          # function is called lazily per-job, not cached at startup, so a
+          # postStart hook is safe — it wins the race by seconds.
+          lifecycle:
+            postStart:
+              exec:
+                command:
+                  - /bin/sh
+                  - -c
+                  - |
+                    sed -i "s/.where('workflow_step.enabled', '=', true)/.where('workflow_step.enabled', '=', true).orderBy('workflow_step.order', 'asc')/" /usr/src/app/server/dist/repositories/workflow.repository.js 2>/dev/null || true
           resources:
             requests:
               cpu: 250m
