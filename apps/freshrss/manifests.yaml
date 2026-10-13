@@ -32,7 +32,7 @@ spec:
       serviceAccountName: freshrss
       containers:
         - name: freshrss
-          image: linuxserver/freshrss:1.30.0
+          image: linuxserver/freshrss:1.30.1
           imagePullPolicy: IfNotPresent
           env:
             - name: PUID
