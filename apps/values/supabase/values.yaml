@@ -30,6 +30,12 @@ persistence:
       - ReadWriteOnce
   functions:
     enabled: false
+  pgsodium:
+    enabled: true
+    storageClassName: longhorn
+    size: 100Mi
+    accessModes:
+      - ReadWriteOnce
 
 deployment:
   analytics:
