@@ -1,0 +1,110 @@
+# FreshRSS — adopted from a legacy `helm install` (chart "freshrss" 0.1.0,
+# no upstream source) into plain manifests. The pre-existing PVC `freshrss`
+# (1Gi longhorn) is intentionally not managed here; the sealed
+# sh.helm.release secrets from the old install remain in the namespace.
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: freshrss
+  namespace: freshrss
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: freshrss
+  namespace: freshrss
+spec:
+  replicas: 1
+  # Recreate: single RWO volume — a rolling update can wedge on volume detach
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: freshrss
+      app.kubernetes.io/name: freshrss
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/instance: freshrss
+        app.kubernetes.io/name: freshrss
+    spec:
+      serviceAccountName: freshrss
+      containers:
+        - name: freshrss
+          image: linuxserver/freshrss:1.30.0
+          imagePullPolicy: IfNotPresent
+          env:
+            - name: PUID
+              value: "1000"
+            - name: PGID
+              value: "1000"
+          ports:
+            - name: http
+              containerPort: 80
+              protocol: TCP
+          livenessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          readinessProbe:
+            httpGet:
+              path: /
+              port: http
+              scheme: HTTP
+            periodSeconds: 10
+            timeoutSeconds: 1
+            failureThreshold: 3
+          volumeMounts:
+            - name: freshrss
+              mountPath: /config
+      volumes:
+        - name: freshrss
+          persistentVolumeClaim:
+            claimName: freshrss
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: freshrss
+  namespace: freshrss
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/instance: freshrss
+    app.kubernetes.io/name: freshrss
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: freshrss
+  namespace: freshrss
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - <path:freshrss-config#domain>
+      secretName: tls-freshrss-ingress
+  rules:
+    - host: <path:freshrss-config#domain>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: freshrss
+                port:
+                  name: http

@@ -381,3 +381,16 @@ spec:
     metadata:
       name: immich-config
       namespace: argocd
+---
+apiVersion: bitnami.com/v1alpha1
+kind: SealedSecret
+metadata:
+  annotations:
+    sealedsecrets.bitnami.com/cluster-wide: "true"
+  name: freshrss-config
+  namespace: argocd
+  labels:
+    reloader: enabled
+spec:
+  encryptedData:
+    domain: AgBiwvNdEHQyTaIjmxxWeEG/uyIUS02xeJ3iNMiQplBUCIwPv/LossDbJ6mjSGGM2Sm6Ou7QvTP2Wgl/75Ueoy8SRpVkGvUrZFblg+2LRHJZL0SaIncBlLWnygasbEDEWQqNaBjjy0yxSKFaZWrtzE5WF2iFHubhLazCzmVRPe2cQ0ZA3WprlCUjxuHhktTtiwfOxdwyF5j8NH0Pqxb2U21hjQLYavGwFZjZmuO6IAulcbYNqKf2U2sj7DrZjAYUo33tLhb3IWeOCM5Nkk+X2dh/WsZvowqsnJeIlNV4RNTRJL37vtVbA20QQ5DFgkamGkZA6vMnCm9YQmV7ZvwsozMqQtcNGrRUvTmK5nCtgFcLPNQ/Qa8lNGUKYyvm/ikEivGNOIvo7krMZqU0+X1UZIynUhI2/bMCfFMyQY4RjciKPqFovWQxp2QPodZh7LAh/PkDTsaxrPK4dbZfOAwSW9YqThcBqqOMhfddesEazW2bAJa1fwLcpLcirSWq7mc1FOzBIct7UMy1CtU8RiR7u4oApzYWUhKcVNqHPTQupS9FVrq6ESiWkfLEOclFT1BwjqMyboEFWSPuqZlyb3+AhUXoMvSr0bkcZ5Wxdna3H5W1rE+Zvt1f/YXjLgEr0N3rLr2xyvyDVd9FBgZfTjMadmGnWnyCqLI32FlCohT3mbjF6oJSwlZQphM4J2CblcdajZ7rCw0H25VZue0IZoQ=
