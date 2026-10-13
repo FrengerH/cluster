@@ -30,12 +30,6 @@ persistence:
       - ReadWriteOnce
   functions:
     enabled: false
-  pgsodium:
-    enabled: true
-    storageClassName: longhorn
-    size: 100Mi
-    accessModes:
-      - ReadWriteOnce
 
 deployment:
   analytics:
@@ -133,10 +127,7 @@ secret:
 
 environment:
   auth:
-    - name: API_EXTERNAL_URL
-      value: https://<path:supabase-config#domain>
-    - name: GOTRUE_SITE_URL
-      value: https://<path:supabase-config#domain>
+    API_EXTERNAL_URL: https://<path:supabase-config#domain>
+    GOTRUE_SITE_URL: https://<path:supabase-config#domain>
   studio:
-    - name: SUPABASE_PUBLIC_URL
-      value: https://<path:supabase-config#domain>
+    SUPABASE_PUBLIC_URL: https://<path:supabase-config#domain>
