@@ -19,7 +19,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "csi-driver-nfs"
           - name: HELM_CHART_VERSION
-            value: "4.11.0"
+            value: "4.13.5"
           - name: HELM_RELEASE_NAME
             value: "nfs-driver"
   project: default
