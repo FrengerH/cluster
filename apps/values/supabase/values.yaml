@@ -127,7 +127,10 @@ secret:
 
 environment:
   auth:
-    API_EXTERNAL_URL: https://<path:supabase-config#domain>
-    GOTRUE_SITE_URL: https://<path:supabase-config#domain>
+    - name: API_EXTERNAL_URL
+      value: https://<path:supabase-config#domain>
+    - name: GOTRUE_SITE_URL
+      value: https://<path:supabase-config#domain>
   studio:
-    SUPABASE_PUBLIC_URL: https://<path:supabase-config#domain>
+    - name: SUPABASE_PUBLIC_URL
+      value: https://<path:supabase-config#domain>

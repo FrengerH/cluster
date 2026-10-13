@@ -2,11 +2,12 @@
 # Gitea Helm Chart Values
 # Chart: https://gitea.com/gitea/helm-chart
 
-# Pin patch level: chart 12.7.0 appVersion is 1.27.0, but 1.27.1-1.27.3 carry
-# security fixes (Actions, API, package registry). Clear this tag when a newer
-# chart ships appVersion >= the pinned value.
+# Pin patch level: chart 12.7.0 appVersion is 1.27.0, but we run Gitea 28.1.0
+# (major upgrade from 1.27.x). Breaking changes in v28: git proxy routing and
+# RUN_RETENTION_DAYS — both irrelevant (no Actions, no git proxy).
+# Clear this tag when a chart shipping appVersion >= 28.1.0 is available.
 image:
-  tag: "1.27.3"
+  tag: "28.1.0-rootless"
 
 # Deployment strategy - use Recreate to avoid PVC lock conflicts
 strategy:
