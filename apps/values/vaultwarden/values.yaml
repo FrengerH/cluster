@@ -41,7 +41,7 @@ persistence:
 image:
   pullPolicy: IfNotPresent
   repository: vaultwarden/server
-  tag: "1.37.3"
+  tag: "1.37.4"
 
 strategy:
   type: Recreate
