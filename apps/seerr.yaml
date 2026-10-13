@@ -22,7 +22,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "seerr-chart"
           - name: HELM_CHART_VERSION
-            value: "3.3.0"
+            value: "3.10.0"
           - name: HELM_RELEASE_NAME
             value: "seerr"
   project: default
