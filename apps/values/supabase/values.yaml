@@ -68,7 +68,7 @@ deployment:
         ephemeral-storage: 256Mi
       limits:
         cpu: 500m
-        memory: 512Mi
+        memory: 1Gi
         ephemeral-storage: 512Mi
   meta:
     resources:
