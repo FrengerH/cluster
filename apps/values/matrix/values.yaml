@@ -1,0 +1,100 @@
+# Matrix Synapse homeserver — chart ananace/matrix-synapse via avp helm-pull.
+# Secrets: <path:matrix-config#KEY> placeholders resolve from the matrix-config
+# sealed secret (apps/config/config.yaml, namespace argocd).
+#
+# Namespace layout (all in ns matrix):
+#   matrix (this chart) — synapse + ingress matrix.hmdev.nl
+#   matrix-db           — postgres 17 (databases: synapse, mautrix_slack)
+#   matrix-slack        — mautrix-slack bridge (appservice on :29335, reached
+#                         in-cluster by synapse; no external ingress)
+#
+# Client-only server: no federation port exposed; *.hmdev.nl is LAN-only
+# (Pi-hole -> Traefik). serverName == matrix.hmdev.nl, so MXIDs are
+# @user:matrix.hmdev.nl and no well-known delegation is needed.
+
+# Rendered via `helm template` under avp — force the chart's ArgoCD path.
+argoCD: true
+
+serverName: matrix.hmdev.nl
+
+config:
+  reportStats: false
+  # Both must be pinned: the chart falls back to randAlphaNum, which would
+  # churn the rendered secret (and ArgoCD diff) on every render.
+  registrationSharedSecret: <path:matrix-config#registration_shared_secret>
+  macaroonSecretKey: <path:matrix-config#macaroon_secret_key>
+
+extraConfig:
+  # mautrix-slack appservice registration — mounted from the
+  # mautrix-slack-registration Secret (same namespace, owned by the
+  # matrix-slack app) as a single file into the conf.d emptyDir.
+  app_service_config_files:
+    - /synapse/config/conf.d/mautrix-slack-registration.yaml
+
+synapse:
+  # Single replica + RWO media PVC: Recreate avoids the classic
+  # old-pod-holds-the-volume attach deadlock on rollouts.
+  strategy:
+    type: Recreate
+  resources:
+    requests:
+      cpu: 250m
+      memory: 512Mi
+    limits:
+      cpu: "1"
+      memory: 2Gi
+  extraVolumes:
+    - name: mautrix-slack-registration
+      secret:
+        secretName: mautrix-slack-registration
+  extraVolumeMounts:
+    - name: mautrix-slack-registration
+      mountPath: /synapse/config/conf.d/mautrix-slack-registration.yaml
+      subPath: registration.yaml
+      readOnly: true
+
+postgresql:
+  enabled: false
+
+externalPostgresql:
+  host: matrix-postgres.matrix.svc.cluster.local
+  port: 5432
+  username: matrix
+  database: synapse
+  # Secret (ns matrix, key: password) owned by the matrix-db app.
+  existingSecret: matrix-postgres-auth
+  existingSecretPasswordKey: password
+
+redis:
+  # The chart hardcodes a redis section into the synapse config (built for
+  # worker replication); even single-instance it's simplest to let the chart
+  # deploy its own small redis with chart-managed auth.
+  enabled: true
+  auth:
+    # Chart default is the literal string "synapse" — pin a real one.
+    password: <path:matrix-config#redis_password>
+
+persistence:
+  enabled: true
+  storageClass: longhorn
+  accessMode: ReadWriteOnce
+  size: 10Gi
+
+ingress:
+  enabled: true
+  className: traefik
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  # includeServerName defaults true — matrix.hmdev.nl is added automatically.
+  hosts: []
+  csHosts: []
+  wkHosts: []
+  tls:
+    - hosts:
+        - matrix.hmdev.nl
+      secretName: tls-matrix-ingress
+
+wellknown:
+  enabled: false

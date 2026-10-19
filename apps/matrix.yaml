@@ -1,0 +1,32 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: matrix
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: matrix
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/matrix
+      targetRevision: HEAD
+      plugin: # avp helm-pull plugin: pulls the chart, renders values (incl.
+              # <path:...> secret substitution), emits manifests
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://ananace.gitlab.io/charts"
+          - name: HELM_CHART_NAME
+            value: "matrix-synapse"
+          - name: HELM_CHART_VERSION
+            value: "3.12.40"
+          - name: HELM_RELEASE_NAME
+            value: "matrix"
+  project: default

@@ -1,0 +1,116 @@
+# PostgreSQL 17 for Matrix: databases `synapse` (homeserver) and
+# `mautrix_slack` (bridge, created by the initdb script on first boot).
+# Single superuser `matrix`, same pattern as immich-db. Pinned to cl-node4
+# (DB pattern — nodes 1-3 are memory-tight Pi 4s). Longhorn PVC.
+#
+# Synapse requires LC_COLLATE=C / LC_CTYPE=C (set via POSTGRES_INITDB_ARGS).
+#
+# The password secret is consumed in two places: here (POSTGRES_PASSWORD)
+# and by the synapse chart (externalPostgresql.existingSecret).
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: matrix-postgres-auth
+  namespace: matrix
+type: Opaque
+stringData:
+  password: <path:matrix-config#db_password>
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: matrix-postgres-initdb
+  namespace: matrix
+data:
+  init-bridge-db.sh: |
+    #!/bin/bash
+    # Runs once, when the data directory is empty (official image initdb hook).
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+      CREATE DATABASE mautrix_slack OWNER matrix;
+    EOSQL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: matrix-postgres
+  namespace: matrix
+spec:
+  ports:
+  - port: 5432
+    targetPort: 5432
+  selector:
+    app: matrix-postgres
+  clusterIP: None
+
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: matrix-postgres
+  namespace: matrix
+spec:
+  serviceName: matrix-postgres
+  replicas: 1
+  selector:
+    matchLabels:
+      app: matrix-postgres
+  template:
+    metadata:
+      labels:
+        app: matrix-postgres
+    spec:
+      nodeSelector:
+        kubernetes.io/hostname: cl-node4
+      containers:
+      - name: postgres
+        image: postgres:17.11-trixie
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_USER
+          value: matrix
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: matrix-postgres-auth
+              key: password
+        - name: POSTGRES_DB
+          value: synapse
+        - name: POSTGRES_INITDB_ARGS
+          value: "--encoding=UTF8 --lc-collate=C --lc-ctype=C"
+        - name: PGDATA
+          value: /var/lib/postgresql/data/pgdata
+        readinessProbe:
+          exec:
+            command: ["pg_isready", "-U", "matrix", "-d", "synapse"]
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 6
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/postgresql/data
+        - name: initdb
+          mountPath: /docker-entrypoint-initdb.d
+        resources:
+          requests:
+            cpu: 100m
+            memory: 256Mi
+          limits:
+            cpu: "1"
+            memory: 1Gi
+      volumes:
+      - name: initdb
+        configMap:
+          name: matrix-postgres-initdb
+  volumeClaimTemplates:
+  - metadata:
+      name: data
+    spec:
+      accessModes: ["ReadWriteOnce"]
+      storageClassName: longhorn
+      resources:
+        requests:
+          storage: 10Gi
