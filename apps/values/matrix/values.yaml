@@ -15,6 +15,15 @@
 # Rendered via `helm template` under avp — force the chart's ArgoCD path.
 argoCD: true
 
+signingkey:
+  # The pre-install signing-key Job ran once (hook, deletes itself on
+  # success) and created the matrix-signingkey Secret. Leaving the job
+  # enabled makes ArgoCD diff the already-deleted hook Job forever
+  # (permanent OutOfSync on matrix-signingkey-job).
+  # Bootstrap recovery: flip to true once before first sync on a fresh cluster.
+  job:
+    enabled: false
+
 serverName: matrix.hmdev.nl
 
 config:
