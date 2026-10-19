@@ -18,12 +18,17 @@
 # They live in the matrix-config sealed secret; the registration file here
 # carries the same tokens via <path:...> so synapse and the bridge agree.
 # Regenerated from dock.mau.dev/mautrix/slack:v0.2610.0 with `-g`.
+#
+# The reloader label restarts the mounters (bridge STS / synapse deployment)
+# when these Secrets change.
 ---
 apiVersion: v1
 kind: Secret
 metadata:
   name: mautrix-slack-config
   namespace: matrix
+  labels:
+    reloader: enabled
 type: Opaque
 stringData:
   config.yaml: |
@@ -289,7 +294,7 @@ stringData:
         # The address that this appservice can use to connect to the homeserver.
         # Local addresses without HTTPS are generally recommended when the bridge is running on the same machine,
         # but https also works if they run on different machines.
-        address: http://matrix-synapse.matrix.svc.cluster.local:8008
+        address: http://matrix-matrix-synapse.matrix.svc.cluster.local:8008
         # The domain of the homeserver (also known as server_name, used for MXIDs, etc).
         domain: matrix.hmdev.nl
 
@@ -626,6 +631,8 @@ kind: Secret
 metadata:
   name: mautrix-slack-registration
   namespace: matrix
+  labels:
+    reloader: enabled
 type: Opaque
 stringData:
   registration.yaml: |
