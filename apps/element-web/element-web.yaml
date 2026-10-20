@@ -1,0 +1,114 @@
+# Element Web — browser client for the Matrix homeserver.
+# Stateless: no PVC. Talks to the homeserver over the public client API
+# (Synapse serves CORS on /_matrix), so no extra ingress config needed.
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: element-web-config
+  namespace: matrix
+data:
+  config.json: |
+    {
+      "default_server_config": {
+        "m.homeserver": {
+          "base_url": "https://matrix.hmdev.nl",
+          "server_name": "matrix.hmdev.nl"
+        }
+      },
+      "brand": "Element",
+      "default_country_code": "NL",
+      "room_directory": {
+        "servers": ["matrix.hmdev.nl"]
+      },
+      "setting_defaults": {
+        "UIFeature.registration": false
+      }
+    }
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: element-web
+  namespace: matrix
+  labels:
+    app: element-web
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: element-web
+  template:
+    metadata:
+      labels:
+        app: element-web
+    spec:
+      containers:
+        - name: element-web
+          image: ghcr.io/element-hq/element-web:v1.12.32
+          ports:
+            - containerPort: 8080
+          volumeMounts:
+            - name: config
+              mountPath: /app/config.json
+              subPath: config.json
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 30
+          resources:
+            requests:
+              cpu: 10m
+              memory: 64Mi
+            limits:
+              memory: 256Mi
+      volumes:
+        - name: config
+          configMap:
+            name: element-web-config
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: element-web
+  namespace: matrix
+spec:
+  selector:
+    app: element-web
+  ports:
+    - port: 80
+      targetPort: 8080
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: element-web
+  namespace: matrix
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - element.hmdev.nl
+      secretName: tls-element-ingress
+  rules:
+    - host: element.hmdev.nl
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: element-web
+                port:
+                  number: 80
