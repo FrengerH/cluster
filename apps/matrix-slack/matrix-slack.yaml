@@ -675,6 +675,8 @@ kind: StatefulSet
 metadata:
   name: mautrix-slack
   namespace: matrix
+  annotations:
+    reloader.stakater.com/auto: "true"  # bounce the bridge when its config/registration secrets change
 spec:
   serviceName: mautrix-slack
   replicas: 1
