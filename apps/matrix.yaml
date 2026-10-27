@@ -26,7 +26,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "matrix-synapse"
           - name: HELM_CHART_VERSION
-            value: "3.12.40"
+            value: "3.12.41"
           - name: HELM_RELEASE_NAME
             value: "matrix"
   project: default

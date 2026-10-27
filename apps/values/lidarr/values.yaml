@@ -1,6 +1,6 @@
 image:
   repository: lscr.io/linuxserver/lidarr
-  tag: "version-3.1.0.4875"
+  tag: "version-3.1.6.5079"
   pullPolicy: IfNotPresent
 
 ingress:

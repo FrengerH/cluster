@@ -28,7 +28,7 @@ spec:
           - name: HELM_CHART_NAME
             value: "cert-manager"
           - name: HELM_CHART_VERSION
-            value: "v1.21.2"
+            value: "v1.21.3"
           - name: HELM_RELEASE_NAME
             value: "cert-manager"
   project: default

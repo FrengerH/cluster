@@ -7,7 +7,7 @@
 # RUN_RETENTION_DAYS — both irrelevant (no Actions, no git proxy).
 # Clear this tag when a chart shipping appVersion >= 28.1.0 is available.
 image:
-  tag: "28.1.0"
+  tag: "28.2.0"
 
 # Deployment strategy - use Recreate to avoid PVC lock conflicts
 strategy:

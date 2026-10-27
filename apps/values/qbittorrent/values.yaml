@@ -1,6 +1,6 @@
 image:
   repository: linuxserver/qbittorrent
-  tag: "version-5.2.4_v2.0.15"
+  tag: "version-5.3.0_v2.0.15"
 
 env:
   TZ: "Europe/Amsterdam"
