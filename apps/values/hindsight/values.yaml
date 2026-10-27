@@ -41,6 +41,27 @@ api:
     limits:
       cpu: "2"
       memory: 3Gi
+  # Full probe overrides (the template toYaml-replaces chart defaults, so
+  # httpGet must be restated). Cold start loads 1-2GB of models off the
+  # model-cache PVC — slower than the chart's 30s liveness budget, so a
+  # rescheduled pod crash-loops before it ever binds 8888. 300s initial delay
+  # matches the container's own startup wait (start-all.sh).
+  livenessProbe:
+    httpGet:
+      path: /health/live
+      port: 8888
+    initialDelaySeconds: 300
+    periodSeconds: 10
+    timeoutSeconds: 5
+    failureThreshold: 3
+  readinessProbe:
+    httpGet:
+      path: /health
+      port: 8888
+    initialDelaySeconds: 300
+    periodSeconds: 5
+    timeoutSeconds: 3
+    failureThreshold: 3
   secrets:
     HINDSIGHT_API_LLM_API_KEY: <path:hindsight-config#llm_api_key>
 
