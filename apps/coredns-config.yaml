@@ -1,0 +1,17 @@
+# Forward the wedding zone to the LAN resolver: its upstream queries the
+# authoritative nameservers directly, while the router DNS path refuses ACME
+# TXT lookups, so cert-manager DNS-01 propagation checks only pass through
+# this route. Public DNS forwarders are unreachable (no external UDP/53).
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  onsemarient.server: |
+    onsemarient.nl:53 {
+        errors
+        cache 30
+        forward . <path:dns-resolver-config#ip>
+    }
