@@ -186,6 +186,10 @@ spec:
             - name: code
               mountPath: /var/www/html
               readOnly: true
+            # uploads must be directly servable as statics by nginx
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
+              readOnly: true
           readinessProbe:
             httpGet:
               path: /up
