@@ -121,6 +121,10 @@ spec:
         - name: migrate
           image: git.hmdev.nl/ferry/wedding-planner:dev
           command: ["php", "artisan", "migrate", "--force"]
+          # one-shot maintenance task; root avoids read-perms issues with
+          # baked image files and needs no storage access
+          securityContext:
+            runAsUser: 0
           envFrom:
             - configMapRef:
                 name: wedding-planner-env
