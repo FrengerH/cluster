@@ -107,6 +107,8 @@ spec:
       initContainers:
         - name: copy-code
           image: git.hmdev.nl/ferry/wedding-planner:dev
+          # Always: cached :dev tags on the node would copy stale code to nginx.
+          imagePullPolicy: Always
           # root: image files are root-owned, so a non-root cp cannot read
           # everything or preserve ownership; also chowns the uploads PVC
           # (fresh volumes mount root-owned) for the app user (uid 1000).
@@ -120,6 +122,7 @@ spec:
               mountPath: /var/www/html/storage/app/public
         - name: migrate
           image: git.hmdev.nl/ferry/wedding-planner:dev
+          imagePullPolicy: Always
           command: ["php", "artisan", "migrate", "--force"]
           # one-shot maintenance task; root avoids read-perms issues with
           # baked image files and needs no storage access
