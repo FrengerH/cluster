@@ -19,9 +19,10 @@ persistence:
   storageClassName: longhorn
   recurringJobSelector:
     enable: true
-    jobList:
-      - name: default
-        isGroup: true
+    # Chart 1.13 templates jobList with Go fmt instead of toJson, so it must
+    # be a pre-formatted JSON string; a YAML list renders as `[map[...]]`
+    # and every new PVC fails with "invalid json format of recurringJobSelector".
+    jobList: '[{"name":"default","isGroup":true}]'
 
 csi:
   attacherReplicaCount: 1
