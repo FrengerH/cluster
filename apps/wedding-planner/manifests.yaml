@@ -110,7 +110,7 @@ spec:
           # root: image files are root-owned, so a non-root cp cannot read
           # everything or preserve ownership; also chowns the uploads PVC
           # (fresh volumes mount root-owned) for the app user (uid 1000).
-          command: ["sh", "-c", "cp -a /var/www/html/. /code/ && mkdir -p /var/www/html/storage/app/public && chown -R 1000:1000 /var/www/html/storage/app/public"]
+          command: ["sh", "-c", "cp -a /var/www/html/. /code/ && chmod -R a+rX /code/ && mkdir -p /var/www/html/storage/app/public && chown -R 1000:1000 /var/www/html/storage/app/public"]
           securityContext:
             runAsUser: 0
           volumeMounts:
