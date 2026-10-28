@@ -145,6 +145,7 @@ spec:
       containers:
         - name: app
           image: git.hmdev.nl/ferry/wedding-planner:dev
+          imagePullPolicy: Always
           command: ["php-fpm"]
           envFrom:
             - configMapRef:
@@ -177,6 +178,7 @@ spec:
             periodSeconds: 20
         - name: web
           image: git.hmdev.nl/ferry/wedding-planner-nginx:dev
+          imagePullPolicy: Always
           ports:
             - name: http
               containerPort: 8080
