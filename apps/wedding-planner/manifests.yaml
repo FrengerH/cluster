@@ -107,10 +107,17 @@ spec:
       initContainers:
         - name: copy-code
           image: git.hmdev.nl/ferry/wedding-planner:dev
-          command: ["sh", "-c", "cp -a /var/www/html/. /code/"]
+          # root: image files are root-owned, so a non-root cp cannot read
+          # everything or preserve ownership; also chowns the uploads PVC
+          # (fresh volumes mount root-owned) for the app user (uid 1000).
+          command: ["sh", "-c", "cp -a /var/www/html/. /code/ && mkdir -p /var/www/html/storage/app/public && chown -R 1000:1000 /var/www/html/storage/app/public"]
+          securityContext:
+            runAsUser: 0
           volumeMounts:
             - name: code
               mountPath: /code
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
         - name: migrate
           image: git.hmdev.nl/ferry/wedding-planner:dev
           command: ["php", "artisan", "migrate", "--force"]
