@@ -1,0 +1,252 @@
+# Wedding planner backend (Laravel API). Image built from the app's own
+# Gitea repo and pushed to the in-cluster Gitea registry. DB is a dedicated
+# MariaDB instance (not shared with other apps, per app-per-DB convention).
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: wedding-planner-db
+  namespace: wedding
+spec:
+  serviceName: wedding-planner-db
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wedding-planner-db
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wedding-planner-db
+    spec:
+      containers:
+        - name: mariadb
+          image: mariadb:11.4
+          env:
+            - name: MARIADB_DATABASE
+              value: wedding
+            - name: MARIADB_USER
+              value: wedding
+            - name: MARIADB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wedding-planner-secrets
+                  key: db_password
+            - name: MARIADB_RANDOM_ROOT_PASSWORD
+              value: "yes"
+          ports:
+            - name: mysql
+              containerPort: 3306
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/mysql
+          readinessProbe:
+            exec:
+              command: ["healthcheck.sh", "--connect"]
+            periodSeconds: 10
+            failureThreshold: 6
+          livenessProbe:
+            exec:
+              command: ["healthcheck.sh", "--connect"]
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            failureThreshold: 6
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        storageClassName: longhorn
+        resources:
+          requests:
+            storage: 5Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wedding-planner-db
+  namespace: wedding
+spec:
+  clusterIP: None
+  selector:
+    app.kubernetes.io/name: wedding-planner-db
+  ports:
+    - name: mysql
+      port: 3306
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: wedding-planner-uploads
+  namespace: wedding
+spec:
+  accessModes: ["ReadWriteOnce"]
+  storageClassName: longhorn
+  resources:
+    requests:
+      storage: 5Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wedding-planner
+  namespace: wedding
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: wedding-planner
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: wedding-planner
+    spec:
+      imagePullSecrets:
+        - name: gitea-regcred
+      initContainers:
+        - name: copy-code
+          image: git.hmdev.nl/ferry/wedding-planner:dev
+          command: ["sh", "-c", "cp -a /var/www/html/. /code/"]
+          volumeMounts:
+            - name: code
+              mountPath: /code
+        - name: migrate
+          image: git.hmdev.nl/ferry/wedding-planner:dev
+          command: ["php", "artisan", "migrate", "--force"]
+          envFrom:
+            - configMapRef:
+                name: wedding-planner-env
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wedding-planner-secrets
+                  key: app_key
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wedding-planner-secrets
+                  key: db_password
+          volumeMounts:
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
+      containers:
+        - name: app
+          image: git.hmdev.nl/ferry/wedding-planner:dev
+          command: ["php-fpm"]
+          envFrom:
+            - configMapRef:
+                name: wedding-planner-env
+          env:
+            - name: APP_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: wedding-planner-secrets
+                  key: app_key
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: wedding-planner-secrets
+                  key: db_password
+          ports:
+            - name: fpm
+              containerPort: 9000
+          volumeMounts:
+            - name: storage
+              mountPath: /var/www/html/storage/app/public
+          readinessProbe:
+            tcpSocket:
+              port: fpm
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: fpm
+            initialDelaySeconds: 20
+            periodSeconds: 20
+        - name: web
+          image: git.hmdev.nl/ferry/wedding-planner-nginx:dev
+          ports:
+            - name: http
+              containerPort: 8080
+          volumeMounts:
+            - name: code
+              mountPath: /var/www/html
+              readOnly: true
+          readinessProbe:
+            httpGet:
+              path: /up
+              port: http
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /up
+              port: http
+            initialDelaySeconds: 10
+            periodSeconds: 20
+      volumes:
+        - name: storage
+          persistentVolumeClaim:
+            claimName: wedding-planner-uploads
+        - name: code
+          emptyDir: {}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: wedding-planner-env
+  namespace: wedding
+data:
+  APP_ENV: "production"
+  APP_DEBUG: "false"
+  APP_URL: "https://<path:wedding-planner-config#domain>"
+  LOG_CHANNEL: "stderr"
+  DB_CONNECTION: "mysql"
+  DB_HOST: "wedding-planner-db"
+  DB_PORT: "3306"
+  DB_DATABASE: "wedding"
+  DB_USERNAME: "wedding"
+  FILESYSTEM_DISK: "public"
+  SESSION_DRIVER: "cookie"
+  CACHE_STORE: "file"
+  QUEUE_CONNECTION: "sync"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: wedding-planner
+  namespace: wedding
+spec:
+  selector:
+    app.kubernetes.io/name: wedding-planner
+  ports:
+    - name: http
+      port: 80
+      targetPort: http
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: wedding-planner
+  namespace: wedding
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  ingressClassName: traefik
+  tls:
+    - hosts:
+        - <path:wedding-planner-config#domain>
+      secretName: tls-wedding-planner-ingress
+  rules:
+    - host: <path:wedding-planner-config#domain>
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: wedding-planner
+                port:
+                  name: http

@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: wedding-planner
+spec:
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: wedding
+  sources:
+  - repoURL: 'https://github.com/FrengerH/cluster'
+    targetRevision: HEAD
+    path: apps/wedding-planner
+  ignoreDifferences:
+  - group: apps
+    kind: Deployment
+    jsonPointers:
+    - /status
+  - group: apps
+    kind: StatefulSet
+    jsonPointers:
+    - /status
+  project: default
