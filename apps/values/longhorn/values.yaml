@@ -18,7 +18,10 @@ persistence:
   defaultClassReplicaCount: 3
   storageClassName: longhorn
   recurringJobSelector:
-    enableSystem: true
+    enable: true
+    jobList:
+      - name: default
+        isGroup: true
 
 csi:
   attacherReplicaCount: 1
