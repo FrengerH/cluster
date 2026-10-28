@@ -1,0 +1,18 @@
+# Wildcard cert for the wedding zone: one DNS-01 round covers the apex and
+# every subdomain, so new ingresses don't need their own challenge (each
+# fresh challenge name is delayed up to an hour by the router's negative
+# DNS cache). Ingresses opt in with secretName: tls-onsemarient-wildcard.
+---
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: onsemarient-wildcard
+  namespace: wedding
+spec:
+  secretName: tls-onsemarient-wildcard
+  dnsNames:
+    - onsemarient.nl
+    - "*.onsemarient.nl"
+  issuerRef:
+    name: letsencrypt-prod
+    kind: ClusterIssuer
