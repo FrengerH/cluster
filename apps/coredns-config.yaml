@@ -1,0 +1,17 @@
+# Cluster DNS: resolve the wedding planner's public zone directly via public
+# recursive resolvers. The default forward chain (node resolver -> router)
+# serves stale negative answers for freshly created records (DNS-01 challenge
+# TXT), which wedges cert-manager's propagation check on this zone.
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: coredns-custom
+  namespace: kube-system
+data:
+  onsemarient.server: |
+    onsemarient.nl:53 {
+        errors
+        cache 30
+        forward . 8.8.8.8 1.1.1.1
+    }
