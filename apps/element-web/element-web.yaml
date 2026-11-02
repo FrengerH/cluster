@@ -47,7 +47,7 @@ spec:
       enableServiceLinks: false
       containers:
         - name: element-web
-          image: ghcr.io/element-hq/element-web:v1.12.32
+          image: ghcr.io/element-hq/element-web:v1.12.33
           ports:
             - containerPort: 80
           volumeMounts:
