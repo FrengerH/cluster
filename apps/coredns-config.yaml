@@ -9,8 +9,8 @@ metadata:
   name: coredns-custom
   namespace: kube-system
 data:
-  onsemarient.server: |
-    onsemarient.nl:53 {
+  onsemarie.server: |
+    onsemarie.nl:53 {
         errors
         cache 30
         forward . <path:dns-resolver-config#ip>
