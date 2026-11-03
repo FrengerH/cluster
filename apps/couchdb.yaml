@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: couchdb
+spec:
+  syncPolicy:
+    syncOptions:
+    - CreateNamespace=true
+  destination:
+    name: in-cluster
+    namespace: obsidian
+  sources:
+    - repoURL: 'https://github.com/frengerh/cluster'
+      path: apps/values/couchdb
+      targetRevision: HEAD
+      plugin:
+        env:
+          - name: HELM_VALUES_FILES
+            value: "values.yaml"
+          - name: HELM_REPO_URL
+            value: "https://apache.github.io/couchdb-helm"
+          - name: HELM_CHART_NAME
+            value: "couchdb"
+          - name: HELM_CHART_VERSION
+            value: "4.6.3"
+          - name: HELM_RELEASE_NAME
+            value: "couchdb"
+  project: default

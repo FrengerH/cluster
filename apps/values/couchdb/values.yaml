@@ -1,0 +1,85 @@
+clusterSize: 1
+
+adminUsername: <path:couchdb-config#adminUsername>
+adminPassword: <path:couchdb-config#adminPassword>
+cookieAuthSecret: <path:couchdb-config#cookieAuthSecret>
+
+erlangFlags:
+  name: couchdb
+  setcookie: <path:couchdb-config#erlangCookie>
+
+allowAdminParty: false
+enableSearch: false
+
+couchdbConfig:
+  couchdb:
+    uuid: <path:couchdb-config#uuid>
+    max_document_size: 50000000
+  chttpd:
+    bind_address: any
+    require_valid_user: true
+    max_http_request_size: 4294967296
+  chttpd_auth:
+    require_valid_user: true
+  httpd:
+    enable_cors: true
+    WWW-Authenticate: Basic realm="couchdb"
+  cors:
+    credentials: true
+    origins: "app://obsidian.md,capacitor://localhost,http://localhost"
+  admins:
+    obsidian: <path:couchdb-config#obsidianAdminHash>
+
+image:
+  repository: couchdb
+  tag: "3.5.3"
+  pullPolicy: IfNotPresent
+
+persistentVolume:
+  enabled: true
+  accessModes:
+    - ReadWriteOnce
+  size: 2Gi
+  storageClass: longhorn
+
+service:
+  enabled: true
+  type: ClusterIP
+  externalPort: 5984
+  targetPort: 5984
+
+ingress:
+  enabled: true
+  className: traefik
+  hosts:
+    - <path:obsidian-config#domain>
+  path: /
+  annotations:
+    cert-manager.io/cluster-issuer: letsencrypt-prod
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+  tls:
+    - hosts:
+        - <path:obsidian-config#domain>
+      secretName: tls-ha-ingress
+
+networkPolicy:
+  enabled: true
+
+podManagementPolicy: Parallel
+
+livenessProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
+
+readinessProbe:
+  enabled: true
+  initialDelaySeconds: 0
+  periodSeconds: 10
+  timeoutSeconds: 1
+  failureThreshold: 3
+  successThreshold: 1
