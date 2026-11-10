@@ -204,6 +204,23 @@ spec:
               port: http
             initialDelaySeconds: 10
             periodSeconds: 20
+        # Test-only direct-MX relay, pod-local (127.0.0.1:25). No external
+        # mail account; swap for the production relay before the xHosts move.
+        - name: postfix
+          image: git.hmdev.nl/ferry/wedding-planner-postfix:dev
+          imagePullPolicy: Always
+          ports:
+            - name: smtp
+              containerPort: 25
+          readinessProbe:
+            tcpSocket:
+              port: smtp
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: smtp
+            initialDelaySeconds: 10
+            periodSeconds: 20
       volumes:
         - name: storage
           persistentVolumeClaim:
@@ -230,6 +247,11 @@ data:
   SESSION_DRIVER: "cookie"
   CACHE_STORE: "file"
   QUEUE_CONNECTION: "sync"
+  MAIL_MAILER: "smtp"
+  MAIL_HOST: "127.0.0.1"
+  MAIL_PORT: "25"
+  MAIL_FROM_ADDRESS: "noreply@onsemarie.nl"
+  MAIL_FROM_NAME: "Onze Marie"
 ---
 apiVersion: v1
 kind: Service
