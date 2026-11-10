@@ -65,10 +65,10 @@ spec:
   ingressClassName: traefik
   tls:
     - hosts:
-        - mailpit-wedding.hmdev.nl
+        - wedding-mailpit.hmdev.nl
       secretName: tls-mailpit-wedding-ingress
   rules:
-    - host: mailpit-wedding.hmdev.nl
+    - host: wedding-mailpit.hmdev.nl
       http:
         paths:
           - path: /
