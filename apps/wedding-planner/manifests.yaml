@@ -213,12 +213,12 @@ spec:
             - name: smtp
               containerPort: 25
           readinessProbe:
-            tcpSocket:
-              port: smtp
+            exec:
+              command: ["postfix", "status"]
             periodSeconds: 10
           livenessProbe:
-            tcpSocket:
-              port: smtp
+            exec:
+              command: ["postfix", "status"]
             initialDelaySeconds: 10
             periodSeconds: 20
       volumes:
