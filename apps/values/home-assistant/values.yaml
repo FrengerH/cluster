@@ -115,3 +115,26 @@ configuration:
     fi
 
 replicaCount: 1
+
+# HA (esp. on ARM) can take minutes to bind :8123 after a version bump
+# (recorder migration, HACS, integrations). Chart-default liveness (no
+# initialDelay, timeoutSeconds 2) killed the container mid-boot -> CrashLoop.
+# startupProbe gates liveness/readiness until the first successful check.
+startupProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 10
+  failureThreshold: 60
+livenessProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 20
+  timeoutSeconds: 10
+readinessProbe:
+  httpGet:
+    path: /
+    port: http
+  periodSeconds: 10
+  timeoutSeconds: 5
