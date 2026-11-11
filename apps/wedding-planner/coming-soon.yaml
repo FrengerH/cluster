@@ -277,6 +277,156 @@ data:
     - Already built: guest list and RSVP management per household, seating planner, shared moodboard with guest photo sharing, shared task checklist, trilingual (nl/fr/en) guest-facing pages
     - Not yet available: public self-service account creation, multi-tenant sign-up, pricing
     - Updates: join the email list on the homepage at https://test.onsemarie.nl/
+  maintenance.html: |
+    <!doctype html>
+    <html lang="nl">
+    <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>On se marie</title>
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet, noimageindex">
+    <meta name="theme-color" content="#faf7f2">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+    :root {
+      --bg: #faf7f2;
+      --ink: #2e2723;
+      --wine: #8e4460;
+      --wine-soft: rgba(142, 68, 96, .1);
+      --muted: #6b615a;
+      --line: #e6ddd2;
+    }
+    * { box-sizing: border-box; margin: 0; }
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      font-family: 'Karla', system-ui, sans-serif;
+      background: var(--bg);
+      background-image:
+        radial-gradient(ellipse 60% 40% at 12% 8%, rgba(142, 68, 96, .07), transparent 60%),
+        radial-gradient(ellipse 50% 35% at 88% 92%, rgba(142, 68, 96, .05), transparent 60%);
+      color: var(--ink);
+      min-height: 100vh;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      line-height: 1.6;
+      padding: 24px;
+    }
+    .card {
+      max-width: 460px;
+      width: 100%;
+      text-align: center;
+    }
+    .langs {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 28px;
+    }
+    .langs button {
+      border: 1px solid var(--line);
+      background: #fff;
+      color: var(--muted);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: .04em;
+      padding: 6px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: background .15s ease, color .15s ease, border-color .15s ease;
+    }
+    .langs button:hover { border-color: var(--wine); }
+    .langs button.active {
+      background: var(--wine);
+      border-color: var(--wine);
+      color: #fff;
+    }
+    .langs button:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
+    .mark {
+      width: 52px;
+      height: 52px;
+      margin: 0 auto 20px;
+      display: block;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-weight: 600;
+      font-size: clamp(32px, 7vw, 44px);
+      line-height: 1.1;
+      margin-bottom: 14px;
+    }
+    p.lede {
+      color: var(--muted);
+      font-size: 16px;
+      max-width: 38ch;
+      margin: 0 auto;
+    }
+    .lang-block { display: none; }
+    .lang-block.active { display: block; }
+    footer {
+      margin-top: 36px;
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: .06em;
+    }
+    </style>
+    </head>
+    <body>
+    <main class="card">
+      <div class="langs" role="tablist" aria-label="Taal / langue / language">
+        <button type="button" data-lang="nl" class="active" aria-pressed="true">NL</button>
+        <button type="button" data-lang="fr" aria-pressed="false">FR</button>
+        <button type="button" data-lang="en" aria-pressed="false">EN</button>
+      </div>
+
+      <svg class="mark" viewBox="0 0 64 64" aria-hidden="true">
+        <circle cx="25" cy="34" r="9" fill="none" stroke="#8e4460" stroke-width="3"/>
+        <circle cx="39" cy="34" r="9" fill="none" stroke="#8e4460" stroke-width="3" opacity=".85"/>
+      </svg>
+
+      <div class="lang-block active" data-lang="nl">
+        <h1>Even geen toegang</h1>
+        <p class="lede">We zijn bezig met onderhoud aan deze pagina. Probeer het straks nog eens.</p>
+      </div>
+      <div class="lang-block" data-lang="fr">
+        <h1>Momentanément indisponible</h1>
+        <p class="lede">Cette page est en maintenance. Merci de réessayer un peu plus tard.</p>
+      </div>
+      <div class="lang-block" data-lang="en">
+        <h1>Briefly unavailable</h1>
+        <p class="lede">This page is undergoing maintenance. Please check back shortly.</p>
+      </div>
+
+      <footer>On se marie</footer>
+    </main>
+    <script>
+    (function () {
+      var buttons = document.querySelectorAll('.langs button');
+      var blocks = document.querySelectorAll('.lang-block');
+      function setLang(lang) {
+        buttons.forEach(function (b) {
+          var active = b.dataset.lang === lang;
+          b.classList.toggle('active', active);
+          b.setAttribute('aria-pressed', active ? 'true' : 'false');
+        });
+        blocks.forEach(function (b) {
+          b.classList.toggle('active', b.dataset.lang === lang);
+        });
+      }
+      buttons.forEach(function (b) {
+        b.addEventListener('click', function () { setLang(b.dataset.lang); });
+      });
+      var nav = (navigator.language || 'nl').slice(0, 2).toLowerCase();
+      if (nav === 'fr' || nav === 'en') setLang(nav);
+    })();
+    </script>
+    </body>
+    </html>
   nginx-default.conf: |
     server {
         listen 80;
@@ -290,10 +440,50 @@ data:
         add_header X-Content-Type-Options "nosniff" always;
         add_header Referrer-Policy "strict-origin-when-cross-origin" always;
 
+        # /var/run/maintenance/on is toggled by a sidecar polling the wedding-
+        # planner app's admin setting; only "/" flips, robots.txt/sitemap.xml/
+        # llms.txt/favicon.svg keep serving normally even during maintenance.
+        location = / {
+            if (-f /var/run/maintenance/on) {
+                return 503;
+            }
+            try_files $uri $uri/ =404;
+        }
+
         location / {
             try_files $uri $uri/ =404;
         }
+
+        error_page 503 /maintenance.html;
+        location = /maintenance.html {
+            internal;
+            add_header Retry-After 3600 always;
+            add_header Cache-Control "no-cache" always;
+        }
     }
+  poll-maintenance.sh: |
+    #!/bin/sh
+    # Polls the wedding-planner admin toggle and mirrors it into a flag file
+    # nginx checks on "/". Only touches the flag on a successful, well-formed
+    # response; a transient failure leaves the current state as-is (fail-safe:
+    # the landing page never flips state just because the app pod is briefly
+    # unreachable).
+    set -u
+    URL="http://wedding-planner.wedding.svc.cluster.local/api/v1/landing-status"
+    FLAG="/var/run/maintenance/on"
+    mkdir -p "$(dirname "$FLAG")"
+
+    while true; do
+      body="$(curl -fsS --max-time 5 "$URL" 2>/dev/null)"
+      rc=$?
+      if [ "$rc" -eq 0 ] && [ -n "$body" ]; then
+        case "$body" in
+          *'"maintenance":true'*) touch "$FLAG" ;;
+          *'"maintenance":false'*) rm -f "$FLAG" ;;
+        esac
+      fi
+      sleep 15
+    done
   robots.txt: |
     # On se marie: public pre-launch landing page, open for indexing and AI
     # discovery. The private wedding-planning app underneath (planner/admin/
@@ -335,6 +525,7 @@ metadata:
 ---
 ---
 ---
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -363,6 +554,8 @@ spec:
               mountPath: /etc/nginx/conf.d/default.conf
               subPath: nginx-default.conf
               readOnly: true
+            - name: maintenance-flag
+              mountPath: /var/run/maintenance
           readinessProbe:
             httpGet:
               path: /
@@ -381,12 +574,32 @@ spec:
             limits:
               cpu: 100m
               memory: 64Mi
+        - name: maintenance-poller
+          # Mirrors the admin "landing maintenance" toggle into a flag file
+          # nginx checks; fails safe (leaves prior state) if the app pod is
+          # briefly unreachable, so the landing page stays independently up.
+          image: curlimages/curl:8.11.1
+          command: ["sh", "/scripts/poll-maintenance.sh"]
+          volumeMounts:
+            - name: poll-script
+              mountPath: /scripts
+              readOnly: true
+            - name: maintenance-flag
+              mountPath: /var/run/maintenance
+          resources:
+            requests:
+              cpu: 5m
+              memory: 8Mi
+            limits:
+              cpu: 50m
+              memory: 32Mi
       volumes:
         - name: content
           configMap:
             name: coming-soon-site
             items:
               - {key: index.html, path: index.html}
+              - {key: maintenance.html, path: maintenance.html}
               - {key: favicon.svg, path: favicon.svg}
               - {key: robots.txt, path: robots.txt}
               - {key: sitemap.xml, path: sitemap.xml}
@@ -396,6 +609,14 @@ spec:
             name: coming-soon-site
             items:
               - {key: nginx-default.conf, path: nginx-default.conf}
+        - name: poll-script
+          configMap:
+            name: coming-soon-site
+            defaultMode: 0555
+            items:
+              - {key: poll-maintenance.sh, path: poll-maintenance.sh}
+        - name: maintenance-flag
+          emptyDir: {}
 ---
 apiVersion: v1
 kind: Service
