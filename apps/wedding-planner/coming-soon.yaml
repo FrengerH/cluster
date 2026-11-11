@@ -237,8 +237,8 @@ data:
     <main>
       <p class="eyebrow reveal">Binnenkort beschikbaar</p>
       <h1 class="reveal d1">On se marie</h1>
-      <p class="tagline reveal d1">Jullie bruiloft plannen, overzichtelijk en samen.</p>
-      <p class="lede reveal d2">On se marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst die je met je partner deelt. We zetten nu de laatste stappen vóór lancering.</p>
+      <p class="tagline reveal d1">Plan je bruiloft</p>
+      <p class="lede reveal d2">On se marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst die je met je partner deelt.</p>
 
       <section class="features reveal d3" aria-labelledby="features-t">
         <h2 id="features-t">Wat je straks kunt doen</h2>
@@ -342,6 +342,7 @@ kind: ConfigMap
 metadata:
   name: coming-soon-site
   namespace: wedding
+---
 ---
 ---
 ---
