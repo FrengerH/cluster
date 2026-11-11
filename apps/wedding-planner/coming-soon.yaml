@@ -4,7 +4,8 @@ data:
     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
       <circle cx="32" cy="32" r="30" fill="#faf7f2"/>
       <circle cx="32" cy="32" r="29.5" fill="none" stroke="#8e4460" stroke-width="1.5" opacity=".6"/>
-      <text x="32" y="44" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-style="italic" font-size="36" fill="#8e4460">&amp;</text>
+      <circle cx="25" cy="34" r="9" fill="none" stroke="#8e4460" stroke-width="3"/>
+      <circle cx="39" cy="34" r="9" fill="none" stroke="#8e4460" stroke-width="3" opacity=".85"/>
     </svg>
   index.html: |
     <!doctype html>
@@ -12,61 +13,43 @@ data:
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Sue &amp; Ferry trouwen op 24 juli 2027 · Binnenkort online</title>
-    <meta name="description" content="Sue en Ferry trouwen op zaterdag 24 juli 2027 in La Colonie de Trézien, Plouarzel, Bretagne. De trouwsite is in de maak, binnenkort vind je hier alle informatie.">
+    <title>Onse Marie: binnenkort jullie bruiloft plannen op één plek</title>
+    <meta name="description" content="Onse Marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's, zitplan, moodboard en een gedeelde takenlijst. Nu in de laatste fase vóór lancering.">
     <link rel="canonical" href="https://test.onsemarie.nl/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <meta name="theme-color" content="#faf7f2">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Sue &amp; Ferry">
+    <meta property="og:site_name" content="Onse Marie">
     <meta property="og:locale" content="nl_NL">
-    <meta property="og:title" content="Sue &amp; Ferry trouwen op 24 juli 2027">
-    <meta property="og:description" content="De trouwsite is in de maak. 24 juli 2027, La Colonie de Trézien, Plouarzel, Bretagne.">
+    <meta property="og:title" content="Onse Marie: binnenkort jullie bruiloft plannen op één plek">
+    <meta property="og:description" content="Gastenlijst, RSVP's, zitplan, moodboard en een gedeelde takenlijst. Eén platform om je eigen bruiloft te plannen, bijna klaar voor lancering.">
     <meta property="og:url" content="https://test.onsemarie.nl/">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Sue &amp; Ferry trouwen op 24 juli 2027">
-    <meta name="twitter:description" content="De trouwsite is in de maak. 24 juli 2027, La Colonie de Trézien, Bretagne.">
+    <meta name="twitter:title" content="Onse Marie: binnenkort jullie bruiloft plannen op één plek">
+    <meta name="twitter:description" content="Gastenlijst, RSVP's, zitplan en moodboard op één plek. Bijna klaar voor lancering.">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&amp;family=Karla:wght@400;500;600&amp;display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&family=Karla:wght@400;500;600;700&display=swap" rel="stylesheet">
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
       "@graph": [
         {
+          "@type": "Organization",
+          "@id": "https://test.onsemarie.nl/#organization",
+          "name": "Onse Marie",
+          "url": "https://test.onsemarie.nl/",
+          "description": "Onse Marie is een platform in ontwikkeling waarmee stellen hun eigen bruiloft plannen: gastenlijst, RSVP's, zitplan, moodboard en een gedeelde takenlijst."
+        },
+        {
           "@type": "WebSite",
           "@id": "https://test.onsemarie.nl/#website",
           "url": "https://test.onsemarie.nl/",
-          "name": "Sue & Ferry",
+          "name": "Onse Marie",
           "inLanguage": "nl",
-          "description": "Officiële trouwsite van Sue en Ferry, 24 juli 2027, Plouarzel, Bretagne."
-        },
-        {
-          "@type": "Event",
-          "@id": "https://test.onsemarie.nl/#wedding",
-          "name": "Bruiloft Sue & Ferry",
-          "startDate": "2027-07-24",
-          "eventStatus": "https://schema.org/EventScheduled",
-          "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
-          "location": {
-            "@type": "Place",
-            "name": "La Colonie de Trézien",
-            "address": {
-              "@type": "PostalAddress",
-              "streetAddress": "1400 route du Cross Corsen",
-              "addressLocality": "Plouarzel",
-              "addressRegion": "Bretagne",
-              "postalCode": "29810",
-              "addressCountry": "FR"
-            }
-          },
-          "organizer": [
-            {"@type": "Person", "name": "Sue"},
-            {"@type": "Person", "name": "Ferry"}
-          ],
-          "url": "https://test.onsemarie.nl/",
-          "description": "Sue en Ferry trouwen op zaterdag 24 juli 2027 in La Colonie de Trézien, Plouarzel, Bretagne, Frankrijk."
+          "description": "Plan je eigen bruiloft op één plek: gastenlijst, RSVP's, zitplan, moodboard en takenlijst. Binnenkort beschikbaar.",
+          "publisher": {"@id": "https://test.onsemarie.nl/#organization"}
         },
         {
           "@type": "FAQPage",
@@ -74,18 +57,23 @@ data:
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Wanneer trouwen Sue en Ferry?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Op zaterdag 24 juli 2027."}
+              "name": "Wat is Onse Marie?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Onse Marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek."}
             },
             {
               "@type": "Question",
-              "name": "Waar vindt de bruiloft plaats?",
-              "acceptedAnswer": {"@type": "Answer", "text": "In La Colonie de Trézien aan de kust van Bretagne, Frankrijk: 1400 route du Cross Corsen, 29810 Plouarzel."}
+              "name": "Wanneer gaat Onse Marie live?",
+              "acceptedAnswer": {"@type": "Answer", "text": "We zijn in de laatste fase vóór lancering. Laat je e-mailadres achter en je hoort het als eerste zodra je een eigen account kunt aanmaken."}
             },
             {
               "@type": "Question",
-              "name": "Wanneer gaat de trouwsite online?",
-              "acceptedAnswer": {"@type": "Answer", "text": "De site is nu in de maak. Binnenkort staat hier het programma, praktische informatie en alles over het trouwweekend."}
+              "name": "Kan ik nu al een account aanmaken?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Nog niet. Zodra het platform open gaat, kun je zelf een account aanmaken en beginnen met plannen."}
+            },
+            {
+              "@type": "Question",
+              "name": "Is mijn informatie privé?",
+              "acceptedAnswer": {"@type": "Answer", "text": "Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt."}
             }
           ]
         }
@@ -97,8 +85,10 @@ data:
       --bg: #faf7f2;
       --ink: #2e2723;
       --wine: #8e4460;
+      --wine-soft: rgba(142, 68, 96, .1);
       --muted: #6b615a;
       --line: #e6ddd2;
+      --ok: #4c7a5e;
     }
     * { box-sizing: border-box; margin: 0; }
     html { -webkit-text-size-adjust: 100%; }
@@ -124,11 +114,12 @@ data:
       pointer-events: none;
       z-index: 9;
     }
+    a { color: var(--wine); }
     main {
       flex: 1;
-      max-width: 680px;
+      max-width: 720px;
       margin: 0 auto;
-      padding: clamp(48px, 9vh, 96px) 24px 32px;
+      padding: clamp(48px, 8vh, 88px) 24px 32px;
       text-align: center;
       display: flex;
       flex-direction: column;
@@ -144,84 +135,166 @@ data:
     h1 {
       font-family: 'Cormorant Garamond', Georgia, serif;
       font-weight: 600;
-      font-size: clamp(52px, 11vw, 96px);
-      line-height: 1.05;
-      margin: 18px 0 8px;
-      letter-spacing: .01em;
+      font-size: clamp(44px, 9vw, 76px);
+      line-height: 1.08;
+      margin: 16px 0 10px;
     }
-    .amp {
+    .tagline {
+      font-family: 'Cormorant Garamond', Georgia, serif;
       font-style: italic;
+      font-size: clamp(20px, 3.4vw, 26px);
       color: var(--wine);
       font-weight: 500;
-      padding: 0 .08em;
+      max-width: 34ch;
     }
-    .flourish { margin: 10px 0 18px; }
-    .when {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(22px, 4vw, 28px);
-      font-weight: 500;
-    }
-    .where {
-      margin-top: 6px;
+    .lede {
+      margin-top: 20px;
+      max-width: 54ch;
       color: var(--muted);
-      font-size: 15px;
-      letter-spacing: .02em;
+      font-size: 17px;
     }
-    .count {
-      display: flex;
-      gap: clamp(10px, 4vw, 28px);
-      margin: 36px 0 30px;
-    }
-    .cell {
-      min-width: 64px;
-      padding: 10px 6px;
-      border-top: 1px solid var(--line);
-      border-bottom: 1px solid var(--line);
-    }
-    .cell .num {
-      display: block;
+    section { width: 100%; }
+    h2 {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(28px, 6vw, 40px);
+      font-size: clamp(24px, 4vw, 30px);
       font-weight: 600;
-      color: var(--wine);
-      font-variant-numeric: tabular-nums;
-      line-height: 1.15;
     }
-    .cell .lbl {
-      display: block;
+    .features {
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+    }
+    .features h2 { margin-bottom: 28px; }
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      text-align: left;
+    }
+    .card {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 22px 20px;
+      transition: transform .2s ease, box-shadow .2s ease;
+    }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 14px 28px rgba(46,39,35,.08); }
+    .card .ico {
+      width: 34px;
+      height: 34px;
+      border-radius: 9px;
+      background: var(--wine-soft);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+    .card h3 {
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: 19px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+    .card p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
+    .status {
+      margin-top: 56px;
+      padding-top: 40px;
+      border-top: 1px solid var(--line);
+      max-width: 480px;
+    }
+    .status h2 { margin-bottom: 18px; }
+    .roadmap { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 10px; }
+    .roadmap li {
+      display: flex;
+      align-items: baseline;
+      gap: 10px;
+      font-size: 15px;
+      color: var(--ink);
+    }
+    .roadmap .mark { font-size: 13px; font-weight: 700; flex-shrink: 0; width: 1.4em; }
+    .roadmap .done .mark { color: var(--ok); }
+    .roadmap .wip .mark { color: var(--wine); }
+    .roadmap .wip { color: var(--muted); }
+    .roadmap .tag {
+      margin-left: auto;
       font-size: 11px;
-      letter-spacing: .22em;
+      letter-spacing: .06em;
       text-transform: uppercase;
       color: var(--muted);
-      margin-top: 2px;
+      white-space: nowrap;
     }
-    .now {
+    .signup {
+      margin-top: 56px;
+      padding: 36px 28px;
+      border-radius: 18px;
+      background: #fff;
+      border: 1px solid var(--line);
+      max-width: 460px;
+    }
+    .signup h2 { margin-bottom: 8px; }
+    .signup p.hint { color: var(--muted); font-size: 14.5px; margin-bottom: 20px; }
+    #waitlist-form {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .sr-only {
+      position: absolute;
+      width: 1px; height: 1px;
+      overflow: hidden;
+      clip: rect(0 0 0 0);
+    }
+    #wl-email {
+      flex: 1 1 220px;
+      min-width: 0;
+      padding: 13px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      font-family: inherit;
+      font-size: 15px;
+      background: var(--bg);
+      color: var(--ink);
+    }
+    #wl-email:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
+    .btn-primary {
+      padding: 13px 22px;
+      border: none;
+      border-radius: 10px;
+      background: var(--wine);
+      color: #fff;
+      font-family: inherit;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+      white-space: nowrap;
+    }
+    .btn-primary:hover { background: #7a3a52; box-shadow: 0 8px 18px rgba(142,68,96,.28); }
+    .btn-primary:active { transform: scale(.97); }
+    .btn-primary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
+    .form-note { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
+    .thanks {
       font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: clamp(24px, 5vw, 34px);
-      font-style: italic;
+      font-size: 20px;
       color: var(--wine);
+      font-style: italic;
     }
-    .note { max-width: 46ch; color: var(--muted); font-size: 16px; }
+    .err { color: #a3433a; font-size: 13px; margin-top: 8px; min-height: 1em; }
     .faq {
       margin-top: 56px;
-      padding-top: 28px;
+      padding-top: 32px;
       border-top: 1px solid var(--line);
       text-align: left;
       width: 100%;
       max-width: 560px;
     }
-    .faq h2 {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 24px;
-      font-weight: 600;
-      margin-bottom: 14px;
-      text-align: center;
-    }
+    .faq h2 { text-align: center; margin-bottom: 14px; }
     .faq h3 {
       font-size: 14px;
       letter-spacing: .04em;
       color: var(--wine);
-      font-weight: 600;
+      font-weight: 700;
       margin-top: 16px;
     }
     .faq p { color: var(--muted); font-size: 15px; margin-top: 2px; }
@@ -233,17 +306,14 @@ data:
       letter-spacing: .06em;
     }
     .reveal { opacity: 0; transform: translateY(14px); animation: fadeUp .7s ease forwards; }
-    .d1 { animation-delay: .08s; }
-    .d2 { animation-delay: .16s; }
-    .d3 { animation-delay: .24s; }
-    .d4 { animation-delay: .32s; }
-    .d5 { animation-delay: .4s; }
-    .d6 { animation-delay: .48s; }
+    .d1 { animation-delay: .08s; } .d2 { animation-delay: .16s; } .d3 { animation-delay: .24s; }
+    .d4 { animation-delay: .32s; } .d5 { animation-delay: .4s; } .d6 { animation-delay: .48s; } .d7 { animation-delay: .56s; }
     @keyframes fadeUp { to { opacity: 1; transform: none; } }
     :focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
-    @media (max-width: 420px) {
-      .count { gap: 8px; }
-      .cell { min-width: 58px; padding: 8px 2px; }
+    @media (max-width: 680px) {
+      .cards { grid-template-columns: 1fr; }
+      #waitlist-form { flex-direction: column; }
+      #wl-email, .btn-primary { width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
       .reveal { animation: none; opacity: 1; transform: none; }
@@ -252,78 +322,109 @@ data:
     </head>
     <body>
     <main>
-      <p class="eyebrow reveal">Wij gaan trouwen</p>
-      <h1 class="reveal d1">Sue <span class="amp">&amp;</span> Ferry</h1>
-      <div class="flourish reveal d2" aria-hidden="true">
-        <svg width="120" height="16" viewBox="0 0 120 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M0 8 H44" stroke="#8e4460" stroke-width="1"/>
-          <path d="M76 8 H120" stroke="#8e4460" stroke-width="1"/>
-          <rect x="56" y="4" width="8" height="8" transform="rotate(45 60 8)" fill="#8e4460"/>
-        </svg>
-      </div>
-      <p class="when reveal d2"><time datetime="2027-07-24">zaterdag 24 juli 2027</time></p>
-      <p class="where reveal d3">La Colonie de Trézien · Plouarzel · Bretagne, Frankrijk</p>
+      <p class="eyebrow reveal">Binnenkort beschikbaar</p>
+      <h1 class="reveal d1">Onse Marie</h1>
+      <p class="tagline reveal d1">Jullie bruiloft plannen, overzichtelijk en samen.</p>
+      <p class="lede reveal d2">Onse Marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst die je met je partner deelt. We zetten nu de laatste stappen vóór lancering.</p>
 
-      <div class="count reveal d4" role="timer" aria-label="Tijd tot 24 juli 2027">
-        <div class="cell"><span class="num" id="cd-d">254</span><span class="lbl">dagen</span></div>
-        <div class="cell"><span class="num" id="cd-h">15</span><span class="lbl">uur</span></div>
-        <div class="cell"><span class="num" id="cd-m">00</span><span class="lbl">min</span></div>
-        <div class="cell"><span class="num" id="cd-s">00</span><span class="lbl">sec</span></div>
-      </div>
+      <section class="features reveal d3" aria-labelledby="features-t">
+        <h2 id="features-t">Wat je straks kunt doen</h2>
+        <div class="cards">
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M8 11a3 3 0 1 0 0-6 3 3 0 0 0 0 6Zm8 0a3 3 0 1 0 0-6 3 3 0 0 0 0 6ZM2 19c0-2.8 2.7-5 6-5s6 2.2 6 5M14 19c0-2.2 1.8-4 4-4s4 1.8 4 4" stroke="#8e4460" stroke-width="1.6" stroke-linecap="round"/></svg>
+            </div>
+            <h3>Gastenlijst en RSVP's</h3>
+            <p>Nodig gasten uit per gezin, houd RSVP's en dieetwensen bij en zie direct wie er komt.</p>
+          </article>
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="#8e4460" stroke-width="1.6"/><path d="M3 9h18M9 21V9" stroke="#8e4460" stroke-width="1.6"/></svg>
+            </div>
+            <h3>Zitplan en takenlijst</h3>
+            <p>Stel de tafelindeling samen en deel een takenlijst met je partner, zodat niemand het overzicht verliest.</p>
+          </article>
+          <article class="card">
+            <div class="ico" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 21s-7-4.6-9.6-8.8C.8 9 2 5.5 5.3 4.8 7.6 4.3 9.8 5.4 12 8c2.2-2.6 4.4-3.7 6.7-3.2 3.3.7 4.5 4.2 2.9 7.4C19 16.4 12 21 12 21Z" stroke="#8e4460" stroke-width="1.6" stroke-linejoin="round"/></svg>
+            </div>
+            <h3>Moodboard en foto's</h3>
+            <p>Verzamel inspiratie op een gedeeld moodboard en laat gasten hun eigen foto's van de dag delen.</p>
+          </article>
+        </div>
+      </section>
 
-      <p class="note reveal d5">De trouwsite is in de maak. Binnenkort staat hier het programma, praktische informatie voor gasten en alles over het trouwweekend aan de Bretonse kust.</p>
+      <section class="status reveal d4" aria-labelledby="status-t">
+        <h2 id="status-t">Waar we nu staan</h2>
+        <ul class="roadmap">
+          <li class="done"><span class="mark" aria-hidden="true">✓</span> Gastenlijst en RSVP's per gezin <span class="tag">klaar</span></li>
+          <li class="done"><span class="mark" aria-hidden="true">✓</span> Zitplan voor de tafelindeling <span class="tag">klaar</span></li>
+          <li class="done"><span class="mark" aria-hidden="true">✓</span> Gedeeld moodboard en fotodeling <span class="tag">klaar</span></li>
+          <li class="done"><span class="mark" aria-hidden="true">✓</span> Takenlijst om samen te plannen <span class="tag">klaar</span></li>
+          <li class="wip"><span class="mark" aria-hidden="true">…</span> Zelf een account aanmaken <span class="tag">in ontwikkeling</span></li>
+          <li class="wip"><span class="mark" aria-hidden="true">…</span> Lancering voor iedereen <span class="tag">in ontwikkeling</span></li>
+        </ul>
+      </section>
+
+      <section class="signup reveal d5" aria-labelledby="signup-t">
+        <h2 id="signup-t">Als eerste weten wanneer het live gaat</h2>
+        <p class="hint">Laat je e-mailadres achter, we mailen je zodra je een account kunt aanmaken.</p>
+        <form id="waitlist-form" novalidate>
+          <label for="wl-email" class="sr-only">E-mailadres</label>
+          <input id="wl-email" name="email" type="email" required placeholder="jij@voorbeeld.nl" autocomplete="email">
+          <button type="submit" class="btn-primary">Hou me op de hoogte</button>
+        </form>
+        <p class="err" id="wl-err" role="alert"></p>
+        <p class="form-note">We mailen je alleen over de lancering. Geen spam, geen doorverkoop.</p>
+      </section>
 
       <section class="faq reveal d6" aria-labelledby="faq-t">
         <h2 id="faq-t">Veelgestelde vragen</h2>
-        <h3>Wanneer trouwen Sue en Ferry?</h3>
-        <p>Op zaterdag 24 juli 2027.</p>
-        <h3>Waar vindt de bruiloft plaats?</h3>
-        <p>In La Colonie de Trézien aan de kust van Bretagne, Frankrijk: 1400 route du Cross Corsen, 29810 Plouarzel.</p>
-        <h3>Wanneer gaat de trouwsite online?</h3>
-        <p>De site is nu in de maak. Binnenkort staat hier het programma, praktische informatie en alles over het trouwweekend.</p>
+        <h3>Wat is Onse Marie?</h3>
+        <p>Onse Marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek.</p>
+        <h3>Wanneer gaat Onse Marie live?</h3>
+        <p>We zijn in de laatste fase vóór lancering. Laat je e-mailadres achter en je hoort het als eerste zodra je een eigen account kunt aanmaken.</p>
+        <h3>Kan ik nu al een account aanmaken?</h3>
+        <p>Nog niet. Zodra het platform open gaat, kun je zelf een account aanmaken en beginnen met plannen.</p>
+        <h3>Is mijn informatie privé?</h3>
+        <p>Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt.</p>
       </section>
     </main>
-    <footer class="reveal d6">© 2027 Sue &amp; Ferry</footer>
+    <footer class="reveal d7">© 2026 Onse Marie</footer>
     <script>
     (function () {
-      var target = new Date('2027-07-24T00:00:00+02:00').getTime();
-      var els = {
-        d: document.getElementById('cd-d'),
-        h: document.getElementById('cd-h'),
-        m: document.getElementById('cd-m'),
-        s: document.getElementById('cd-s')
-      };
-      var timer;
-      function tick() {
-        var diff = target - Date.now();
-        if (diff <= 0) {
-          if (timer) clearInterval(timer);
-          var box = document.querySelector('.count');
-          if (box) box.innerHTML = '<p class="now">Vandaag is het zover!</p>';
+      var form = document.getElementById('waitlist-form');
+      var err = document.getElementById('wl-err');
+      var input = document.getElementById('wl-email');
+      if (!form) return;
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        var value = input.value.trim();
+        var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+        if (!ok) {
+          err.textContent = 'Vul een geldig e-mailadres in.';
+          input.focus();
           return;
         }
-        var t = Math.floor(diff / 1000);
-        els.d.textContent = Math.floor(t / 86400);
-        els.h.textContent = Math.floor(t % 86400 / 3600);
-        els.m.textContent = String(Math.floor(t % 3600 / 60)).padStart(2, '0');
-        els.s.textContent = String(t % 60).padStart(2, '0');
-      }
-      tick();
-      timer = setInterval(tick, 1000);
+        err.textContent = '';
+        var thanks = document.createElement('p');
+        thanks.className = 'thanks';
+        thanks.textContent = 'Bedankt! We laten het je weten zodra het zover is.';
+        form.replaceWith(thanks);
+      });
     })();
     </script>
     </body>
     </html>
   llms.txt: |
-    # Sue & Ferry wedding site
+    # Onse Marie
 
-    > Official wedding site (Dutch) for the wedding of Sue and Ferry on Saturday 24 July 2027 in Plouarzel, Brittany, France. The full site is still under construction; this coming-soon page is the current landing page.
+    > Onse Marie is a wedding planning platform currently in pre-launch development. Couples will be able to create their own account and plan their wedding: guest list and household-based RSVPs, a seating plan, a shared moodboard, and a shared task checklist. Dutch-language product, built in the Netherlands.
 
-    - Wedding date: Saturday 24 July 2027
-    - Venue: La Colonie de Trézien, 1400 route du Cross Corsen, 29810 Plouarzel, Brittany, France
-    - Site languages: Dutch, French, English
-    - Status: under construction, launch details follow on this page
-    - The planner and RSVP areas are invitation-only and closed to all crawlers
+    - Status: pre-launch, building in public
+    - Already built: guest list and RSVP management per household, seating planner, shared moodboard with guest photo sharing, shared task checklist, trilingual (nl/fr/en) guest-facing pages
+    - Not yet available: public self-service account creation, multi-tenant sign-up, pricing
+    - Updates: join the email list on the homepage at https://test.onsemarie.nl/
   nginx-default.conf: |
     server {
         listen 80;
@@ -342,9 +443,10 @@ data:
         }
     }
   robots.txt: |
-    # onsemarie.nl: the public coming-soon landing page is indexable; every
-    # wedding-planner app surface stays private. RSVP invite tokens in URLs are
-    # effectively passwords, so those paths must never be crawled by anyone.
+    # Onse Marie: public pre-launch landing page, open for indexing and AI
+    # discovery. The private wedding-planning app underneath (planner/admin/
+    # rsvp/api) is a separate, invitation-only surface and stays closed to
+    # every crawler -- invite tokens in those URLs are effectively passwords.
 
     User-agent: *
     Allow: /
@@ -360,56 +462,21 @@ data:
     Disallow: /sw.js
     Disallow: /icons
 
-    # AI training crawlers: nothing at all, not even the landing page
-    User-agent: GPTBot
-    User-agent: Google-Extended
-    User-agent: Applebot-Extended
-    User-agent: CCBot
-    User-agent: Bytespider
-    User-agent: anthropic-ai
-    User-agent: ClaudeBot
-    User-agent: Amazonbot
-    User-agent: FacebookBot
-    User-agent: meta-externalagent
-    User-agent: ImagesiftBot
-    User-agent: Diffbot
-    User-agent: MistralAI-User
-    User-agent: PanguBot
-    User-agent: Timpibot
-    Disallow: /
-
-    # AI answer/search engines: public landing page only, app surfaces stay closed
-    User-agent: OAI-SearchBot
-    User-agent: ChatGPT-User
-    User-agent: Claude-SearchBot
-    User-agent: Claude-User
-    User-agent: PerplexityBot
-    User-agent: Perplexity-User
-    User-agent: YouBot
-    Allow: /
-    Disallow: /planner
-    Disallow: /admin
-    Disallow: /api
-    Disallow: /rsvp
-    Disallow: /storage
-    Disallow: /build
-    Disallow: /vendor
-    Disallow: /index.php
-    Disallow: /manifest
-    Disallow: /sw.js
-    Disallow: /icons
+    Sitemap: https://test.onsemarie.nl/sitemap.xml
   sitemap.xml: |
     <?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       <url>
         <loc>https://test.onsemarie.nl/</loc>
         <lastmod>2026-11-11</lastmod>
+        <changefreq>weekly</changefreq>
       </url>
     </urlset>
 kind: ConfigMap
 metadata:
   name: coming-soon-site
   namespace: wedding
+---
 ---
 apiVersion: apps/v1
 kind: Deployment
