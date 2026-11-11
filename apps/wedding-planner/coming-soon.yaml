@@ -13,19 +13,19 @@ data:
     <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Onse Marie: binnenkort jullie bruiloft plannen op één plek</title>
-    <meta name="description" content="Onse Marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's, zitplan, moodboard en een gedeelde takenlijst. Nu in de laatste fase vóór lancering.">
+    <title>On se marie: binnenkort jullie bruiloft plannen op één plek</title>
+    <meta name="description" content="On se marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's, zitplan, moodboard en een gedeelde takenlijst. Nu in de laatste fase vóór lancering.">
     <link rel="canonical" href="https://test.onsemarie.nl/">
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1">
     <meta name="theme-color" content="#faf7f2">
     <meta property="og:type" content="website">
-    <meta property="og:site_name" content="Onse Marie">
+    <meta property="og:site_name" content="On se marie">
     <meta property="og:locale" content="nl_NL">
-    <meta property="og:title" content="Onse Marie: binnenkort jullie bruiloft plannen op één plek">
+    <meta property="og:title" content="On se marie: binnenkort jullie bruiloft plannen op één plek">
     <meta property="og:description" content="Gastenlijst, RSVP's, zitplan, moodboard en een gedeelde takenlijst. Eén platform om je eigen bruiloft te plannen, bijna klaar voor lancering.">
     <meta property="og:url" content="https://test.onsemarie.nl/">
     <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Onse Marie: binnenkort jullie bruiloft plannen op één plek">
+    <meta name="twitter:title" content="On se marie: binnenkort jullie bruiloft plannen op één plek">
     <meta name="twitter:description" content="Gastenlijst, RSVP's, zitplan en moodboard op één plek. Bijna klaar voor lancering.">
     <link rel="icon" href="/favicon.svg" type="image/svg+xml">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -38,15 +38,15 @@ data:
         {
           "@type": "Organization",
           "@id": "https://test.onsemarie.nl/#organization",
-          "name": "Onse Marie",
+          "name": "On se marie",
           "url": "https://test.onsemarie.nl/",
-          "description": "Onse Marie is een platform in ontwikkeling waarmee stellen hun eigen bruiloft plannen: gastenlijst, RSVP's, zitplan, moodboard en een gedeelde takenlijst."
+          "description": "On se marie is een platform in ontwikkeling waarmee stellen hun eigen bruiloft plannen: gastenlijst, RSVP's, zitplan, moodboard en een gedeelde takenlijst."
         },
         {
           "@type": "WebSite",
           "@id": "https://test.onsemarie.nl/#website",
           "url": "https://test.onsemarie.nl/",
-          "name": "Onse Marie",
+          "name": "On se marie",
           "inLanguage": "nl",
           "description": "Plan je eigen bruiloft op één plek: gastenlijst, RSVP's, zitplan, moodboard en takenlijst. Binnenkort beschikbaar.",
           "publisher": {"@id": "https://test.onsemarie.nl/#organization"}
@@ -57,13 +57,13 @@ data:
           "mainEntity": [
             {
               "@type": "Question",
-              "name": "Wat is Onse Marie?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Onse Marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek."}
+              "name": "Wat is On se marie?",
+              "acceptedAnswer": {"@type": "Answer", "text": "On se marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek."}
             },
             {
               "@type": "Question",
-              "name": "Wanneer gaat Onse Marie live?",
-              "acceptedAnswer": {"@type": "Answer", "text": "We zijn in de laatste fase vóór lancering. Laat je e-mailadres achter en je hoort het als eerste zodra je een eigen account kunt aanmaken."}
+              "name": "Wanneer gaat On se marie live?",
+              "acceptedAnswer": {"@type": "Answer", "text": "We zijn in de laatste fase vóór lancering. Kom later terug om te zien wanneer je een eigen account kunt aanmaken."}
             },
             {
               "@type": "Question",
@@ -223,64 +223,6 @@ data:
       color: var(--muted);
       white-space: nowrap;
     }
-    .signup {
-      margin-top: 56px;
-      padding: 36px 28px;
-      border-radius: 18px;
-      background: #fff;
-      border: 1px solid var(--line);
-      max-width: 460px;
-    }
-    .signup h2 { margin-bottom: 8px; }
-    .signup p.hint { color: var(--muted); font-size: 14.5px; margin-bottom: 20px; }
-    #waitlist-form {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .sr-only {
-      position: absolute;
-      width: 1px; height: 1px;
-      overflow: hidden;
-      clip: rect(0 0 0 0);
-    }
-    #wl-email {
-      flex: 1 1 220px;
-      min-width: 0;
-      padding: 13px 16px;
-      border: 1px solid var(--line);
-      border-radius: 10px;
-      font-family: inherit;
-      font-size: 15px;
-      background: var(--bg);
-      color: var(--ink);
-    }
-    #wl-email:focus-visible { outline: 2px solid var(--wine); outline-offset: 2px; }
-    .btn-primary {
-      padding: 13px 22px;
-      border: none;
-      border-radius: 10px;
-      background: var(--wine);
-      color: #fff;
-      font-family: inherit;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
-      white-space: nowrap;
-    }
-    .btn-primary:hover { background: #7a3a52; box-shadow: 0 8px 18px rgba(142,68,96,.28); }
-    .btn-primary:active { transform: scale(.97); }
-    .btn-primary:focus-visible { outline: 2px solid var(--ink); outline-offset: 2px; }
-    .form-note { margin-top: 14px; font-size: 12.5px; color: var(--muted); }
-    .thanks {
-      font-family: 'Cormorant Garamond', Georgia, serif;
-      font-size: 20px;
-      color: var(--wine);
-      font-style: italic;
-    }
-    .err { color: #a3433a; font-size: 13px; margin-top: 8px; min-height: 1em; }
     .faq {
       margin-top: 56px;
       padding-top: 32px;
@@ -307,13 +249,11 @@ data:
     }
     .reveal { opacity: 0; transform: translateY(14px); animation: fadeUp .7s ease forwards; }
     .d1 { animation-delay: .08s; } .d2 { animation-delay: .16s; } .d3 { animation-delay: .24s; }
-    .d4 { animation-delay: .32s; } .d5 { animation-delay: .4s; } .d6 { animation-delay: .48s; } .d7 { animation-delay: .56s; }
+    .d4 { animation-delay: .32s; } .d5 { animation-delay: .4s; } .d6 { animation-delay: .48s; }
     @keyframes fadeUp { to { opacity: 1; transform: none; } }
     :focus-visible { outline: 2px solid var(--wine); outline-offset: 3px; }
     @media (max-width: 680px) {
       .cards { grid-template-columns: 1fr; }
-      #waitlist-form { flex-direction: column; }
-      #wl-email, .btn-primary { width: 100%; }
     }
     @media (prefers-reduced-motion: reduce) {
       .reveal { animation: none; opacity: 1; transform: none; }
@@ -323,9 +263,9 @@ data:
     <body>
     <main>
       <p class="eyebrow reveal">Binnenkort beschikbaar</p>
-      <h1 class="reveal d1">Onse Marie</h1>
+      <h1 class="reveal d1">On se marie</h1>
       <p class="tagline reveal d1">Jullie bruiloft plannen, overzichtelijk en samen.</p>
-      <p class="lede reveal d2">Onse Marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst die je met je partner deelt. We zetten nu de laatste stappen vóór lancering.</p>
+      <p class="lede reveal d2">On se marie wordt een platform waarmee je zelf je bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst die je met je partner deelt. We zetten nu de laatste stappen vóór lancering.</p>
 
       <section class="features reveal d3" aria-labelledby="features-t">
         <h2 id="features-t">Wat je straks kunt doen</h2>
@@ -366,60 +306,25 @@ data:
         </ul>
       </section>
 
-      <section class="signup reveal d5" aria-labelledby="signup-t">
-        <h2 id="signup-t">Als eerste weten wanneer het live gaat</h2>
-        <p class="hint">Laat je e-mailadres achter, we mailen je zodra je een account kunt aanmaken.</p>
-        <form id="waitlist-form" novalidate>
-          <label for="wl-email" class="sr-only">E-mailadres</label>
-          <input id="wl-email" name="email" type="email" required placeholder="jij@voorbeeld.nl" autocomplete="email">
-          <button type="submit" class="btn-primary">Hou me op de hoogte</button>
-        </form>
-        <p class="err" id="wl-err" role="alert"></p>
-        <p class="form-note">We mailen je alleen over de lancering. Geen spam, geen doorverkoop.</p>
-      </section>
-
-      <section class="faq reveal d6" aria-labelledby="faq-t">
+      <section class="faq reveal d5" aria-labelledby="faq-t">
         <h2 id="faq-t">Veelgestelde vragen</h2>
-        <h3>Wat is Onse Marie?</h3>
-        <p>Onse Marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek.</p>
-        <h3>Wanneer gaat Onse Marie live?</h3>
-        <p>We zijn in de laatste fase vóór lancering. Laat je e-mailadres achter en je hoort het als eerste zodra je een eigen account kunt aanmaken.</p>
+        <h3>Wat is On se marie?</h3>
+        <p>On se marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek.</p>
+        <h3>Wanneer gaat On se marie live?</h3>
+        <p>We zijn in de laatste fase vóór lancering. Kom later terug om te zien wanneer je een eigen account kunt aanmaken.</p>
         <h3>Kan ik nu al een account aanmaken?</h3>
         <p>Nog niet. Zodra het platform open gaat, kun je zelf een account aanmaken en beginnen met plannen.</p>
         <h3>Is mijn informatie privé?</h3>
         <p>Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt.</p>
       </section>
     </main>
-    <footer class="reveal d7">© 2026 Onse Marie</footer>
-    <script>
-    (function () {
-      var form = document.getElementById('waitlist-form');
-      var err = document.getElementById('wl-err');
-      var input = document.getElementById('wl-email');
-      if (!form) return;
-      form.addEventListener('submit', function (e) {
-        e.preventDefault();
-        var value = input.value.trim();
-        var ok = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
-        if (!ok) {
-          err.textContent = 'Vul een geldig e-mailadres in.';
-          input.focus();
-          return;
-        }
-        err.textContent = '';
-        var thanks = document.createElement('p');
-        thanks.className = 'thanks';
-        thanks.textContent = 'Bedankt! We laten het je weten zodra het zover is.';
-        form.replaceWith(thanks);
-      });
-    })();
-    </script>
+    <footer class="reveal d6">© 2026 On se marie</footer>
     </body>
     </html>
   llms.txt: |
-    # Onse Marie
+    # On se marie
 
-    > Onse Marie is a wedding planning platform currently in pre-launch development. Couples will be able to create their own account and plan their wedding: guest list and household-based RSVPs, a seating plan, a shared moodboard, and a shared task checklist. Dutch-language product, built in the Netherlands.
+    > On se marie is a wedding planning platform currently in pre-launch development. Couples will be able to create their own account and plan their wedding: guest list and household-based RSVPs, a seating plan, a shared moodboard, and a shared task checklist. Dutch-language product, built in the Netherlands.
 
     - Status: pre-launch, building in public
     - Already built: guest list and RSVP management per household, seating planner, shared moodboard with guest photo sharing, shared task checklist, trilingual (nl/fr/en) guest-facing pages
@@ -443,7 +348,7 @@ data:
         }
     }
   robots.txt: |
-    # Onse Marie: public pre-launch landing page, open for indexing and AI
+    # On se marie: public pre-launch landing page, open for indexing and AI
     # discovery. The private wedding-planning app underneath (planner/admin/
     # rsvp/api) is a separate, invitation-only surface and stays closed to
     # every crawler -- invite tokens in those URLs are effectively passwords.
@@ -476,6 +381,7 @@ kind: ConfigMap
 metadata:
   name: coming-soon-site
   namespace: wedding
+---
 ---
 ---
 apiVersion: apps/v1
