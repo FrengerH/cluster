@@ -196,33 +196,6 @@ data:
       margin-bottom: 6px;
     }
     .card p { color: var(--muted); font-size: 14.5px; line-height: 1.55; }
-    .status {
-      margin-top: 56px;
-      padding-top: 40px;
-      border-top: 1px solid var(--line);
-      max-width: 480px;
-    }
-    .status h2 { margin-bottom: 18px; }
-    .roadmap { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 10px; }
-    .roadmap li {
-      display: flex;
-      align-items: baseline;
-      gap: 10px;
-      font-size: 15px;
-      color: var(--ink);
-    }
-    .roadmap .mark { font-size: 13px; font-weight: 700; flex-shrink: 0; width: 1.4em; }
-    .roadmap .done .mark { color: var(--ok); }
-    .roadmap .wip .mark { color: var(--wine); }
-    .roadmap .wip { color: var(--muted); }
-    .roadmap .tag {
-      margin-left: auto;
-      font-size: 11px;
-      letter-spacing: .06em;
-      text-transform: uppercase;
-      color: var(--muted);
-      white-space: nowrap;
-    }
     .faq {
       margin-top: 56px;
       padding-top: 32px;
@@ -294,19 +267,7 @@ data:
         </div>
       </section>
 
-      <section class="status reveal d4" aria-labelledby="status-t">
-        <h2 id="status-t">Waar we nu staan</h2>
-        <ul class="roadmap">
-          <li class="done"><span class="mark" aria-hidden="true">✓</span> Gastenlijst en RSVP's per gezin <span class="tag">klaar</span></li>
-          <li class="done"><span class="mark" aria-hidden="true">✓</span> Zitplan voor de tafelindeling <span class="tag">klaar</span></li>
-          <li class="done"><span class="mark" aria-hidden="true">✓</span> Gedeeld moodboard en fotodeling <span class="tag">klaar</span></li>
-          <li class="done"><span class="mark" aria-hidden="true">✓</span> Takenlijst om samen te plannen <span class="tag">klaar</span></li>
-          <li class="wip"><span class="mark" aria-hidden="true">…</span> Zelf een account aanmaken <span class="tag">in ontwikkeling</span></li>
-          <li class="wip"><span class="mark" aria-hidden="true">…</span> Lancering voor iedereen <span class="tag">in ontwikkeling</span></li>
-        </ul>
-      </section>
-
-      <section class="faq reveal d5" aria-labelledby="faq-t">
+      <section class="faq reveal d4" aria-labelledby="faq-t">
         <h2 id="faq-t">Veelgestelde vragen</h2>
         <h3>Wat is On se marie?</h3>
         <p>On se marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en RSVP's per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek.</p>
@@ -318,7 +279,7 @@ data:
         <p>Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt.</p>
       </section>
     </main>
-    <footer class="reveal d6">© 2026 On se marie</footer>
+    <footer class="reveal d5">© 2026 On se marie</footer>
     </body>
     </html>
   llms.txt: |
@@ -381,6 +342,7 @@ kind: ConfigMap
 metadata:
   name: coming-soon-site
   namespace: wedding
+---
 ---
 ---
 ---
