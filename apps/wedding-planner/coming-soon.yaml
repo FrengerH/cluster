@@ -62,16 +62,6 @@ data:
             },
             {
               "@type": "Question",
-              "name": "Wanneer gaat On se marie live?",
-              "acceptedAnswer": {"@type": "Answer", "text": "We zijn in de laatste fase vóór lancering. Kom later terug om te zien wanneer je een eigen account kunt aanmaken."}
-            },
-            {
-              "@type": "Question",
-              "name": "Kan ik nu al een account aanmaken?",
-              "acceptedAnswer": {"@type": "Answer", "text": "Nog niet. Zodra het platform open gaat, kun je zelf een account aanmaken en beginnen met plannen."}
-            },
-            {
-              "@type": "Question",
               "name": "Is mijn informatie privé?",
               "acceptedAnswer": {"@type": "Answer", "text": "Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt."}
             }
@@ -271,10 +261,6 @@ data:
         <h2 id="faq-t">Veelgestelde vragen</h2>
         <h3>Wat is On se marie?</h3>
         <p>On se marie wordt een platform waarmee je je eigen bruiloft plant: gastenlijst en uitnodigingen per gezin, een zitplan, een gedeeld moodboard en een takenlijst, allemaal op één plek.</p>
-        <h3>Wanneer gaat On se marie live?</h3>
-        <p>We zijn in de laatste fase vóór lancering. Kom later terug om te zien wanneer je een eigen account kunt aanmaken.</p>
-        <h3>Kan ik nu al een account aanmaken?</h3>
-        <p>Nog niet. Zodra het platform open gaat, kun je zelf een account aanmaken en beginnen met plannen.</p>
         <h3>Is mijn informatie privé?</h3>
         <p>Ja. Je gastenlijst, foto's en planning zijn alleen zichtbaar voor jou en de mensen die jij uitnodigt.</p>
       </section>
@@ -342,6 +328,7 @@ kind: ConfigMap
 metadata:
   name: coming-soon-site
   namespace: wedding
+---
 ---
 ---
 ---
