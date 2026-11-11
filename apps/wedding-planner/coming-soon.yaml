@@ -556,14 +556,18 @@ spec:
               readOnly: true
             - name: maintenance-flag
               mountPath: /var/run/maintenance
+          # Probe /robots.txt, NOT /: while maintenance mode is on, nginx
+          # deliberately returns 503 on "/" (see nginx-default.conf), which
+          # made kubelet kill the container whenever maintenance was toggled.
+          # robots.txt serves normally even during maintenance.
           readinessProbe:
             httpGet:
-              path: /
+              path: /robots.txt
               port: http
             periodSeconds: 10
           livenessProbe:
             httpGet:
-              path: /
+              path: /robots.txt
               port: http
             periodSeconds: 20
             failureThreshold: 3
